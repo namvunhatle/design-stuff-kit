@@ -19,6 +19,6 @@ Known source-package gap: `figma-console-api/SKILL.md` points to `references/des
 
 Project-specific source files are not included in this release. An upstream author's name in a local file is a credit, not evidence of permission to redistribute it.
 
-An earlier release of this repository bundled a `voice-tone-builder` skill whose structure and checks were derived from the Yummy Labs framework above while crediting only this repository's author. It has been removed from the repository and its Git history; the skill is now a routing entry point credited to Yummy Labs. If you copied the earlier text, do not reuse it.
+An earlier release of this repository bundled a `voice-tone-builder` skill whose structure and checks were derived from the Yummy Labs framework above while crediting only this repository's author. It has been removed; the skill is now a routing entry point credited to Yummy Labs. The earlier text remains in older commits of this repository's history and is not licensed for reuse.
 
 `theboxexplore` is authored by namvunhatle and credits [Soren's Newsletter](https://sorens.beehiiv.com/) as inspiration. The bundled skill uses original examples and does not reproduce newsletter posts.
