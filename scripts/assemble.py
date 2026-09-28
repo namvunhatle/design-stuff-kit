@@ -129,10 +129,10 @@ def main() -> None:
         if (dest / skill).is_dir() and not (dest / relative).is_file():
             print(f"\n{skill} needs {relative} from the author's package; it is not installed yet.")
     if missing_reference_files:
-        print("\nReferences named by an author but absent from the official package:")
+        print("\nNote (safe to ignore): these optional reference files are mentioned by their author but not included in the download:")
         for name, files in sorted(missing_reference_files.items()):
             print(f"- {name}: {', '.join(files)}")
-        print("Use the author's source page or your own product reference for these gaps.")
+        print("The skills still work. Add your own product reference later if you want that extra context.")
 
 
 if __name__ == "__main__":

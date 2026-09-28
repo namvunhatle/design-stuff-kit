@@ -2,46 +2,71 @@
 
 Practical AI skills for product designers who move between exploration, Figma production work, prototypes, and developer handoff.
 
-## What is this?
+## What you can do with it
 
-A portable set of design skills plus optional Claude Code rules and agent templates. Each file teaches a specific workflow and the checks that matter in it. This repository contains nine original skills, one routing skill that applies a Yummy Labs framework, one Apache-licensed skill by ComposioHQ, and an installer for five Yummy Labs skills supplied by their author. It contains generalized versions of lessons from real product-design work; it contains no product specs, client files, screenshots, Figma file keys, or old Git history.
+Tell Claude Code what you are working on, in plain words, and it follows a proven design workflow instead of guessing:
 
-## Who is it for?
+- **Explore** three directions quickly, then rebuild the chosen one properly for handoff.
+- **Build wireframes or production UI in Figma** from your own design system, with a plan you approve before anything is drawn.
+- **Port** a finished feature from one Figma file to another without redesigning it.
+- **Fix prototype motion** in Figma (Smart Animate chains, timing).
+- **Write and review interface copy** in a consistent voice.
+- **Ship a coded prototype** to a shareable link and, when needed, an Android demo for developers.
 
-Product designers who already use an AI assistant and want it to respect design stage, source fidelity, voice, and motion behavior. The Figma skills and Figma agents assume access to [Figma Console MCP](https://github.com/southleft/figma-console-mcp) for canvas reads and writes. The other skills work without it.
+Claude always asks before editing a Figma file and saves a restore point first.
 
-## Why does it exist?
+## Before you start
 
-An AI assistant can make a polished screen while missing the actual job: moving too slowly during exploration, treating a port as a redesign, or declaring a prototype correct after checking only static frames. These skills capture the decisions and verification steps that prevent those failures.
+| You need | Check | Get it |
+|---|---|---|
+| Claude Code | `claude --version` in Terminal | [Install guide](https://code.claude.com/docs/en/overview) |
+| Git | `git --version` | macOS offers to install it the first time you run the command |
+| Python 3.10+ | `python3 --version` | [python.org](https://www.python.org/downloads/) |
+| A project folder | Any folder for your product, even an empty one | — |
+| For Figma work: Figma Desktop + Node.js 18+ | `node --version` | [Figma setup guide](docs/FIGMA_SETUP.md) |
 
-## Quick start
+New to Terminal? On macOS, open **Terminal** from Spotlight (⌘ Space). Paste each command, press Return, and wait for it to finish before the next one.
 
-1. Clone this repository:
+## Install (about 5 minutes)
+
+1. **Download the kit** somewhere outside your project:
 
    ```sh
    git clone https://github.com/namvunhatle/product-design-agent-kit.git
    cd product-design-agent-kit
    ```
 
-2. Install [gdown](https://github.com/wkentaro/gdown) once (`python3 -m pip install gdown`). It needs Python 3.10 or newer and downloads from the author's public Google Drive links without using browser cookies.
-
-3. Start onboarding in your own Claude Code project:
+2. **Install it into your project**, replacing the path with your project folder (tip: type `./start --project ` then drag the folder into Terminal):
 
    ```sh
    ./start --project /path/to/your-project
    ```
 
-   `./start` fetches five Yummy Labs skills from the author's [official downloads](upstream-packages.json), combines them with this repo's eleven bundled skills, and opens Claude Code with `/start-design`. It never overwrites an existing skill. Optional rules, agents, project-memory templates, and an MCP example are staged in `.claude/design-kit-templates/`; onboarding lets you choose which to activate. If Claude Code is unavailable, run `cd /path/to/your-project && claude '/start-design'` later. Use `--no-launch` to prepare the project without opening Claude Code.
+   This downloads five companion skills from their author (Yummy Labs), adds the kit's skills to `your-project/.claude/skills/`, and opens Claude Code with `/start-design`. It never overwrites anything already in your project, and it is safe to run again.
 
-   The downloads retain the author's file contents, with reference-file placement corrected where an archive layout differs from `SKILL.md`. If an author link changes or you already have the archives, [assemble from local files](THIRD_PARTY.md). For a personal Codex installation, copy the chosen skill folders to `~/.codex/skills/`; this onboarding is currently for Claude Code.
+3. **Connect Figma** if you will work on a canvas: follow [Figma setup](docs/FIGMA_SETUP.md) (about 10 minutes). You can skip this for copy, planning, and coded prototypes.
 
-4. For the Figma skills, connect Figma Console MCP and verify it can read the intended file. Its Desktop Bridge plugin must be open in Figma in each session; an installed server is not a connected one. Keep your Figma credentials in your local configuration, never in the project or this repo.
+Something failed? See [Troubleshooting](docs/TROUBLESHOOTING.md).
 
-   The design tracks also search real app screens through Mobbin MCP. Connect it through your Claude connectors or merge [`templates/mcp.json.example`](templates/mcp.json.example) into your project's `.mcp.json`. The same file includes GitBook MCP for the optional `gitbook-porter` agent.
+## Your first session
 
-5. In `/start-design`, check project context, choose relevant rules and agents, and name a concrete first task. If context is missing, it directs you to Yummy Labs' official [design-context-setup](https://yummy-design-sprint.notion.site/A-skill-for-Claude-Code-that-sets-your-design-project-up-properly-3bb6279147098015b2bae1a60aba566f) before picking a track.
+`/start-design` runs a short onboarding inside Claude Code:
 
-Install the skills for the track you use. A full track needs its external skills from the official sources; the installer checks that all five are present before modifying your project. Check each agent's `tools:` list against the MCP tools installed in your environment before using it. An agent without a `tools:` line inherits every tool, including `figma_execute`, and a permission allowlist in `.claude/settings.json` then lets it write to Figma without asking. Always declare tools explicitly.
+1. It reads what your project already says about the product. If there is little, it points you to a one-time project interview.
+2. It suggests a few optional working rules (for example, "always save a Figma restore point") and asks which to turn on.
+3. It asks for **one concrete task**, shows the plan (which skills, what you need to provide, what you will review), and does the first small step.
+
+Good first tasks:
+
+> "Compare three layouts for the saved-items screen. Keep them rough; I'll pick one."
+>
+> "Review the copy on the onboarding screens in Figma file ABC and suggest fixes. Don't edit the file."
+
+Next time, just open Claude Code in your project and describe the task. The right skills load automatically. Run `/start-design` again whenever you want the guided route.
+
+## Why it exists
+
+An AI assistant can make a polished screen while missing the actual job: moving too slowly during exploration, treating a port as a redesign, or declaring a prototype correct after checking only static frames. These skills capture the decisions and checks that prevent those failures. They are generalized from real product-design work and contain no product specs, client files, screenshots, or Figma file keys.
 
 ## Core concepts
 
@@ -71,6 +96,8 @@ Load `figma-console-api` before Figma Plugin API writes. Add `figma-prototype-mo
 | Build structural screens from a wireframe kit | `figma-wireframe-kit` | Measured grayscale flow and open decisions |
 | Build approved UI from an existing design system | `figma-design-system-ui` | Bound components/tokens and visual verification |
 | Set a product voice across several contexts | `voice-tone-builder` (applies Yummy Labs' framework) | Voice guide and consistency audit |
+| Put a coded prototype on a shareable link | `prototype-vercel-deploy` (needs Node.js and a Vercel account) | Versioned deploy, verified live link |
+| Give developers an Android demo of a web prototype | `web-android-port` (needs Android Studio) | Compose/Views demo and a web-vs-Android parity report |
 | Explore a real frustration through satire | `theboxexplore` | Original ideas and a separate serious-concept table |
 
 ## Skills
@@ -126,6 +153,8 @@ Call an agent by name with a bounded brief. Include the target product, source s
 
 **Prototype:** “Use `figma-prototype-motion` to debug the card exit chain. Check matching layer paths, copied reactions, timeout values, and velocity before changing the easing.”
 
+**Ship:** “Deploy the onboarding prototype with `prototype-vercel-deploy`, then check the live link frame by frame against my local build.”
+
 ## Supported tools
 
 - **Claude Code:** project-local `.claude/skills/` folders.
@@ -136,6 +165,15 @@ Call an agent by name with a bounded brief. Include the target product, source s
 - **GitBook MCP:** needed only for the optional `gitbook-porter` agent. Verify its tool names before installing that template.
 
 The skills are Markdown instructions. Installing them does not grant Figma access or permission to edit a file.
+
+## Advanced setup
+
+- **Contents.** Nine original skills, one routing skill that applies a Yummy Labs framework, one Apache-licensed skill by ComposioHQ, and an installer for five Yummy Labs skills supplied by their author.
+- **Installer details.** `./start` installs `gdown` into the kit's own `.venv/` when it is missing and downloads the Yummy Labs packages from the author's [official links](upstream-packages.json), keeping the author's file contents (reference files are moved only where an archive layout differs from `SKILL.md`). It checks that all five are present before modifying your project. Optional rules, agents, project-memory templates, and an MCP example are staged in `.claude/design-kit-templates/`. Flags: `--no-launch` prepares files without opening Claude Code; `--gdown PATH` uses your own gdown.
+- **Offline or changed links.** [Assemble from local files](THIRD_PARTY.md).
+- **Codex.** Copy the chosen skill folders to `~/.codex/skills/`. The onboarding is currently for Claude Code.
+- **MCP servers.** Mobbin and GitBook entries are in [`templates/mcp.json.example`](templates/mcp.json.example). Keep credentials in your local configuration, never in the project or this repo.
+- **Agent safety.** Check each agent's `tools:` list against your installed MCP tools. An agent without a `tools:` line inherits every tool, including `figma_execute`, and a permission allowlist in `.claude/settings.json` then lets it write to Figma without asking.
 
 ## Contributing
 

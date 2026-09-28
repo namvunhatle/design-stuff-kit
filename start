@@ -2,6 +2,7 @@
 """Install the kit in a Claude Code project and begin its design onboarding."""
 
 import argparse
+import os
 import shlex
 import shutil
 import subprocess
@@ -11,6 +12,27 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
 EXTERNAL = ("ux-designer", "ui-designer", "ux-copywriter", "interactive-prototype", "figma-console-api")
+VENV = ROOT / ".venv"
+VENV_BIN = VENV / ("Scripts" if os.name == "nt" else "bin")
+
+
+def ensure_gdown(requested: str) -> str:
+    """Return a gdown executable, installing it into the kit's own .venv if needed."""
+    found = shutil.which(requested)
+    if found:
+        return found
+    local = VENV_BIN / "gdown"
+    if local.is_file():
+        return str(local)
+    if sys.version_info < (3, 10):
+        sys.exit("Python 3.10 or newer is needed. Install it from https://www.python.org/downloads/ and run ./start again.")
+    print("Installing the downloader (gdown) into the kit's .venv folder. This happens once…", flush=True)
+    try:
+        subprocess.run([sys.executable, "-m", "venv", str(VENV)], check=True)
+        subprocess.run([str(VENV_BIN / "python"), "-m", "pip", "install", "--quiet", "gdown"], check=True)
+    except subprocess.CalledProcessError:
+        sys.exit("Could not install gdown automatically. See docs/TROUBLESHOOTING.md, section \"gdown\".")
+    return str(local)
 
 
 def stage_templates(project: Path) -> None:
@@ -56,10 +78,10 @@ def main() -> None:
     if has_external:
         command = [sys.executable, str(ROOT / "scripts" / "assemble.py"), "--project", str(project)]
     else:
-        if shutil.which(args.gdown) is None:
-            parser.error("gdown is required for the official Yummy downloads. Install it with: python3 -m pip install gdown")
-        command = [sys.executable, str(ROOT / "scripts" / "install.py"), "--project", str(project), "--gdown", args.gdown]
-    subprocess.run(command, check=True)
+        gdown = ensure_gdown(args.gdown)
+        command = [sys.executable, str(ROOT / "scripts" / "install.py"), "--project", str(project), "--gdown", gdown]
+    if subprocess.run(command).returncode:
+        sys.exit("\nSetup stopped before changing your project. See docs/TROUBLESHOOTING.md for the message above.")
     stage_templates(project)
 
     print("\nOptional rules, agents, project-memory templates, and an MCP example are ready in .claude/design-kit-templates/.")
