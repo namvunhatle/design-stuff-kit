@@ -48,6 +48,16 @@ Figma prototype motion is not a third design track. It runs on frames from eithe
 
 For a coded React prototype, use Yummy Labs' `interactive-prototype` instead of the Figma motion workflow. That skill is distributed by its author.
 
+Ship and port a coded prototype:
+
+```text
+interactive-prototype (Yummy Labs)
+  → prototype-vercel-deploy (snapshot, prebuilt deploy, live-bundle check)
+  → web-android-port (Compose/Views demo, ?t= parity checks, sync ledger)
+```
+
+Fixes found on either platform go through `web-android-port` §7 so web and Android stay the same experience.
+
 ## Port, copy, and content
 
 - **Port an approved feature:** `figma-clone-port` → `figma-design-system-ui` for the destination. Add `figma-prototype-motion` if the source includes reaction chains. Inspect source and destination files in separate pinned runs.

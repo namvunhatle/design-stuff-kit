@@ -4,7 +4,7 @@ Practical AI skills for product designers who move between exploration, Figma pr
 
 ## What is this?
 
-A portable set of design skills plus optional Claude Code rules and agent templates. Each file teaches a specific workflow and the checks that matter in it. This repository contains seven original skills, one routing skill that applies a Yummy Labs framework, one Apache-licensed skill by ComposioHQ, and an installer for five Yummy Labs skills supplied by their author. It contains generalized versions of lessons from real product-design work; it contains no product specs, client files, screenshots, Figma file keys, or old Git history.
+A portable set of design skills plus optional Claude Code rules and agent templates. Each file teaches a specific workflow and the checks that matter in it. This repository contains nine original skills, one routing skill that applies a Yummy Labs framework, one Apache-licensed skill by ComposioHQ, and an installer for five Yummy Labs skills supplied by their author. It contains generalized versions of lessons from real product-design work; it contains no product specs, client files, screenshots, Figma file keys, or old Git history.
 
 ## Who is it for?
 
@@ -31,7 +31,7 @@ An AI assistant can make a polished screen while missing the actual job: moving 
    ./start --project /path/to/your-project
    ```
 
-   `./start` fetches five Yummy Labs skills from the author's [official downloads](upstream-packages.json), combines them with this repo's nine bundled skills, and opens Claude Code with `/start-design`. It never overwrites an existing skill. Optional rules, agents, project-memory templates, and an MCP example are staged in `.claude/design-kit-templates/`; onboarding lets you choose which to activate. If Claude Code is unavailable, run `cd /path/to/your-project && claude '/start-design'` later. Use `--no-launch` to prepare the project without opening Claude Code.
+   `./start` fetches five Yummy Labs skills from the author's [official downloads](upstream-packages.json), combines them with this repo's eleven bundled skills, and opens Claude Code with `/start-design`. It never overwrites an existing skill. Optional rules, agents, project-memory templates, and an MCP example are staged in `.claude/design-kit-templates/`; onboarding lets you choose which to activate. If Claude Code is unavailable, run `cd /path/to/your-project && claude '/start-design'` later. Use `--no-launch` to prepare the project without opening Claude Code.
 
    The downloads retain the author's file contents, with reference-file placement corrected where an archive layout differs from `SKILL.md`. If an author link changes or you already have the archives, [assemble from local files](THIRD_PARTY.md). For a personal Codex installation, copy the chosen skill folders to `~/.codex/skills/`; this onboarding is currently for Claude Code.
 
@@ -85,6 +85,8 @@ Load `figma-console-api` before Figma Plugin API writes. Add `figma-prototype-mo
 | [`figma-wireframe-kit`](skills/figma-wireframe-kit/SKILL.md) | Wireframe construction using a kit discovered in the target file | namvunhatle |
 | [`figma-design-system-ui`](skills/figma-design-system-ui/SKILL.md) | Production UI using a live, read-only design system | namvunhatle |
 | [`voice-tone-builder`](skills/voice-tone-builder/SKILL.md) | Entry point that applies Yummy Labs' voice and tone framework from `ux-copywriter` | Routing by namvunhatle; framework by Yummy Labs, not bundled |
+| [`prototype-vercel-deploy`](skills/prototype-vercel-deploy/SKILL.md) | Versioned, verified Vercel deploys of coded prototypes | namvunhatle |
+| [`web-android-port`](skills/web-android-port/SKILL.md) | Porting web motion prototypes to Android and keeping both in sync | namvunhatle |
 | [`theboxexplore`](skills/theboxexplore/SKILL.md) | Explicitly invoked satirical idea exploration | namvunhatle; inspired by [Soren's Newsletter](https://sorens.beehiiv.com/) |
 
 The Yummy Labs skills named in a workflow are needed to run that full workflow. See the [official source links](THIRD_PARTY.md) and [machine-readable source list](external-skills.json). Their files remain authored and distributed by Yummy Labs and are not covered by this repository's MIT license. The bundled ComposioHQ skill retains its Apache 2.0 license and [source credit](skills/content-research-writer/NOTICE.md).
