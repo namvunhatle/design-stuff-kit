@@ -10,6 +10,7 @@ Known source-package gap: `figma-console-api/SKILL.md` points to `references/des
 |---|---|---|
 | UX Designer and UI Designer | [Yummy Labs — Claude UX & UI Design Skills](https://yummy-design.notion.site/Claude-UX-UI-Design-Skills-31462791470981a99fe1c993b08c5347) | Official download linked; files not bundled |
 | UX Copywriter | [Yummy Labs — Claude UX Copywriter Skill](https://yummy-design-sprint.notion.site/Claude-UX-Copywriter-Skill-31962791470980989abdcd6312890920) | Official download linked; file not bundled |
+| Voice and tone framework (`ux-copywriter/references/voice-tone-builder.md`) | Yummy Labs, inside the UX Copywriter package above | Not bundled or paraphrased; the kit's [`voice-tone-builder`](skills/voice-tone-builder/SKILL.md) only tells the assistant to read the installed file |
 | Figma Console MCP Plugin API Reference skill | [Yummy Labs — Claude Figma Console MCP Skill](https://yummy-design-sprint.notion.site/Claude-Figma-Console-MCP-Skill-373627914709803db438e40efeaf4679) | Official download linked; files not bundled |
 | Interactive Prototype skill | [Yummy Labs — Claude prototype skill](https://yummy-design-sprint.notion.site/Claude-prototype-skill-35f62791470980cc8fffe64e6a5e5894) | Official download linked; files not bundled |
 | Design Context Setup | [Yummy Labs — project setup guide](https://yummy-design-sprint.notion.site/A-skill-for-Claude-Code-that-sets-your-design-project-up-properly-3bb6279147098015b2bae1a60aba566f) and [yummy-design-plugins](https://github.com/yummylabs-coder/yummy-design-plugins) | Optional onboarding dependency; linked, not bundled |
@@ -17,5 +18,7 @@ Known source-package gap: `figma-console-api/SKILL.md` points to `references/des
 | Figma Console MCP | [southleft/figma-console-mcp](https://github.com/southleft/figma-console-mcp) | External tool dependency, not bundled |
 
 Project-specific source files are not included in this release. An upstream author's name in a local file is a credit, not evidence of permission to redistribute it.
+
+An earlier release of this repository bundled a `voice-tone-builder` skill whose structure and checks were derived from the Yummy Labs framework above while crediting only this repository's author. It has been removed from the repository and its Git history; the skill is now a routing entry point credited to Yummy Labs. If you copied the earlier text, do not reuse it.
 
 `theboxexplore` is authored by namvunhatle and credits [Soren's Newsletter](https://sorens.beehiiv.com/) as inspiration. The bundled skill uses original examples and does not reproduce newsletter posts.

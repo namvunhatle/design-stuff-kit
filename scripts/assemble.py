@@ -12,6 +12,10 @@ from typing import Dict, Optional
 ROOT = Path(__file__).resolve().parents[1]
 EXTERNAL = json.loads((ROOT / "external-skills.json").read_text(encoding="utf-8"))
 EXTERNAL_BY_NAME = {item["name"]: item for item in EXTERNAL}
+# Upstream files that a bundled skill reads at run time.
+REQUIRED_UPSTREAM_FILES = {
+    "voice-tone-builder": "ux-copywriter/references/voice-tone-builder.md",
+}
 
 
 def name_from_skill(path: Path) -> Optional[str]:
@@ -49,17 +53,22 @@ def find_upstream(root: Path) -> Dict[str, Path]:
 
 
 def repair_reference_paths(skill_dir: Path):
-    """Add reference copies at paths named by the author's SKILL.md."""
+    """Move flat reference files into references/, where the author's SKILL.md expects them."""
     references = skill_dir / "references"
-    for flat in skill_dir.glob("*.md"):
-        if flat.name == "SKILL.md" or flat.name.lower().startswith(("license", "notice")):
-            continue
-        references.mkdir(exist_ok=True)
-        target = references / flat.name
-        if not target.exists():
-            shutil.copy2(flat, target)
     content = (skill_dir / "SKILL.md").read_text(encoding="utf-8")
     mentioned = set(re.findall(r"references/([A-Za-z0-9_.-]+\.md)", content))
+    for flat in sorted(skill_dir.glob("*.md")):
+        if flat.name == "SKILL.md" or flat.name.lower().startswith(("license", "notice")):
+            continue
+        # Leave a file where it is if SKILL.md links to it at the top level.
+        if re.search(r"(?<![/\w])" + re.escape(flat.name), content):
+            continue
+        target = references / flat.name
+        if not target.exists():
+            references.mkdir(exist_ok=True)
+            shutil.move(str(flat), str(target))
+        elif target.read_bytes() == flat.read_bytes():
+            flat.unlink()
     return sorted(name for name in mentioned if not (references / name).is_file())
 
 
@@ -116,6 +125,9 @@ def main() -> None:
         print("Download from the author, extract until each skill folder contains SKILL.md, then rerun with --upstream-dir.")
     else:
         print("\nAll skill folders in the workflow are installed.")
+    for skill, relative in sorted(REQUIRED_UPSTREAM_FILES.items()):
+        if (dest / skill).is_dir() and not (dest / relative).is_file():
+            print(f"\n{skill} needs {relative} from the author's package; it is not installed yet.")
     if missing_reference_files:
         print("\nReferences named by an author but absent from the official package:")
         for name, files in sorted(missing_reference_files.items()):

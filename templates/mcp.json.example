@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "mobbin": {
+      "type": "http",
+      "url": "https://api.mobbin.com/mcp"
+    },
+    "gitbook": {
+      "type": "http",
+      "url": "https://mcp.gitbook.com/mcp"
+    }
+  }
+}

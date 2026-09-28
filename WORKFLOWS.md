@@ -51,13 +51,27 @@ For a coded React prototype, use Yummy Labs' `interactive-prototype` instead of 
 ## Port, copy, and content
 
 - **Port an approved feature:** `figma-clone-port` → `figma-design-system-ui` for the destination. Add `figma-prototype-motion` if the source includes reaction chains. Inspect source and destination files in separate pinned runs.
-- **Set voice across the product:** `voice-tone-builder`; then use `ux-copywriter` for specific interface strings. `copy-reviewer` can audit a batch without editing files or Figma.
+- **Set voice across the product:** `voice-tone-builder`, which applies Yummy Labs' voice and tone framework shipped inside `ux-copywriter`; then use `ux-copywriter` for specific interface strings. `copy-reviewer` can audit a batch without editing files or Figma.
 - **Long-form research writing:** the bundled Apache-licensed `content-research-writer` by ComposioHQ, outside the Figma tracks.
 - **Satirical idea exploration:** `theboxexplore` only when invoked by name, outside ordinary UX planning.
 - **Publish an approved spec:** `gitbook-porter` creates and verifies a change request, then stops before merge.
 
 ## Rules and agents
 
-The original setup had four root rules, adapted here as [`figma-workflow`](rules/figma-workflow.md), [`explore-vs-final`](rules/explore-vs-final.md), [`model-selection`](rules/model-selection.md), and [`writing-style`](rules/writing-style.md). Project-specific rules and product specs stayed in the private project. This public repo adds [`design-tracks`](rules/design-tracks.md) so a new project can route requests through the sequences above.
+The original setup had four root rules, adapted here as [`figma-workflow`](rules/figma-workflow.md), [`explore-vs-final`](rules/explore-vs-final.md), [`model-selection`](rules/model-selection.md), and [`writing-style`](rules/writing-style.md). Project-specific rules and product specs stayed in the private project. This public repo adds [`design-tracks`](rules/design-tracks.md) so a new project can route requests through the sequences above, plus two conventions that the original setup kept in its README and project docs: [`project-memory`](rules/project-memory.md) and [`session-cost`](rules/session-cost.md).
+
+## Keep the project's memory
+
+Figma records the canvas, not why it looks that way. With the `project-memory` rule, each product keeps a `CLAUDE.md` under 200 lines (current state only), `Open_Items.md`, `Figma_Map.md`, and `Session_Log.md`. A working cycle then looks like this:
+
+```text
+decide → spec .md → build in Figma → record → (publish)
+           │                            │
+           source of truth               reason → Session_Log.md
+                                         open work → Open_Items.md
+                                         new nodes → Figma_Map.md
+```
+
+Agents return node IDs and findings; the main session writes them into these files. When a screen is finished and recorded, start a fresh session (`/clear`) rather than carrying a long transcript into the next task; see `session-cost`.
 
 The four agents are optional, explicitly invoked tools: `copy-reviewer` and `figma-auditor` only read, `wireframe-builder` writes only to a new section, and `gitbook-porter` prepares a reviewable change request. Give them the exact product and source files because they start without the main conversation's context. Production UI and motion stay in the main design session, where the designer can judge the canvas.

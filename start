@@ -14,14 +14,20 @@ EXTERNAL = ("ux-designer", "ui-designer", "ux-copywriter", "interactive-prototyp
 
 
 def stage_templates(project: Path) -> None:
-    """Keep optional rules and agents available without activating them."""
+    """Keep optional rules, agents, and project templates available without activating them."""
+    staging = project / ".claude" / "design-kit-templates"
     for kind in ("rules", "agents"):
-        destination = project / ".claude" / "design-kit-templates" / kind
+        destination = staging / kind
         destination.mkdir(parents=True, exist_ok=True)
         for source in sorted((ROOT / kind).glob("*.md")):
             target = destination / source.name
             if not target.exists():
                 shutil.copy2(source, target)
+    for source in sorted((ROOT / "templates").rglob("*")):
+        target = staging / source.relative_to(ROOT / "templates")
+        if source.is_file() and not target.exists():
+            target.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copy2(source, target)
 
 
 def main() -> None:
@@ -56,7 +62,7 @@ def main() -> None:
     subprocess.run(command, check=True)
     stage_templates(project)
 
-    print("\nOptional rules and agents are ready in .claude/design-kit-templates/.")
+    print("\nOptional rules, agents, project-memory templates, and an MCP example are ready in .claude/design-kit-templates/.")
     if not (project / "CLAUDE.md").is_file() or not (project / "SETUP.md").is_file():
         print("One or both standard context files are missing. /start-design will check for equivalent context and guide setup if needed.")
     else:

@@ -1,42 +1,37 @@
 ---
 name: voice-tone-builder
-description: Build or audit a product voice and tone system across onboarding, success, errors, payments, and other emotional contexts. Use for a reusable voice guide; use a UX copywriting skill for a single label or message.
+description: Build or audit a product voice and tone guide across onboarding, success, errors, payments, and destructive actions by applying Yummy Labs' voice and tone framework from their ux-copywriter package. Use for a reusable voice guide or a consistency audit across screens; use ux-copywriter for a single label or message.
 metadata:
-  author: namvunhatle
-  version: 1.0.0
+  author: namvunhatle (routing only)
+  framework-author: Yummy Labs
+  framework-file: ux-copywriter/references/voice-tone-builder.md
+  version: 2.0.0
 ---
 
 # Voice and tone builder
 
-Voice is the product's stable personality. Tone changes with the user's situation. A useful guide makes that distinction concrete enough for another designer or writer to apply.
+This skill is an entry point, not a framework. The voice and tone method it applies is written by **Yummy Labs** and ships inside their `ux-copywriter` package as `references/voice-tone-builder.md`. This repository does not redistribute or paraphrase it. Credit Yummy Labs when you describe the method to the designer.
 
-## Build the guide
+## 1. Load the framework
 
-1. Read the product purpose, audience, existing copy, and any brand constraints. If those are unavailable, ask for representative screens and examples before defining a new voice.
-2. Choose three or four voice attributes. For each, write what it means, what it does not mean, and a short example. Avoid interchangeable labels such as “innovative” or “friendly” without behavioral detail.
-3. Map tone by context and the user's likely emotional state. Keep the same voice while adjusting warmth, precision, energy, and length.
-4. Create paired do/don't examples for buttons, errors, empty states, success, payment, and a destructive action. Explain the reason for each difference.
-5. Record preferred terms, banned terms, capitalization, and naming choices so teams can stay consistent.
+Read `.claude/skills/ux-copywriter/references/voice-tone-builder.md` in full before writing anything.
 
-| Context | Likely state | Useful tone |
-|---|---|---|
-| Onboarding | Curious or uncertain | Clear, welcoming, one step at a time |
-| Success | Relieved or pleased | Brief acknowledgment, then next action |
-| Error | Frustrated | Specific, calm, blame-free |
-| Payment | Cautious | Precise about price and consequences |
-| Destructive action | Hesitant | Direct about what will be lost |
-| Routine settings | Focused | Efficient and quiet |
+If the file is missing, stop. Tell the designer that the Yummy Labs `ux-copywriter` package is not installed and give its source: <https://yummy-design-sprint.notion.site/Claude-UX-Copywriter-Skill-31962791470980989abdcd6312890920>. Do not reconstruct the framework from memory; a remembered version is neither accurate nor properly credited.
 
-Do not assume a user's emotion is certain. Use the product moment as a hypothesis, then test the wording with actual users when the stakes justify it.
+## 2. Gather the product evidence
 
-## Audit an existing voice
+The framework needs real material. Before defining or auditing a voice, collect:
 
-Collect copy from several contexts, including an extreme success and an extreme failure. Compare the words, sentence length, confidence, humor, and degree of instruction with the guide. Flag drift with the exact string, the violated attribute, and a replacement that preserves the user's task.
+- the product's purpose, audience, and any brand or legal constraints;
+- current interface copy from several contexts, including at least one high point (a success or reward) and one low point (an error, payment failure, or destructive confirmation);
+- the product's languages and any existing voice guide.
 
-Use three checks:
+If the project has none of this, ask for representative screens or a text export. Do not invent the product's personality from its category.
 
-- **Cover the logo:** Could a competing product use the same copy unchanged? If yes, identify what is missing from the product's voice.
-- **Colleague:** Would a competent person speaking for the product say this to a user in the same situation?
-- **Extreme moments:** Is the voice still recognizable when tone shifts from celebration to failure?
+## 3. Apply it to this product
 
-Deliver a short guide with the attributes, context map, examples, word list, and unresolved questions. Avoid writing a full screen's microcopy unless the request includes it.
+Follow the framework's steps and checks as written. Keep the result specific to this product: every attribute, tone shift, and example should come from its real screens and users. Mark any assumption about a user's emotional state as a hypothesis the team can test.
+
+## 4. Deliver
+
+Return the guide in chat. Save it to the project (for example `Voice_Tone.md`) only when the designer asks. Once a guide exists, `ux-copywriter` can write individual strings against it and the `copy-reviewer` agent can audit a batch of screens for drift.

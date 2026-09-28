@@ -3,7 +3,7 @@ name: start-design
 description: Onboard a design project after installing Product Design Agent Kit. Use when the designer invokes /start-design to check project context, choose relevant rules and agents, select a design track, and begin a small first task.
 metadata:
   author: namvunhatle
-  version: 1.0.0
+  version: 1.1.0
 ---
 
 # Start designing
@@ -26,7 +26,11 @@ If Claude asks for `/reload-plugins`, do that before invoking the skill. Confirm
 
 ## 2. Choose working rules and agents
 
-Review `.claude/design-kit-templates/rules/` and `.claude/design-kit-templates/agents/`. Recommend only the templates relevant to this project and the connected tools. Explain each recommendation in one line and ask which to activate. Copy chosen files into `.claude/rules/` or `.claude/agents/` without overwriting existing files; when a name already exists, compare and discuss the difference. Never enable an agent whose `tools:` list does not match the available tools. For Figma work, explain the file-pinning and restore-point rule before any canvas write.
+Review `.claude/design-kit-templates/rules/` and `.claude/design-kit-templates/agents/`. Recommend only the templates relevant to this project and the connected tools. Explain each recommendation in one line and ask which to activate. Copy chosen files into `.claude/rules/` or `.claude/agents/` without overwriting existing files; when a name already exists, compare and discuss the difference. Never enable an agent whose `tools:` list does not match the available tools, and never enable one without a `tools:` line: it would inherit every tool, including `figma_execute`, and any permission allowlist would let it write without asking. For Figma work, explain the file-pinning and restore-point rule before any canvas write.
+
+Offer the project-memory templates in `.claude/design-kit-templates/project-memory/` (see the `project-memory` rule). If the project has none of these files, suggest creating `Open_Items.md`, `Figma_Map.md`, and `Session_Log.md` in the product folder, and compare `CLAUDE.template.md` with the existing `CLAUDE.md` instead of replacing it. Never overwrite an existing file.
+
+Check which MCP servers are connected. Mobbin supplies the real-screen evidence the design tracks require, and GitBook is needed only for `gitbook-porter`. If either is missing and wanted, show `.claude/design-kit-templates/mcp.json.example` and let the designer merge it into the project's `.mcp.json` or connect the service another way. Figma Console MCP needs a personal access token; keep it in the designer's local configuration, never in project files.
 
 If the designer wants to start without optional templates, continue. The kit's safety instructions still apply when its Figma skills are invoked.
 
@@ -45,4 +49,4 @@ Use the wireframe sequence for structural flows, the production UI sequence for 
 
 ## 4. Begin and leave a resume point
 
-With the designer's chosen goal, do the smallest useful first step in the track, such as outlining the flow, reading the approved brief, or making the build plan. Do not edit a Figma canvas until the target file and scope are pinned and the relevant safety checks are satisfied. End with what was done, what needs review, and the next action. On a later `/start-design`, re-read current context and continue without repeating finished setup.
+With the designer's chosen goal, do the smallest useful first step in the track, such as outlining the flow, reading the approved brief, or making the build plan. Do not edit a Figma canvas until the target file and scope are pinned and the relevant safety checks are satisfied. End with what was done, what needs review, and the next action. If the project uses the memory files, record the decision and reason in `Session_Log.md` and anything still open in `Open_Items.md`. On a later `/start-design`, re-read current context and continue without repeating finished setup.

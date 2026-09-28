@@ -78,7 +78,7 @@ let g = 0;
 while (g++ < 300) { const i = f.findOne(n => n.type === "INSTANCE"); if (!i) break; i.detachInstance(); }
 f.findAll(n => "layoutMode" in n && n.layoutMode !== "NONE").forEach(n => { n.layoutMode = "NONE"; });
 f.findAll(n => "clipsContent" in n && n.clipsContent).forEach(n => { n.clipsContent = false; });
-f.clipsContent = true;                       // chỉ frame màn hình ngoài cùng giữ clip
+f.clipsContent = true;                       // only the outer screen frame keeps clipping
 ```
 
 Detach in a loop — one pass only reaches the outermost instances, and nested
