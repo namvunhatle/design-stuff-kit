@@ -29,12 +29,15 @@ New to Terminal? On macOS, open **Terminal** from Spotlight (⌘ Space). Paste e
 
 ## Install (about 5 minutes)
 
-1. **Download the kit** somewhere outside your project:
+1. **Download the kit** somewhere outside your project. Either:
 
-   ```sh
-   git clone https://github.com/namvunhatle/product-design-agent-kit.git
-   cd product-design-agent-kit
-   ```
+   - **Without Git:** open the [kit on GitHub](https://github.com/namvunhatle/product-design-agent-kit), choose **Code → Download ZIP**, and double-click the ZIP to unpack it. In Terminal, type `cd ` (with a space), drag the unpacked folder into the window, and press Return.
+   - **With Git:**
+
+     ```sh
+     git clone https://github.com/namvunhatle/product-design-agent-kit.git
+     cd product-design-agent-kit
+     ```
 
 2. **Install it into your project**, replacing the path with your project folder (tip: type `./start --project ` then drag the folder into Terminal):
 
@@ -44,7 +47,7 @@ New to Terminal? On macOS, open **Terminal** from Spotlight (⌘ Space). Paste e
 
    This downloads five companion skills from their author (Yummy Labs), adds the kit's skills to `your-project/.claude/skills/`, and opens Claude Code with `/start-design`. It never overwrites anything already in your project, and it is safe to run again.
 
-3. **Connect Figma** if you will work on a canvas: follow [Figma setup](docs/FIGMA_SETUP.md) (about 10 minutes). You can skip this for copy, planning, and coded prototypes.
+3. **Connect Figma** if you will work on a canvas. Before opening Claude Code, `./start` asks for your Figma token and adds the connector for you; press Return to skip. Then import the Figma plugin once: see [Figma setup](docs/FIGMA_SETUP.md), steps 1 and 3 (about 5 minutes). You can skip Figma for copy, planning, and coded prototypes.
 
 Something failed? See [Troubleshooting](docs/TROUBLESHOOTING.md).
 

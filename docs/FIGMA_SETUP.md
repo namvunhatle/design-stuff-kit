@@ -20,7 +20,9 @@ A token is a password that lets the connector read your files. Treat it like one
 
 ## 2. Add the connector to Claude Code
 
-In Terminal, paste this, replacing `figd_YOUR_TOKEN` with your token:
+**Easiest:** run `./start --project /path/to/your-project` from the kit folder and paste the token when asked. It runs the command below for you and skips this step if the connector already exists.
+
+**Manual:** in Terminal, paste this, replacing `figd_YOUR_TOKEN` with your token:
 
 ```sh
 claude mcp add figma-console -s user -e FIGMA_ACCESS_TOKEN=figd_YOUR_TOKEN -e ENABLE_MCP_APPS=true -- npx -y figma-console-mcp@latest

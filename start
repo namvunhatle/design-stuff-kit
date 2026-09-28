@@ -2,6 +2,7 @@
 """Install the kit in a Claude Code project and begin its design onboarding."""
 
 import argparse
+import getpass
 import os
 import shlex
 import shutil
@@ -52,11 +53,39 @@ def stage_templates(project: Path) -> None:
             shutil.copy2(source, target)
 
 
+def connect_figma(claude: str) -> None:
+    """Offer to add the Figma Console connector for this user, once."""
+    if subprocess.run([claude, "mcp", "get", "figma-console"], capture_output=True).returncode == 0:
+        print("\nFigma connector already set up.")
+        return
+    print("\nConnect Figma now? You need a Figma personal access token (starts with figd_).")
+    print("How to create one: docs/FIGMA_SETUP.md, step 1. Press Return to skip; you can run ./start again later.")
+    token = getpass.getpass("Paste token (hidden): ").strip()
+    if not token:
+        print("Skipped Figma. Copy, planning, and coded prototypes still work.")
+        return
+    if not token.startswith("figd_"):
+        print("That doesn't look like a Figma token (it should start with figd_). Skipped; run ./start again to retry.")
+        return
+    if shutil.which("npx") is None:
+        print("Node.js is missing, so the Figma connector can't run. Install the LTS version from https://nodejs.org, then run ./start again.")
+        return
+    command = [claude, "mcp", "add", "figma-console", "-s", "user",
+               "-e", f"FIGMA_ACCESS_TOKEN={token}", "-e", "ENABLE_MCP_APPS=true",
+               "--", "npx", "-y", "figma-console-mcp@latest"]
+    if subprocess.run(command, capture_output=True).returncode:
+        print("Could not add the Figma connector. Follow docs/FIGMA_SETUP.md, step 2, instead.")
+        return
+    print("Figma connector added for your account (not saved in the project).")
+    print("Last step, in Figma Desktop: import the Desktop Bridge plugin. See docs/FIGMA_SETUP.md, step 3.")
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--project", type=Path, help="Existing design project (asked if omitted)")
     parser.add_argument("--gdown", default="gdown", help="Path to gdown executable")
     parser.add_argument("--no-launch", action="store_true", help="Set up files without opening Claude Code")
+    parser.add_argument("--skip-figma", action="store_true", help="Don't offer to connect Figma")
     args = parser.parse_args()
 
     if args.project is None:
@@ -91,6 +120,8 @@ def main() -> None:
         print("Project context found. /start-design will review it and help choose your first track.")
 
     claude = shutil.which("claude")
+    if claude and not args.skip_figma and sys.stdin.isatty():
+        connect_figma(claude)
     if args.no_launch or claude is None or not (sys.stdin.isatty() and sys.stdout.isatty()):
         print(f"\nNext: cd {shlex.quote(str(project))} && claude '/start-design'")
         if claude is None:
