@@ -8,7 +8,7 @@ For a full wireframe or UI build, read every `references/` file supplied with th
 - **Production UI:** `ux-designer` → project context → `figma-design-system-ui` → `ui-designer` → `ux-copywriter` → review the five-question build plan below before a substantial canvas write.
 - **Figma motion:** add `figma-prototype-motion` to either track before editing reactions or keyframes.
 - **Rive motion:** use `rive-motion` when the interaction needs a state machine, data binding, or a runtime asset; keep Figma reactions for click-through demos.
-- **Coded prototype:** use `interactive-prototype` instead of the Figma motion skill.
+- **Coded prototype:** use `interactive-prototype` instead of the Figma motion skill. Add `beat-synced-motion` if it has music, and `code-to-figma-sync` when Figma must be brought back in line with the build.
 - **Any Figma Plugin API write:** load `figma-console-api` when installed, and follow `figma-workflow`.
 
 The external skills above are by Yummy Labs. If a required one is missing, tell the designer and give its official source. Do not silently claim the full track ran. For an isolated fix, load only the skills that affect that fix.

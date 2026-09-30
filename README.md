@@ -100,6 +100,8 @@ Load `figma-console-api` before Figma Plugin API writes. Add `figma-prototype-mo
 | Build approved UI from an existing design system | `figma-design-system-ui` | Bound components/tokens and visual verification |
 | Set a product voice across several contexts | `voice-tone-builder` (applies Yummy Labs' framework) | Voice guide and consistency audit |
 | Put a coded prototype on a shareable link | `prototype-vercel-deploy` (needs Node.js and a Vercel account) | Versioned deploy, verified live link |
+| Lock a trailer or onboarding animation to music | `beat-synced-motion` | Chosen track, beat grid, measured audio-to-motion offset |
+| Update Figma after the coded prototype moved ahead | `code-to-figma-sync` | Figma keyframes measured from the live build, plus a mapping table |
 | Give developers an Android demo of a web prototype | `web-android-port` (needs Android Studio) | Compose/Views demo and a web-vs-Android parity report |
 | Explore a real frustration through satire | `theboxexplore` | Original ideas and a separate serious-concept table |
 
@@ -117,6 +119,8 @@ Load `figma-console-api` before Figma Plugin API writes. Add `figma-prototype-mo
 | [`voice-tone-builder`](skills/voice-tone-builder/SKILL.md) | Entry point that applies Yummy Labs' voice and tone framework from `ux-copywriter` | Routing by namvunhatle; framework by Yummy Labs, not bundled |
 | [`rive-motion`](skills/rive-motion/SKILL.md) | Choosing Rive vs Motion/Lottie and building state-machine motion through Rive MCP | namvunhatle |
 | [`prototype-vercel-deploy`](skills/prototype-vercel-deploy/SKILL.md) | Versioned, verified Vercel deploys of coded prototypes | namvunhatle |
+| [`beat-synced-motion`](skills/beat-synced-motion/SKILL.md) | Picking a music track, beat-grid timing, mix, and measuring audio-to-motion lock | namvunhatle |
+| [`code-to-figma-sync`](skills/code-to-figma-sync/SKILL.md) | Rebuilding Figma frames and keyframes from a live coded prototype | namvunhatle |
 | [`web-android-port`](skills/web-android-port/SKILL.md) | Porting web motion prototypes to Android and keeping both in sync | namvunhatle |
 | [`theboxexplore`](skills/theboxexplore/SKILL.md) | Explicitly invoked satirical idea exploration | namvunhatle; inspired by [Soren's Newsletter](https://sorens.beehiiv.com/) |
 

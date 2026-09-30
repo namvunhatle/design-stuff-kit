@@ -52,11 +52,12 @@ Ship and port a coded prototype:
 
 ```text
 interactive-prototype (Yummy Labs)
+  → beat-synced-motion (only if it has music)
   → prototype-vercel-deploy (snapshot, prebuilt deploy, live-bundle check)
   → web-android-port (Compose/Views demo, ?t= parity checks, sync ledger)
 ```
 
-Fixes found on either platform go through `web-android-port` §7 so web and Android stay the same experience.
+Fixes found on either platform go through `web-android-port` §7 so web and Android stay the same experience. When the code has moved ahead of the Figma file, run `code-to-figma-sync` so Figma shows what shipped. Figma → code → Figma is one loop: design the frames, tune the build by feel, then measure the build and update the frames.
 
 ## Port, copy, and content
 
@@ -69,7 +70,7 @@ Fixes found on either platform go through `web-android-port` §7 so web and Andr
 
 ## Rules and agents
 
-The original setup had four root rules, adapted here as [`figma-workflow`](rules/figma-workflow.md), [`explore-vs-final`](rules/explore-vs-final.md), [`model-selection`](rules/model-selection.md), and [`writing-style`](rules/writing-style.md). Project-specific rules and product specs stayed in the private project. This public repo adds [`design-tracks`](rules/design-tracks.md) so a new project can route requests through the sequences above, plus two conventions that the original setup kept in its README and project docs: [`project-memory`](rules/project-memory.md) and [`session-cost`](rules/session-cost.md).
+The original setup had four root rules, adapted here as [`figma-workflow`](rules/figma-workflow.md), [`explore-vs-final`](rules/explore-vs-final.md), [`model-selection`](rules/model-selection.md), and [`writing-style`](rules/writing-style.md). Project-specific rules and product specs stayed in the private project. This public repo adds [`design-tracks`](rules/design-tracks.md) so a new project can route requests through the sequences above, plus [`designer-in-the-loop`](rules/designer-in-the-loop.md) (ask before changing approved work, diagnose before fixing, the designer judges feel and sound) and two conventions that the original setup kept in its README and project docs: [`project-memory`](rules/project-memory.md) and [`session-cost`](rules/session-cost.md).
 
 ## Keep the project's memory
 
