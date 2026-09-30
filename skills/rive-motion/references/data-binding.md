@@ -11,21 +11,13 @@ Source: https://rive.app/docs/editor/data-binding/ (overview, view-models, prope
 
 Bindings ignore hierarchy, so elements can move or nest without breaking runtime code.
 
-## Data binding replaces inputs and events
+## What data binding does
 
-Docs state that data binding replaces both **state machine inputs** and **runtime event listeners**. Existing files keep working; data binding is recommended for new work.
+View-model properties drive transitions, blend states, and any bindable property in the editor. They can pass through converters and be shared across the file. Code, animations, listeners, and scripts write to them; the app subscribes to them.
 
-| | Inputs | Events | View-model properties |
-|---|:-:|:-:|:-:|
-| Number, Boolean | yes | yes | yes |
-| Trigger | yes | no | yes |
-| String | no | yes | yes |
-| Enum, Color, nested view model, List, Image, Artboard | no | no | yes |
-
-- Inputs only drive transitions. Properties can also drive blend states and any bindable property, can pass through converters, and can be shared across the file.
-- To convert an old file: editor hamburger menu, **Convert Inputs to View Models**, then update runtime code.
-- Instead of a General event, make a view-model property, update it from the file (animation, listener, script), and let code subscribe to it.
-- Instead of writing to a text run by name, bind a String property to it.
+- Communicating back to the app: make a view-model property, update it from the file (animation, listener, script), and let code subscribe to it.
+- Text: bind a String property to a text run instead of addressing the run by name or path.
+- If a file you are handed still has legacy controls, editor hamburger menu, **Convert Inputs to View Models**, then update the runtime code.
 
 ## Property types
 

@@ -41,7 +41,7 @@ Created under the state machine graph. Options:
 - **Listen to:** View Model Property Change, Rive Event (both need an artboard or component target), Pointer Enter, Exit, Move, Down, Up, Drag, Click.
 - A property-change listener fires on any change. You cannot specify the expected value or direction.
 - Pointer Exit may not fire when the target touches the canvas edge, because Rive stops seeing the pointer.
-- **Listener actions:** change a view-model property, align to target (with Preserve Offset), report an event, fire a scripted action, fire a Rive event. "Update an input value" is deprecated. Values in listener actions can be data bound.
+- **Listener actions:** change a view-model property, align to target (with Preserve Offset), report an event, fire a scripted action, fire a Rive event. Values in listener actions can be data bound.
 
 ## Layers
 
@@ -49,4 +49,4 @@ One state plays per layer at a time. Add layers for independent behavior (walk c
 
 ## Events
 
-Events live on the artboard and can fire from timelines, states, transitions, or listeners. Types: Open URL, Audio, and General (**deprecated**, replace with view-model properties). Prefer data binding over nested Rive events to communicate between artboards.
+Events live on the artboard and can fire from timelines, states, transitions, or listeners. Types: Open URL and Audio. To communicate between artboards or with the app, use data binding.

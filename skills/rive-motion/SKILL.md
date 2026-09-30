@@ -40,7 +40,7 @@ Write a short spec and get a go-ahead before a substantial edit:
 
 1. **Artboard:** size, and what scales (see `references/layouts.md`).
 2. **States:** every state (idle, hover, pressed, loading, success, error), which loop, which blend.
-3. **View model:** each property's name, type, and who sets it (user, app data, the state machine). **Use view-model properties, not state machine inputs**; inputs and General events are deprecated (`references/data-binding.md`). Only use inputs when the target runtime or an existing file requires it, and say so.
+3. **View model:** each property's name, type, and who sets it (user, app data, the state machine). Everything the app sends to or reads from the asset goes through view-model properties (`references/data-binding.md`).
 4. **Transitions:** from, to, condition, duration, exit time. One table (`references/state-machines.md`).
 5. **Listeners:** what pointer or property change triggers what.
 6. **Reduced motion:** the static or shortened version, built in, not promised.
@@ -64,7 +64,7 @@ Motion rules from the kit apply: animate transform, opacity, and filter; respect
 | File | Covers |
 |---|---|
 | `references/state-machines.md` | States, blend states, transitions, conditions, exit time, listeners, layers |
-| `references/data-binding.md` | View models, property types, binding, converters, lists, migration from inputs |
+| `references/data-binding.md` | View models, property types, binding, converters, lists |
 | `references/layouts.md` | Responsive layouts and component sizing |
 | `references/scripting-luau.md` | Luau protocols (Node, Layout, Converter, Path Effect, Transition Condition, Listener Action, Test), script inputs, view-model access, tooling |
 | `references/handoff.md` | Runtimes, React hook signatures, MCP capabilities and limits, reduced motion |

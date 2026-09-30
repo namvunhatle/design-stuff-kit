@@ -8,7 +8,7 @@ Luau is the Lua-derived language (typed, from Roblox) that Rive runs inside the 
 
 `get_scripting_reference` takes a required `topic`. An unknown topic returns the valid keys: `rive/gradient`, `rive/mat2d`, `rive/mat4`, `rive/path`, `rive/color`, `rive/paint`, `rive/renderer`, `rive/artboards`, `rive/dataValue`, `rive/interfaces`, `rive/image`, `rive/text`, `rive/mesh`, `rive/vector`, `rive/gpu`, `rive/gpu_types`, `rive/promise`, `rive/testing`, `rive/fileFormat`, `rive/base`, `rive/typeslib`, `@luau`. Other MCP tools for scripts: `manage_scripts`, `get_scripts`, `script_diagnostics`, `recompile_all_scripts`, `run_tests`, `read_console`.
 
-**Vector, not Vec2D.** The API reference now defines `Vector` (`Vector.xy(x, y)`, `Vector.length(v)`). Its instance methods (`v:length()`, `v:dot()`) are marked deprecated in favor of the static forms. A few doc pages still show `Vec2D`; check `rive/vector` before using either.
+**Vectors.** Use `Vector` with its static functions: `Vector.xy(x, y)`, `Vector.length(v)`, `Vector.dot(a, b)`, `Vector.lerp(a, b, t)`. Confirm signatures in `rive/vector` before use.
 
 ## Protocols
 
