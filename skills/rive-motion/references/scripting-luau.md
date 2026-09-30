@@ -85,6 +85,10 @@ Create `Path.new()` and `Paint.new()` once in `init`, reuse them in `draw`. Path
 - Test scripts run with `run_tests`; put logic worth testing in a Blank (util) script and `require('Name')` it.
 - Debug: `print()` output in the Debug panel (`read_console` over MCP), and the Problems panel for compile errors. `script_diagnostics` returns the same problems.
 
+## Worked example
+
+`examples/particle-burst.luau` is a complete Node script (real-time particles with drag, gravity, additive glow). It compiled clean and rendered as expected in the editor. Patterns it demonstrates: a deterministic LCG for repeatable randomness, one `Path` per color reused every frame (reset in `advance`, drawn in `draw`), `Paint.with({ blendMode = 'additive', feather = n })` for glow, clamped `dt`, and inputs (`count`, `speed`, `gravity`, `drag`, `period`) so the designer can tune it in the Inspector. Placement and export caveats are in `mcp-field-notes.md`.
+
 ## Rules for this skill
 
 1. Spec first: say in the plan why a script is needed and which protocol.

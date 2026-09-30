@@ -3,7 +3,7 @@ name: rive-motion
 description: Decide whether an interaction should be a Rive asset, then build it in the Rive desktop editor through Rive MCP (artboards, shapes, layouts, state machines, transitions, view-model data binding). Use for interactive, state-driven motion that ships to developers as a .riv file; not for Figma Smart Animate chains (figma-prototype-motion) or coded web prototypes (interactive-prototype).
 metadata:
   author: namvunhatle
-  version: 2.0.0
+  version: 2.1.0
   mcp-server: rive
   docs-checked: 2026-09-30
 ---
@@ -45,16 +45,21 @@ Write a short spec and get a go-ahead before a substantial edit:
 5. **Listeners:** what pointer or property change triggers what.
 6. **Reduced motion:** the static or shortened version, built in, not promised.
 
+When the goal is to enhance motion beyond a click-through prototype, read `references/motion-craft.md` before planning: put events on a beat grid, add hit-and-settle and stagger, and use scripts, listeners, or data binding where the motion should react live.
+
 ## 3. Build
 
 Work in this order, verifying each layer with a scene query before the next: artboard → shapes and layouts → animations (keyframes) → view model and bindings → state machine, states, transitions, listeners → scripts only if the spec needs them. After any script edit, recompile, read diagnostics and the console before saying it works.
+
+Keyframe values for scale and opacity are percentages (`100`, not `1`). Add text to a layout with `appendLayout`, not inside `createLayout`. Details and other tool quirks: `references/mcp-field-notes.md`.
 
 Name every object and view-model property as the developer will reference it. Renaming later breaks their code.
 
 ## 4. Verify and hand off
 
 - Query the scene back and compare against the spec; do not rely on what you meant to write.
-- Test each transition, including the way back out of every state. A transition path is one-way: the return needs its own path.
+- Test each transition, including the way back out of every state. A transition path is one-way: the return needs its own path. `simulateStateMachine` covers the logic only; it does not render or simulate the pointer.
+- **Have the designer press Play** (steps in `references/mcp-field-notes.md`) and report or screenshot the result. Tool output alone never proves the animation looks right; a wrong keyframe unit, for example, makes the layout vanish while every query still passes.
 - Hand off the `.riv` with the spec table: artboard name, state machine name, view model name, property names and types. Note the runtime the developers use, because feature support differs by runtime (`references/handoff.md`).
 
 Motion rules from the kit apply: animate transform, opacity, and filter; respect reduced motion.
@@ -67,4 +72,7 @@ Motion rules from the kit apply: animate transform, opacity, and filter; respect
 | `references/data-binding.md` | View models, property types, binding, converters, lists |
 | `references/layouts.md` | Responsive layouts and component sizing |
 | `references/scripting-luau.md` | Luau protocols (Node, Layout, Converter, Path Effect, Transition Condition, Listener Action, Test), script inputs, view-model access, tooling |
+| `references/motion-craft.md` | What makes a scene feel premium (beat grid, hit-and-settle, stagger, layering) and when to go beyond keyframes |
+| `references/examples/particle-burst.luau` | A working Node script: glowing real-time particles |
+| `references/mcp-field-notes.md` | Observed Rive MCP units and quirks, what the tools can and cannot verify, how the designer plays the state machine |
 | `references/handoff.md` | Runtimes, React hook signatures, MCP capabilities and limits, reduced motion |
