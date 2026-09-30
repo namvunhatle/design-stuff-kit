@@ -62,6 +62,7 @@ Fixes found on either platform go through `web-android-port` §7 so web and Andr
 
 - **Port an approved feature:** `figma-clone-port` → `figma-design-system-ui` for the destination. Add `figma-prototype-motion` if the source includes reaction chains. Inspect source and destination files in separate pinned runs.
 - **Set voice across the product:** `voice-tone-builder`, which applies Yummy Labs' voice and tone framework shipped inside `ux-copywriter`; then use `ux-copywriter` for specific interface strings. `copy-reviewer` can audit a batch without editing files or Figma.
+- **Rive interactive motion:** `rive-motion` for state-machine assets; it decides Rive vs Motion/Lottie first, and its output goes to developers as a `.riv` file plus the state-machine spec.
 - **Long-form research writing:** the bundled Apache-licensed `content-research-writer` by ComposioHQ, outside the Figma tracks.
 - **Satirical idea exploration:** `theboxexplore` only when invoked by name, outside ordinary UX planning.
 - **Publish an approved spec:** `gitbook-porter` creates and verifies a change request, then stops before merge.

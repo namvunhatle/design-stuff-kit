@@ -115,6 +115,7 @@ Load `figma-console-api` before Figma Plugin API writes. Add `figma-prototype-mo
 | [`figma-wireframe-kit`](skills/figma-wireframe-kit/SKILL.md) | Wireframe construction using a kit discovered in the target file | namvunhatle |
 | [`figma-design-system-ui`](skills/figma-design-system-ui/SKILL.md) | Production UI using a live, read-only design system | namvunhatle |
 | [`voice-tone-builder`](skills/voice-tone-builder/SKILL.md) | Entry point that applies Yummy Labs' voice and tone framework from `ux-copywriter` | Routing by namvunhatle; framework by Yummy Labs, not bundled |
+| [`rive-motion`](skills/rive-motion/SKILL.md) | Choosing Rive vs Motion/Lottie and building state-machine motion through Rive MCP | namvunhatle |
 | [`prototype-vercel-deploy`](skills/prototype-vercel-deploy/SKILL.md) | Versioned, verified Vercel deploys of coded prototypes | namvunhatle |
 | [`web-android-port`](skills/web-android-port/SKILL.md) | Porting web motion prototypes to Android and keeping both in sync | namvunhatle |
 | [`theboxexplore`](skills/theboxexplore/SKILL.md) | Explicitly invoked satirical idea exploration | namvunhatle; inspired by [Soren's Newsletter](https://sorens.beehiiv.com/) |
@@ -165,17 +166,18 @@ Call an agent by name with a bounded brief. Include the target product, source s
 - **gdown:** needed only by the automatic installer to retrieve the author's public Google Drive packages.
 - **Figma Console MCP:** required to execute the Figma-specific procedures. Tool names and available API operations can change; check the connected server before running a snippet.
 - **Mobbin MCP:** real-screen evidence for the design tracks. Without it, the tracks record that this evidence step could not run.
+- **Rive MCP:** optional; lets `rive-motion` build state machines in the Rive desktop editor (Early Access app must be running).
 - **GitBook MCP:** needed only for the optional `gitbook-porter` agent. Verify its tool names before installing that template.
 
 The skills are Markdown instructions. Installing them does not grant Figma access or permission to edit a file.
 
 ## Advanced setup
 
-- **Contents.** Nine original skills, one routing skill that applies a Yummy Labs framework, one Apache-licensed skill by ComposioHQ, and an installer for five Yummy Labs skills supplied by their author.
+- **Contents.** Ten original skills, one routing skill that applies a Yummy Labs framework, one Apache-licensed skill by ComposioHQ, and an installer for five Yummy Labs skills supplied by their author.
 - **Installer details.** `./start` installs `gdown` into the kit's own `.venv/` when it is missing and downloads the Yummy Labs packages from the author's [official links](upstream-packages.json), keeping the author's file contents (reference files are moved only where an archive layout differs from `SKILL.md`). It checks that all five are present before modifying your project. Optional rules, agents, project-memory templates, and an MCP example are staged in `.claude/design-kit-templates/`. Flags: `--no-launch` prepares files without opening Claude Code; `--gdown PATH` uses your own gdown.
 - **Offline or changed links.** [Assemble from local files](THIRD_PARTY.md).
 - **Codex.** Copy the chosen skill folders to `~/.codex/skills/`. The onboarding is currently for Claude Code.
-- **MCP servers.** Mobbin and GitBook entries are in [`templates/mcp.json.example`](templates/mcp.json.example). Keep credentials in your local configuration, never in the project or this repo.
+- **MCP servers.** Mobbin, Rive, and GitBook entries are in [`templates/mcp.json.example`](templates/mcp.json.example). Keep credentials in your local configuration, never in the project or this repo.
 - **Agent safety.** Check each agent's `tools:` list against your installed MCP tools. An agent without a `tools:` line inherits every tool, including `figma_execute`, and a permission allowlist in `.claude/settings.json` then lets it write to Figma without asking.
 
 ## Contributing

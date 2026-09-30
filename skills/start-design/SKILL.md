@@ -30,7 +30,7 @@ Review `.claude/design-kit-templates/rules/` and `.claude/design-kit-templates/a
 
 Offer the project-memory templates in `.claude/design-kit-templates/project-memory/` (see the `project-memory` rule). If the project has none of these files, suggest creating `Open_Items.md`, `Figma_Map.md`, and `Session_Log.md` in the product folder, and compare `CLAUDE.template.md` with the existing `CLAUDE.md` instead of replacing it. Never overwrite an existing file.
 
-Check which MCP servers are connected. Mobbin supplies the real-screen evidence the design tracks require, and GitBook is needed only for `gitbook-porter`. If either is missing and wanted, show `.claude/design-kit-templates/mcp.json.example` and let the designer merge it into the project's `.mcp.json` or connect the service another way. Figma Console MCP needs a personal access token; keep it in the designer's local configuration, never in project files.
+Check which MCP servers are connected. Mobbin supplies the real-screen evidence the design tracks require, Rive MCP is needed only for `rive-motion`, and GitBook is needed only for `gitbook-porter`. If any is missing and wanted, show `.claude/design-kit-templates/mcp.json.example` and let the designer merge it into the project's `.mcp.json` or connect the service another way. Figma Console MCP needs a personal access token; keep it in the designer's local configuration, never in project files.
 
 If the designer wants to start without optional templates, continue. The kit's safety instructions still apply when its Figma skills are invoked.
 

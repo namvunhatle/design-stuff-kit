@@ -7,6 +7,7 @@ For a full wireframe or UI build, read every `references/` file supplied with th
 - **Wireframe:** `ux-designer` → project context → `figma-wireframe-kit` → `ux-copywriter`. Do not load `ui-designer` for this track.
 - **Production UI:** `ux-designer` → project context → `figma-design-system-ui` → `ui-designer` → `ux-copywriter` → review the five-question build plan below before a substantial canvas write.
 - **Figma motion:** add `figma-prototype-motion` to either track before editing reactions or keyframes.
+- **Rive motion:** use `rive-motion` when the interaction needs a state machine, data binding, or a runtime asset; keep Figma reactions for click-through demos.
 - **Coded prototype:** use `interactive-prototype` instead of the Figma motion skill.
 - **Any Figma Plugin API write:** load `figma-console-api` when installed, and follow `figma-workflow`.
 
