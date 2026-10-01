@@ -42,7 +42,40 @@ Keyframes replay a fixed clip. Use these when the motion should react:
 - **Listeners:** pointer down, drag, enter and exit write view-model properties; transitions read them.
 - **WGSL shaders:** GPU lighting, noise, chromatic offset (docs: scripting/wgsl-shaders).
 
-## 7. Workflow that produced the scene
+## 7. Taste lessons: AI loading and success (R1 name card, 2026-10-01)
+
+The designer rejected these, in this order. Each failure looked fine in a static capture.
+
+| Built | Verdict | Why |
+|---|---|---|
+| Squash, tilt, bounce on press | "quê" (tacky) | Cartoon physics on a calm product |
+| Star pulsing on a 120 BPM beat | "TikTok jitter" | A beat grid suits one-shot choreography (§1), not a calm wait. Ambient loops breathe with sines and have no hits. |
+| Particle ribbon curling around the star | "quê" | Busy, toy-like |
+| Comet arc or ring line drawn with a trim path | "line looks ugly" | Any crisp stroke reads as UI chrome, including on the success screen |
+| Multicolor feathered ring around the avatar | "not refined" | Too saturated and too defined |
+| Stroke on a screen-sized rounded rect | "electric wire", "fixed square" | Even thickness and a geometric outline |
+| 11 separate blobs along the edges | "life-vest puffs" | Each blob reads as a lump |
+| Long, evenly sliding bands only | "boring, lost the organic" | No life left |
+
+What passed:
+
+- **Check references first.** On Mobbin (Luma, Linktree, Snapchat Dreams, Orbit), AI loaders share three things: one light source at the center, a soft multicolor gradient behind a white glyph, and no hard edges.
+- **Center:** 4 feathered color blobs (pink, violet, orange, blue) behind the white star, using **srcOver**, not screen (screen burned them to white). They orbit 17–21 px, and the star itself stays still.
+- **Screen edge (Apple Intelligence style):**
+  - Long feathered bands, 2 per edge, each longer than the edge so the ends sit off-canvas. They overlap with different colors and slide in opposite directions.
+  - Plus 3 soft pockets of light that travel the rounded-rect perimeter at different speeds and directions.
+  - Opacity about 17–22%. Every "too visible / crude" note was solved by lowering opacity and raising feather.
+- **Relate center and edge:** same 4 colors, a shared 3 s breath (center swells, edges thicken), and the same turning direction.
+- **No text during loading** once light carries the state.
+- **Success = gather → release → arrive:**
+  1. Edges dim as if drawn into the star, and the star inhales (0–0.3 s).
+  2. A soft feathered wave plus a center flash roll outward.
+  3. Each edge flares when the wave reaches it, top first and bottom last.
+  4. Stardust rides the wave.
+  5. The next screen fades in *with* the wave, not after it.
+  6. Hand the light over: the cool loading glow fades as the destination screen's warm shine rises from the same center (night → morning for an alarm).
+
+## 8. Workflow that produced the scene
 
 1. Read the source timeline (beat map and easings) and write the frame table.
 2. Build static end state first, capture it, fix layout.

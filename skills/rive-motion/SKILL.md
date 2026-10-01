@@ -3,7 +3,7 @@ name: rive-motion
 description: Decide whether an interaction should be a Rive asset, then build it in the Rive desktop editor through Rive MCP (artboards, shapes, layouts, state machines, transitions, view-model data binding). Use for interactive, state-driven motion that ships to developers as a .riv file; not for Figma Smart Animate chains (figma-prototype-motion) or coded web prototypes (interactive-prototype).
 metadata:
   author: namvunhatle
-  version: 2.1.0
+  version: 2.2.0
   mcp-server: rive
   docs-checked: 2026-09-30
 ---
@@ -47,11 +47,13 @@ Write a short spec and get a go-ahead before a substantial edit:
 
 When the goal is to enhance motion beyond a click-through prototype, read `references/motion-craft.md` before planning: put events on a beat grid, add hit-and-settle and stagger, and use scripts, listeners, or data binding where the motion should react live.
 
+For loading, AI "thinking", or success moments, read motion-craft §7 first. It lists the looks that were rejected and the one that passed. Pull 5–10 references from Mobbin before choosing a direction. Keep ambient loops on sines, not beats. Use light, not lines, and keep it faint: opacity around 20%, high feather.
+
 ## 3. Build
 
 Work in this order, verifying each layer with a scene query before the next: artboard → shapes and layouts → animations (keyframes) → view model and bindings → state machine, states, transitions, listeners → scripts only if the spec needs them. After any script edit, recompile, read diagnostics and the console before saying it works.
 
-Keyframe values for scale and opacity are percentages (`100`, not `1`); animations default to one-shot, so set Loop; a property keeps its last value when the next state does not key it. Read the "Lessons from a sky-scene build with scripts" section of `references/mcp-field-notes.md` before the first write. Add text to a layout with `appendLayout`, not inside `createLayout`. Details and other tool quirks: `references/mcp-field-notes.md`.
+Keyframe values for scale and opacity are percentages (`100`, not `1`); animations default to one-shot, so set Loop; a property keeps its last value when the next state does not key it. Read the two "Lessons" sections of `references/mcp-field-notes.md` before the first write. `createParametricShapes` ignores x/y: set keys 13/14 after creating a shape. Generate keyframes from a re-runnable script (`references/examples/rive_keys.py`) rather than by hand. Add text to a layout with `appendLayout`, not inside `createLayout`. Details and other tool quirks: `references/mcp-field-notes.md`.
 
 Name every object and view-model property as the developer will reference it. Renaming later breaks their code.
 
@@ -72,7 +74,8 @@ Motion rules from the kit apply: animate transform, opacity, and filter; respect
 | `references/data-binding.md` | View models, property types, binding, converters, lists |
 | `references/layouts.md` | Responsive layouts and component sizing |
 | `references/scripting-luau.md` | Luau protocols (Node, Layout, Converter, Path Effect, Transition Condition, Listener Action, Test), script inputs, view-model access, tooling |
-| `references/motion-craft.md` | What makes a scene feel premium (beat grid, hit-and-settle, stagger, layering) and when to go beyond keyframes |
+| `references/motion-craft.md` | What makes a scene feel premium (beat grid, hit-and-settle, stagger, layering), when to go beyond keyframes, and §7 taste lessons for AI loading and success moments |
 | `references/examples/particle-burst.luau` | A working Node script: glowing real-time particles |
+| `references/examples/rive_keys.py` | Python over the MCP HTTP endpoint: batched keyframe add/delete/change, eases, seamless periodic loops |
 | `references/mcp-field-notes.md` | Observed Rive MCP units and quirks, what the tools can and cannot verify, how the designer plays the state machine |
 | `references/handoff.md` | Runtimes, React hook signatures, MCP capabilities and limits, reduced motion |

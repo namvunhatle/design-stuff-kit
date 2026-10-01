@@ -87,5 +87,47 @@ Every item below cost at least one wrong "done". Read before the first write.
 - The editor is sandboxed and cannot read files outside its own folders. Upload assets and scripts through the local MCP HTTP endpoint (`initialize`, then `notifications/initialized`, then `tools/call`) with a data URI or script source; no session header is returned.
 - A Node script instance must be added to the artboard by the designer (right-click artboard); then set its `x`/`y` to 0,0.
 
+## Lessons from the R1 name-card build (2026-10-01)
+
+Card → Generate → loading → success screen, all keyframed, about 15 iterations. Each line below cost at least one wasted round.
+
+**Creating things**
+- `createParametricShapes` ignores `x`/`y`: every shape lands at (0,0). Set keys `13`/`14` right after creating it, then confirm with `computedworldx`/`computedworldy` (`808`/`809`). Misplaced hit areas make the designer report "tapping does nothing".
+- Feather can only be set when the paint is created (`feather: {strength}` in the paint). No tool adds a Feather later, so recreate the shape instead. Strength is changed through the `Feather` child object; query its key name `strength`.
+- A layout added by `appendLayout` without size ends up 0×0 with relative positioning, so its text wraps one character per line. The fastest fix is to `duplicate_objects` a working sibling layout and change its text, position (`516`/`518`) and color.
+- `createShapes` does not return ids. Look them up with `find_objects`.
+- Useful keys:
+  - Stroke: thickness `47`, cap `48` (1 = round).
+  - Trim path, in percent: start `114`, end `115`, offset `116`. Animating `116` slides the segment toward its end, so the brightest part should sit at the end.
+  - Shape blend mode `23`: 3 = srcOver, 14 = screen.
+  - Text: color is `SolidColor` key `37` as `#aarrggbb`, font size is `274` on `TextStylePaint`.
+
+**Data and listeners**
+- Add properties to the view model the artboard already uses. Binding a second view model to the artboard broke the existing scene's bindings.
+- Text binds to the **run** (`TextValueRun`), not the Text object.
+- Instance values: string key `561`, boolean key `593`.
+- Pointer listeners on layouts never fired. Use a transparent shape (fill `#01000000`) as the hit target.
+- Deleting a transition's only condition leaves it firing every frame. Replace the condition; don't just delete it.
+
+**State machine**
+- `simulateStateMachine` input format: `{"frame": n, "property": "name", "value": v}`; triggers take no value. It refuses to run while a timeline or state machine is open (Animate mode), so ask the designer to switch to Design mode.
+- One trigger can fire transitions on several layers in the same frame (verified). That lets you **split one object's properties across layers**: a long ambient loop keys position and scale on its own layer, while the step layer (fly → load → go) keys only opacity. The loop then never restarts when the step changes, and the two can have different lengths.
+- Two states can play the same timeline (load_3 and load_3b ping-pong). A loop whose values drift across states will snap there, so keep loop keys periodic.
+- When you replace a frame-0 key with a single new key, the new key defaults to `hold` and the segment after it snaps. Give it an ease explicitly.
+
+**Loops without a visible seam**
+- Every key in a looping timeline must use whole-number harmonics of the loop length, so `sin(k·2πt/T)` with integer `k`. Sample every 6–12 frames with linear keys.
+- Pick one long master loop (24 s = 1440 f) and run shorter rhythms inside it (4 turns, 8 breaths). Keyframes on the 5-frame grid were about 3000 per timeline and still sent fine in batches of 70.
+- A path that goes around a rounded rectangle needs rotation unwrapped by accumulating the angle. An ellipse looks the same every 180°, and a 4-point star every 90°, so that rotation can wrap.
+
+**Seeing a mid-animation frame**
+- `capture_artboard` shows only resting values. To see a pose:
+  1. Save the current values (`query_property_values` → JSON).
+  2. Set the pose with `set_property_values`.
+  3. Capture.
+  4. Restore from the JSON.
+
+  This caught a blow-out to white (four `screen`-blended blobs over a white star) before the designer saw it.
+
 **Design**
 - Do not add a decorative highlight (a breathing glow, ripple rings) unasked. A highlight has to belong to the subject (sky: stars, meteors, cloud light), or it reads cheap. Ask once which direction before building a new visual layer.
