@@ -53,6 +53,7 @@ The designer rejected these, in this order. Each failure looked fine in a static
 | Particle ribbon curling around the star | "quê" | Busy, toy-like |
 | Comet arc or ring line drawn with a trim path | "line looks ugly" | Any crisp stroke reads as UI chrome, including on the success screen |
 | Multicolor feathered ring around the avatar | "not refined" | Too saturated and too defined |
+| Stars shooting out on success, then a ring-shaped wave | "don't like", "lines feel tacky" | Particles and ring shapes read as cheap effects; a gradient bloom replaced both |
 | Stroke on a screen-sized rounded rect | "electric wire", "fixed square" | Even thickness and a geometric outline |
 | 11 separate blobs along the edges | "life-vest puffs" | Each blob reads as a lump |
 | Long, evenly sliding bands only | "boring, lost the organic" | No life left |
@@ -67,13 +68,13 @@ What passed:
   - Opacity about 17–22%. Every "too visible / crude" note was solved by lowering opacity and raising feather.
 - **Relate center and edge:** same 4 colors, a shared 3 s breath (center swells, edges thicken), and the same turning direction.
 - **No text during loading** once light carries the state.
-- **Success = gather → release → arrive:**
+- **Success = gather → bloom → hand over** (approved, about 1.7 s):
   1. Edges dim as if drawn into the star, and the star inhales (0–0.3 s).
-  2. A soft feathered wave plus a center flash roll outward.
-  3. Each edge flares when the wave reaches it, top first and bottom last.
-  4. Stardust rides the wave.
-  5. The next screen fades in *with* the wave, not after it.
-  6. Hand the light over: the cool loading glow fades as the destination screen's warm shine rises from the same center (night → morning for an alarm).
+  2. A small center flash, then a **color bloom**: one filled radial gradient (warm white core → peach → pink → violet → transparent, feather 30, screen blend). It opens from the star to past the screen edges (scale 15% → 400%, strong ease-out) and peaks around 85% opacity.
+  3. Each edge flares when the bloom reaches it.
+  4. The next screen fades in *with* the bloom, not after it.
+  5. Hand the light over. The destination screen's warm shine rises from the same center as the bloom's core, while the pink and violet rim thins out and fades. The loading colors become the success light (night → morning for an alarm).
+  - No particles and no ring or wave shapes. The user's rule: light, never lines.
 
 ## 8. Workflow that produced the scene
 

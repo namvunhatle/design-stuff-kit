@@ -128,6 +128,7 @@ Card → Generate → loading → success screen, all keyframed, about 15 iterat
   4. Restore from the JSON.
 
   This caught a blow-out to white (four `screen`-blended blobs over a white star) before the designer saw it.
+- ⚠️ When the designer has Played or scrubbed a timeline, `query_property_values` returns that frame's **live** values, not the design values. "Restoring" from that snapshot wrote the success screen into the resting state, and the start screen vanished. Restore to known design values (a rest-pose script) instead of a snapshot. Afterwards, scan every timeline for stray keys on the objects you touched.
 
 **Design**
 - Do not add a decorative highlight (a breathing glow, ripple rings) unasked. A highlight has to belong to the subject (sky: stars, meteors, cloud light), or it reads cheap. Ask once which direction before building a new visual layer.
