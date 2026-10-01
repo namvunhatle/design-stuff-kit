@@ -51,7 +51,7 @@ When the goal is to enhance motion beyond a click-through prototype, read `refer
 
 Work in this order, verifying each layer with a scene query before the next: artboard → shapes and layouts → animations (keyframes) → view model and bindings → state machine, states, transitions, listeners → scripts only if the spec needs them. After any script edit, recompile, read diagnostics and the console before saying it works.
 
-Keyframe values for scale and opacity are percentages (`100`, not `1`). Add text to a layout with `appendLayout`, not inside `createLayout`. Details and other tool quirks: `references/mcp-field-notes.md`.
+Keyframe values for scale and opacity are percentages (`100`, not `1`); animations default to one-shot, so set Loop; a property keeps its last value when the next state does not key it. Read the "Lessons from a sky-scene build with scripts" section of `references/mcp-field-notes.md` before the first write. Add text to a layout with `appendLayout`, not inside `createLayout`. Details and other tool quirks: `references/mcp-field-notes.md`.
 
 Name every object and view-model property as the developer will reference it. Renaming later breaks their code.
 

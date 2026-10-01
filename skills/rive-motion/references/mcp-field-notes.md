@@ -57,3 +57,35 @@ While a timeline is selected in Animate Mode, edits on the stage can create keys
 - The instance lands where the designer clicked, often outside the artboard, so particles emit off-canvas and nothing shows. After the designer adds it, find it with `find_objects` (it is a `ScriptedDrawable`; `get_artboard_hierarchy` at shallow depth may not list it), read `x`/`y` (keys `13`, `14`), and set them to the intended origin.
 - The script asset has `includeInExport: false` by default. Turn it on before handing a `.riv` to developers, or the runtime file will not contain the script.
 - Console stays empty until the scene plays with the script in it; an empty console before that is not a sign of success or failure.
+
+## Lessons from a sky-scene build with scripts (2026-10-01)
+
+Every item below cost at least one wrong "done". Read before the first write.
+
+**Units (verify by reading back, not by trusting the echo)**
+- `set_property_values` AND `modifyKeyFrames` both use **percent** for scale and opacity: `100` = full, `33.3` = one third. A `0.333` is 0.33%. Writing `1` for opacity gives 1%, not full.
+- Reading back during Play shows the live value in the same unit (`wind` opacity `1.0` next to siblings at `100.0` exposed the bug). Compare a suspect object with a healthy sibling.
+- Images import at native pixel size (1080x2400). Scale `33.33` to fit a 360x800 artboard; check `computedwidth` (810) and `computedheight` (811) after.
+
+**State is sticky**
+- Rive keeps the last value of a property when the active animation does not key it. An Idle state that dims opacity to 70 leaves it at 70 in Play unless Play keys opacity to 100 too. Every state that can follow must key (or hold) every property any sibling state touched, including "off" states (key opacity 0 for each object a looping state fades in).
+- A loop that animates opacity must start and end on the same value or it snaps at the wrap.
+
+**Defaults that look like bugs**
+- New animations are **one-shot** (`loop` key 59 = 0). Set 1 for anything that must repeat, then read it back. Looping is still worth confirming in Play; the property can look right and the stage can be paused.
+- A seamless horizontal drift needs the end copy identical to the start copy (A, mirrored B, A) and an end key of exactly one period (here -720 for a 360 wide tile).
+- Pointer `dragStart` listeners are created but do not fire at runtime; use `drag`.
+- Wrapping objects with `group_editor` moves the group origin: re-read `x`/`y` (13, 14) of the group and children and reset the group to 0,0 before keying absolute positions.
+- State speed is key 292 on the state; transition mix duration is key 158 (ms); transition flags 152: `4` = exit time, `12` = exit time as a percentage (exit time 100 = at the end).
+
+**What the tools cannot prove**
+- `capture_artboard` always renders the resting artboard, even while the editor is playing, and `query_property_values` while paused returns frozen values. Neither shows an animation frame. For Play, read live values twice a few seconds apart (changing numbers = running), then ask the designer for a screenshot of the Play state at 100% zoom.
+- Editor zoom matters: at 25% zoom, slow drift and small flares read as "nothing moves".
+- Say what was not seen. Do not report done from tool output.
+
+**Environment**
+- The editor is sandboxed and cannot read files outside its own folders. Upload assets and scripts through the local MCP HTTP endpoint (`initialize`, then `notifications/initialized`, then `tools/call`) with a data URI or script source; no session header is returned.
+- A Node script instance must be added to the artboard by the designer (right-click artboard); then set its `x`/`y` to 0,0.
+
+**Design**
+- Do not add a decorative highlight (a breathing glow, ripple rings) unasked. A highlight has to belong to the subject (sky: stars, meteors, cloud light), or it reads cheap. Ask once which direction before building a new visual layer.
