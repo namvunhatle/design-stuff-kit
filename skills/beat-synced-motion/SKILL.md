@@ -68,7 +68,7 @@ The music bed is quiet; the **accents carry information**.
 
 Do not trust your ears or the code. Measure:
 
-- In the browser, hook the audio source's `start` call and log the audio clock next to the timeline clock. Report the offset between the drop and the visual peak in milliseconds. Under about 10 ms is inaudible; the R15 build measured 5 ms.
+- In the browser, hook the audio source's `start` call and log the audio clock next to the timeline clock. Report the offset between the drop and the visual peak in milliseconds. Under about 10 ms is inaudible; one production build measured 5 ms.
 - On Safari, `AudioContext.resume()` after the tap can take up to about 0.75 s. Start the music after the audio clock is running and enter at the correct offset, so the beat stays aligned. Test on Safari; headless Chromium will not show this.
 - On Android or any other platform, drive the visuals from the audio clock, not the reverse, and bake the mix once (`web-android-port` §3).
 - Re-measure after any change to tempo, trim, or the timeline.

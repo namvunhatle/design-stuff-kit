@@ -4,7 +4,7 @@ Why: hand-typed keyframes drift, and loops need hundreds of sampled keys.
 Copy to a scratch folder, keep object ids in a JSON file, and build each
 animation from a script you can re-run (wipe, then add).
 
-Proven on the R1 name-card build (2026-10-01). Units: scale and opacity in
+Proven on a name-card onboarding build (2026-10-01). Units: scale and opacity in
 percent, rotation in degrees, x/y in artboard pixels.
 """
 import json, math, subprocess

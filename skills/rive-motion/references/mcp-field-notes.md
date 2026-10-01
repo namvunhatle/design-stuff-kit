@@ -41,7 +41,7 @@ While a timeline is selected in Animate Mode, edits on the stage can create keys
 - If the layout renders as the artboard background color only, suspect a wrong keyframe unit before suspecting the state machine.
 - Export of a `.riv` for runtime (Publish, or Export, For runtime) is documented as a paid-plan feature.
 
-## Building bigger scenes (learned on the Ring Burst scene)
+## Building bigger scenes (learned on a burst scene)
 
 - **Groups:** `group_editor` with `parentId` and `x`/`y` reported success but the group did not exist. Create the empty group without `parentId`, then create shapes with `parentId` set to the group. The group's `x`/`y` were also ignored (it landed at 0,0), so read the group's position back and set it with `set_property_values` (keys `13`, `14`).
 - **Wrapping changes coordinates:** `group_editor` with `objectIds` moves the new group's origin to the contents' bounds, so children keep their look but their `x`/`y` change. Re-read positions (`query_property_values`, keys `13`, `14`) before keying them, and key values in the group's local space.
@@ -87,7 +87,7 @@ Every item below cost at least one wrong "done". Read before the first write.
 - The editor is sandboxed and cannot read files outside its own folders. Upload assets and scripts through the local MCP HTTP endpoint (`initialize`, then `notifications/initialized`, then `tools/call`) with a data URI or script source; no session header is returned.
 - A Node script instance must be added to the artboard by the designer (right-click artboard); then set its `x`/`y` to 0,0.
 
-## Lessons from the R1 name-card build (2026-10-01)
+## Lessons from a name-card onboarding build (2026-10-01)
 
 Card → Generate → loading → success screen, all keyframed, about 15 iterations. Each line below cost at least one wasted round.
 

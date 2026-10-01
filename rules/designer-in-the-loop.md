@@ -11,7 +11,7 @@ Once the designer has approved a frame, reference, timing, or idea, do not repla
 - A decision you made yourself because the brief was silent is not an approval. Log it and surface it (see `design-tracks`, build plan).
 - Prefer a new labeled variant beside the approved work over an edit in place, unless the designer asked for the edit.
 
-**Why:** in the R15 onboarding project the only full redo came from rewriting an approved reference without asking.
+**Why:** in one onboarding project the only full redo came from rewriting an approved reference without asking.
 
 ## 2. Diagnose before fixing
 

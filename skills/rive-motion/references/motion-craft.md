@@ -2,12 +2,12 @@
 
 Goal of using Rive in this kit: motion that is better than a click-through prototype, not a like-for-like copy of it. Rive earns its place when motion is choreographed, layered, or driven live by input or data.
 
-Source of the techniques: the A7 onboarding prototype (`A7Script.kt`, `docs/EXPERIENCE.md`, a coded Android/web build) rebuilt as a Rive scene ("Ring Burst") on 2026-09-30. Numbers below come from that script; they are a starting point, not a law.
+Source of the techniques: the A7 onboarding prototype (`A7Script.kt`, `docs/EXPERIENCE.md`, a coded Android/web build) rebuilt as a Rive burst scene on 2026-09-30. Numbers below come from that script; they are a starting point, not a law.
 
 ## 1. Choreograph to a beat grid
 
 - Pick the tempo first (A7: 100 BPM, one beat = 0.6 s = 36 frames at 60 fps). Put every major event on a beat or a half-beat. Compute frames from the grid, not by eye: `frame = round(seconds * 60)`.
-- Write a timeline table before keying: event, beat, frame. A7's drop (ring burst) is beat 0, the next scene starts on beat 1, and each name swap lands on its own beat.
+- Write a timeline table before keying: event, beat, frame. A7's drop (the burst) is beat 0, the next scene starts on beat 1, and each name swap lands on its own beat.
 - The moving accent should arrive ON the beat that starts the next scene (A7: the comet dot flies for one beat and lands on beat 1).
 
 ## 2. Hit and settle, not just ease
@@ -24,7 +24,7 @@ Rings, tiles, trail ghosts, wave bars enter offset by 2 to 5 frames (0.03 to 0.0
 
 ## 4. Layer four things at once on a big moment
 
-A7's ring burst is: a flash (scale 20% to 90%, opacity 0 to 60% to 0), three thin rings that open past the edges, a comet dot with a fading trail of ghost copies, and tiles popping from the center. Then a small camera shake on the next beat, four steps of 3 frames: (-4,3), (3,-2), (-1,1), (0,0). Put all scene content in one `cam` group and animate the group for the shake.
+A7's burst is: a flash (scale 20% to 90%, opacity 0 to 60% to 0), three thin rings that open past the edges, a comet dot with a fading trail of ghost copies, and tiles popping from the center. Then a small camera shake on the next beat, four steps of 3 frames: (-4,3), (3,-2), (-1,1), (0,0). Put all scene content in one `cam` group and animate the group for the shake.
 
 ## 5. Cheap tricks that read as expensive
 
@@ -42,7 +42,7 @@ Keyframes replay a fixed clip. Use these when the motion should react:
 - **Listeners:** pointer down, drag, enter and exit write view-model properties; transitions read them.
 - **WGSL shaders:** GPU lighting, noise, chromatic offset (docs: scripting/wgsl-shaders).
 
-## 7. Taste lessons: AI loading and success (R1 name card, 2026-10-01)
+## 7. Taste lessons: AI loading and success (name-card onboarding, 2026-10-01)
 
 The designer rejected these, in this order. Each failure looked fine in a static capture.
 
