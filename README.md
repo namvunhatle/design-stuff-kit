@@ -91,7 +91,7 @@ The kit has **two Figma tracks**. Read [How the skills work together](WORKFLOWS.
 |---|---|
 | `ux-designer` → project context → `figma-wireframe-kit` → `ux-copywriter` | `ux-designer` → project context → `figma-design-system-ui` → `ui-designer` → `ux-copywriter` → build plan |
 
-Load `figma-console-api` before Figma Plugin API writes. Add `figma-prototype-motion` to either track when editing reactions or keyframes. The named external skills come from their original authors and must be installed from those sources.
+Load `figma-console-api` before Figma Plugin API writes. Add motion with the one [motion workflow](WORKFLOWS.md#motion-workflow): it picks Figma reactions, a coded prototype, or Rive, then builds, has you play it, and hands off. The named external skills come from their original authors and must be installed from those sources.
 
 | You need to… | Start with | Deliverable |
 |---|---|---|
@@ -100,6 +100,7 @@ Load `figma-console-api` before Figma Plugin API writes. Add `figma-prototype-mo
 | Prepare a chosen direction for handoff | `explore-vs-final` | Structured final design with intentional exceptions noted |
 | Move an existing feature to another Figma file | `figma-clone-port` | Source-to-destination mapping and verification report |
 | Build or debug a Smart Animate chain | `figma-prototype-motion` | Verified reaction graph, timing, and motion handoff |
+| Build state-driven motion that ships as a `.riv` asset | `rive-motion` (needs Rive desktop app and Rive MCP) | `.riv` file plus artboard, state machine, and view-model spec |
 | Build structural screens from a wireframe kit | `figma-wireframe-kit` | Measured grayscale flow and open decisions |
 | Build approved UI from an existing design system | `figma-design-system-ui` | Bound components/tokens and visual verification |
 | Set a product voice across several contexts | `voice-tone-builder` (applies Yummy Labs' framework) | Voice guide and consistency audit |

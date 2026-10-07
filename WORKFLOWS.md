@@ -60,11 +60,41 @@ Each check answers a different question: parity asks "does it look like what was
 
 Agents for this workflow: `design-critic`, `figma-auditor`, `copy-reviewer`. Install them with `./start --project … --agents design-critic,figma-auditor,copy-reviewer` ([Agent setup](docs/AGENTS_SETUP.md)).
 
-## Motion is an overlay
+## Motion workflow
 
-Figma prototype motion is not a third design track. It runs on frames from either track: load `figma-prototype-motion` and `figma-console-api` before editing reactions or keyframes. Verify matching layer paths, reaction destinations, timeout values, and timing. Figma MCP cannot play Present mode, so the designer must judge the feel in Figma.
+Motion is not a third design track. It runs on frames from either track, and it has one workflow with a fork at the medium.
 
-For a coded React prototype, use Yummy Labs' `interactive-prototype` instead of the Figma motion workflow. That skill is distributed by its author.
+```text
+1. Design the frames        wireframe or production UI track (Figma)
+2. Choose the medium        one line: which and why
+3. Plan and get a go-ahead  states, timing on a beat grid, reduced-motion version
+4. Build                    the branch for the medium (below)
+5. Verify by query          reaction graph, scene query, or measured timing
+6. Designer plays it        the feel is judged by a person, never by tool output
+7. Hand off                 spec table plus the asset or link
+8. Sync back                code-to-figma-sync when a build moved ahead of Figma
+```
+
+| The motion... | Medium | Build with | Ships as |
+|---|---|---|---|
+| Is a click-through demo inside Figma | Figma reactions | `figma-prototype-motion` + `figma-console-api` | Prototype link; reaction graph and timing notes |
+| Is a coded prototype for review or a link | React + Motion | `interactive-prototype` (Yummy Labs), then `prototype-vercel-deploy` | Verified live link |
+| Reacts to input or app data, has several states, loops, or ships in the product | Rive | `rive-motion` (Rive MCP, desktop editor open) | `.riv` file plus artboard, state machine, and view-model spec |
+| Is a fixed clip with no interaction | Lottie or video | outside the kit | Exported file |
+
+`rive-motion` makes step 2 itself; if the request is ambiguous, let it decide before anything is built. Full loop for a Rive asset:
+
+```text
+Figma frames approved
+  → rive-motion §1-2   medium + spec (artboard, states, view model, transitions, listeners, reduced motion)
+  → rive-motion §3     build in order: artboard → layouts → keyframes → view model → state machine → scripts
+  → beat-synced-motion (only if it has music; put events on the beat grid before building keyframes)
+  → designer presses Play in Rive, reports feel
+  → rive-motion §4     hand off .riv + spec table; developers wire view-model properties
+  → figma-workflow     record the asset and its spec in Figma_Map / Open_Items
+```
+
+Rules that hold in every branch: the designer duplicates the file first (Rive has no version history through MCP; Figma needs a restore point per `figma-workflow`), names are final before handoff, and only transform, opacity, and filter animate. Ask before changing approved motion (`designer-in-the-loop`). Figma MCP cannot play Present mode and Rive MCP cannot render the state machine, so the designer's play-through is a required step, not an optional one.
 
 Ship and port a coded prototype:
 
@@ -81,7 +111,7 @@ Fixes found on either platform go through `web-android-port` §7 so web and Andr
 
 - **Port an approved feature:** `figma-clone-port` → `figma-design-system-ui` for the destination. Add `figma-prototype-motion` if the source includes reaction chains. Inspect source and destination files in separate pinned runs.
 - **Set voice across the product:** `voice-tone-builder`, which applies Yummy Labs' voice and tone framework shipped inside `ux-copywriter`; then use `ux-copywriter` for specific interface strings. `copy-reviewer` can audit a batch without editing files or Figma.
-- **Rive interactive motion:** `rive-motion` for state-machine assets; it decides Rive vs Motion/Lottie first, and its output goes to developers as a `.riv` file plus the state-machine spec.
+- **Rive interactive motion:** see [Motion workflow](#motion-workflow).
 - **Long-form research writing:** the bundled Apache-licensed `content-research-writer` by ComposioHQ, outside the Figma tracks.
 - **Satirical idea exploration:** `theboxexplore` only when invoked by name, outside ordinary UX planning.
 - **Publish an approved spec:** `gitbook-porter` creates and verifies a change request, then stops before merge.
