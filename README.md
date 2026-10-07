@@ -127,7 +127,7 @@ Load `figma-console-api` before Figma Plugin API writes. Add `figma-prototype-mo
 | [`code-to-figma-sync`](skills/code-to-figma-sync/SKILL.md) | Rebuilding Figma frames and keyframes from a live coded prototype | namvunhatle |
 | [`web-android-port`](skills/web-android-port/SKILL.md) | Porting web motion prototypes to Android and keeping both in sync | namvunhatle |
 | [`web-explore`](skills/web-explore/SKILL.md) | HTML phone frames, live preview, render to PNG with automatic checks | namvunhatle |
-| [`design-critique`](skills/design-critique/SKILL.md) | Scored critique loop with one persistent `design-critic` agent | namvunhatle; loop inspired by the App Designer skill |
+| [`design-critique`](skills/design-critique/SKILL.md) | Scored critique loop with one persistent `design-critic` agent | namvunhatle; loop inspired by [App Designer](https://www.tobiadonadon.com/projects/construct/material/skills/app-designer) by Tobia Donadon |
 | [`ship-to-figma`](skills/ship-to-figma/SKILL.md) | Token map, Figma rebuild, and three-way verification of a chosen web direction | namvunhatle |
 | [`theboxexplore`](skills/theboxexplore/SKILL.md) | Explicitly invoked satirical idea exploration | namvunhatle; inspired by [Soren's Newsletter](https://sorens.beehiiv.com/) |
 

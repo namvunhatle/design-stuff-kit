@@ -23,4 +23,4 @@ An earlier release of this repository bundled a `voice-tone-builder` skill whose
 
 `theboxexplore` is authored by namvunhatle and credits [Soren's Newsletter](https://sorens.beehiiv.com/) as inspiration. The bundled skill uses original examples and does not reproduce newsletter posts.
 
-The critique loop in `design-critique` and `design-critic` (one persistent critic, a scored rubric, a stop rule) is inspired by the **App Designer** skill for Claude Code. No App Designer files, rubric text, or scripts are included: the rubric, the render checks in `web-explore`, and the device frames were written for this kit.
+The critique loop in `design-critique` and `design-critic` (one persistent critic, a scored rubric, a stop rule) is inspired by [App Designer](https://www.tobiadonadon.com/projects/construct/material/skills/app-designer) by Tobia Donadon, a free skill for Claude Code distributed by its author with no stated license. No App Designer files, rubric text, or scripts are included: the rubric, the render checks in `web-explore`, and the device frames were written for this kit.
