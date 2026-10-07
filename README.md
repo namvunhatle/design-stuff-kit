@@ -24,7 +24,8 @@ Claude always asks before editing a Figma file and saves a restore point first.
 | Git | `git --version` | macOS offers to install it the first time you run the command |
 | Python 3.10+ | `python3 --version` | [python.org](https://www.python.org/downloads/) |
 | A project folder | Any folder for your product, even an empty one | — |
-| For Figma work: Figma Desktop + Node.js 18+ | `node --version` | [Figma setup guide](docs/FIGMA_SETUP.md) |
+| For Figma work: Figma Desktop | Open it once | [Figma setup guide](docs/FIGMA_SETUP.md) |
+| For Figma work or web exploration: Node.js 18+ | `node --version` | [nodejs.org](https://nodejs.org) (LTS) |
 
 New to Terminal? On macOS, open **Terminal** from Spotlight (⌘ Space). Paste each command, press Return, and wait for it to finish before the next one.
 

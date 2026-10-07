@@ -195,7 +195,8 @@ const issues = await page.evaluate(([onlyNames, tokenValues]) => {
 
       if (!el.closest('[data-decorative]')) {
         let fg = rgba(el instanceof SVGElement ? cs.fill : cs.color)
-        const bg = backdrop(el, screen)
+        // SVG text usually sits on sibling shapes the DOM tree does not reveal.
+        const bg = el instanceof SVGElement ? null : backdrop(el, screen)
         if (!fg || !bg) unmeasured.push(label(el))
         else {
           fg = { ...fg, a: fg.a * Number(cs.opacity) }
@@ -219,7 +220,7 @@ const issues = await page.evaluate(([onlyNames, tokenValues]) => {
       }
 
     if (unmeasured.length)
-      add('warn', name, 'contrast not measured', `${unmeasured.length} text element(s) sit on an image or gradient: ${unmeasured.slice(0, 3).join(', ')}${unmeasured.length > 3 ? '…' : ''}. Check by eye or in the PNG`)
+      add('warn', name, 'contrast not measured', `${unmeasured.length} text element(s) sit on an image, gradient, or SVG shape: ${unmeasured.slice(0, 3).join(', ')}${unmeasured.length > 3 ? '…' : ''}. Check by eye or in the PNG`)
 
     const min = android ? 48 : 44
     for (const t of screen.querySelectorAll('button, a[href], [role="button"], input, select, textarea, [data-tap]')) {
