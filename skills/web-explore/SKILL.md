@@ -77,15 +77,18 @@ Each run writes one 3x PNG per screen, `sheet.png`, and `report.md`. It exits wi
 | Text clipped by its container, outside the screen, or overlapping other text | FAIL |
 | Text contrast below WCAG AA (4.5:1, or 3:1 for large text) | FAIL |
 | Touch target under 44 × 44 pt (iOS) or 48 × 48 dp (Android) | FAIL |
+| Two screens that render the same (one is broken or never drew); `data-identical-ok` marks intended twins | FAIL |
 | A JavaScript error on the page | FAIL |
 | Text under 11 px; ellipsis truncation; text over an image or gradient (contrast not measurable) | warn |
 | Design-system mode: a colour that is not in `tokens.css` | warn |
+
+From round 2, add `--compare shots/r1` (the previous round). The report lists which screens did not change, so an edit that did not land is caught, and only the changed screens go to the critic.
 
 Fix every FAIL. Answer every warn: fix it, or write one line on why it is deliberate. The attribute escapes (`data-bleed`, `data-overlap-ok`, `data-decorative`) are for intent, not for silencing a defect. Then open every PNG at full size; the sheet shows the flow, but defects live in the full frames.
 
 ## 5. Critique
 
-Run `design-critique` with the `design-critic` agent: phase `explore`, the PNG paths, and `report.md`. Iterate into `shots/r2`, `shots/r3`, and so on, until the critic's stop rule says "Ready", or the budget runs out.
+Run `design-critique` with the `design-critic` agent: phase `explore`, the PNG paths, `report.md`, and the project's `critique/config.md` and `anchors.md` if they exist. Iterate into `shots/r2`, `shots/r3`, and so on, until the critic's stop rule says "Ready", or the budget runs out.
 
 "Ready" means ready for the designer. Show them the sheet, the live link, and the scores, and let them judge the feel in hand (`designer-in-the-loop` §3).
 

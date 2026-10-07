@@ -9,6 +9,7 @@ Figma stores the canvas, not the reasons behind it. Keep a small set of Markdown
 | `Figma_Map.md` | File keys, pages, section and frame node IDs, duplicate names | A section or frame is created, moved, or retired |
 | `Session_Log.md` | Dated narrative: decisions, reasons, what was tried and failed | A session makes a decision or learns something |
 | Spec files (`Onboarding.md`, …) | Detailed behavior of one screen or feature | Its design decision changes |
+| `critique/` (`config.md`, `anchors.md`, `lessons.md`) | The team's critique rulebook, scored anchor screens, and the log of misses (see `design-critique`) | After each critique job |
 
 ## Rules
 
@@ -19,3 +20,4 @@ Figma stores the canvas, not the reasons behind it. Keep a small set of Markdown
 - **Re-verify stale-sounding facts** (node IDs, counts, navigation items) against the canvas or source file before repeating them to the designer.
 - **Nested product folders load their `CLAUDE.md` on demand** and do not reload after `/compact`. When several products share one workspace, read the target product's `CLAUDE.md` before answering about it, and again after a compact. Never answer one product's question from another's context.
 - Subagents return node IDs and findings; the main session writes them into these files.
+- **A lesson is promoted, not appended.** A design miss goes to `critique/lessons.md` first. Only a miss that recurs becomes a short, dated rule in `CLAUDE.md`; a mechanical one becomes a check instead. Prune when you promote.

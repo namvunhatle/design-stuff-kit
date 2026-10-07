@@ -129,7 +129,7 @@ Load `figma-console-api` before Figma Plugin API writes. Add motion with the one
 | [`code-to-figma-sync`](skills/code-to-figma-sync/SKILL.md) | Rebuilding Figma frames and keyframes from a live coded prototype | namvunhatle |
 | [`web-android-port`](skills/web-android-port/SKILL.md) | Porting web motion prototypes to Android and keeping both in sync | namvunhatle |
 | [`web-explore`](skills/web-explore/SKILL.md) | HTML phone frames, live preview, render to PNG with automatic checks | namvunhatle |
-| [`design-critique`](skills/design-critique/SKILL.md) | Scored critique loop with one persistent `design-critic` agent | namvunhatle; loop inspired by [App Designer](https://www.tobiadonadon.com/projects/construct/material/skills/app-designer) by Tobia Donadon |
+| [`design-critique`](skills/design-critique/SKILL.md) | Blind, calibrated critique loop with one persistent `design-critic` agent, and a lessons log that turns repeat misses into rules | namvunhatle; loop inspired by Yummy Labs' [eval-loop guide](https://yummy-design-sprint.notion.site/How-to-make-Claude-keep-designing-better-ie-Agentic-evaluation-loops-39e62791470980c5b541c7020667e634) and [App Designer](https://www.tobiadonadon.com/projects/construct/material/skills/app-designer) by Tobia Donadon |
 | [`ship-to-figma`](skills/ship-to-figma/SKILL.md) | Token map, Figma rebuild, and three-way verification of a chosen web direction | namvunhatle |
 | [`theboxexplore`](skills/theboxexplore/SKILL.md) | Explicitly invoked satirical idea exploration | namvunhatle; inspired by [Soren's Newsletter](https://sorens.beehiiv.com/) |
 

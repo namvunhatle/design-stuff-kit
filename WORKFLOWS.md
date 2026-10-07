@@ -48,12 +48,13 @@ For a new visual direction, exploring in HTML is faster than exploring in Figma,
 
 ```text
 1 Explore   web-explore          HTML phone frames, live preview, render + checks
-            design-critique      one design-critic, scored rounds until Ready
+            design-critique      one blind design-critic, calibrated by critique/anchors.md, rounds until Ready
             designer             judges the feel in hand, picks one
 2 Lock      ship-to-figma §1-3   freeze the reference, token map with contrast → designer approves
 3 Build     production UI track  build plan → build in a new section (figma-console-api, figma-workflow)
             ship-to-figma §6     parity vs reference · figma-auditor · design-critic again (no regression)
             designer             reviews in Figma; Figma is now the source of truth
+  Learn     design-critique §8   log misses; promote repeats to CLAUDE.md, mechanical ones to checks
 ```
 
 Each check answers a different question: parity asks "does it look like what was approved?", the auditor asks "is it built right?", and the critic asks "did it lose quality on the way into the design system?". Web exploration can also run in **design-system mode**, which loads the system's tokens and flags every off-token colour early. Use it once the direction is close, so phase 2 has fewer open rows.
