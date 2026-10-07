@@ -2,13 +2,16 @@
 // Render every <section class="screen"> in an HTML file to PNG, tile a contact
 // sheet, and check the rendered DOM for defects nobody should have to find by eye:
 // clipped, colliding or off-screen text, contrast, small text, small touch targets,
-// and (in design-system mode) colours that are not tokens.
+// screens that render the same (one of them is broken or never drew), and
+// (in design-system mode) colours that are not tokens.
 //
 // Needs Playwright in the working folder: npm i -D playwright
 // Uses installed Google Chrome when present; otherwise run: npx playwright install chromium
 //
 // Usage: node render.mjs explore.html [--out shots/r1] [--scale 3] [--device ios|android]
-//        [--small] [--only home,detail] [--measure]
+//        [--small] [--only home,detail] [--measure] [--compare shots/r1]
+// --compare lists which screens look the same as in the previous round, so a
+// change that did not land is caught, and only changed screens go to the critic.
 // Exit code 1 when any check FAILs.
 import { mkdir, readFile, writeFile } from 'node:fs/promises'
 import { createRequire } from 'node:module'
@@ -25,10 +28,11 @@ const { values: a, positionals } = parseArgs({
     small: { type: 'boolean', default: false },
     only: { type: 'string' },
     measure: { type: 'boolean', default: false },
+    compare: { type: 'string' },
   },
 })
 if (!positionals[0]) {
-  console.error('Usage: node render.mjs explore.html [--out DIR] [--scale 3] [--device ios|android] [--small] [--only a,b] [--measure]')
+  console.error('Usage: node render.mjs explore.html [--out DIR] [--scale 3] [--device ios|android] [--small] [--only a,b] [--measure] [--compare DIR]')
   process.exit(2)
 }
 const file = path.resolve(positionals[0])
@@ -82,7 +86,8 @@ for (const [i, handle] of handles.entries()) {
   if (only && !only.has(name)) continue
   const png = path.join(out, `${name}.png`)
   await handle.screenshot({ path: png })
-  screens.push({ name, png })
+  const identicalOk = (await handle.getAttribute('data-identical-ok')) !== null
+  screens.push({ name, png, identicalOk })
   console.log(`✓ ${name}`)
 }
 if (!screens.length) {
@@ -254,6 +259,47 @@ const issues = await page.evaluate(([onlyNames, tokenValues]) => {
 
 for (const e of pageErrors) issues.unshift({ level: 'FAIL', screen: '(page)', rule: 'script error', detail: e })
 
+// ---------- identical renders ----------
+// Two screens that should differ but render the same: one is broken or never drew.
+// Compared as pixels with a small tolerance (anti-aliasing shifts with position).
+const diffPage = await browser.newPage()
+const share = async (x, y) => diffPage.evaluate(async ([x, y]) => {
+  const load = (src) => new Promise((ok, no) => { const i = new Image(); i.onload = () => ok(i); i.onerror = no; i.src = src })
+  const [A, B] = await Promise.all([load(x), load(y)])
+  if (A.width !== B.width || A.height !== B.height) return 1
+  const w = Math.max(1, Math.round(A.width / 3)), h = Math.max(1, Math.round(A.height / 3))
+  const px = (img) => { const c = new OffscreenCanvas(w, h); const g = c.getContext('2d'); g.drawImage(img, 0, 0, w, h); return g.getImageData(0, 0, w, h).data }
+  const a = px(A), b = px(B)
+  let changed = 0
+  for (let i = 0; i < a.length; i += 4)
+    if (Math.abs(a[i] - b[i]) + Math.abs(a[i + 1] - b[i + 1]) + Math.abs(a[i + 2] - b[i + 2]) > 24) changed++
+  return changed / (w * h)
+}, [x, y])
+const uri = (bytes) => `data:image/png;base64,${bytes.toString('base64')}`
+const SAME = 0.001 // under 0.1% of pixels changed counts as the same image
+for (const s of screens) s.bytes = await readFile(s.png)
+const reported = new Set()
+for (let i = 0; i < screens.length; i++) {
+  if (reported.has(i)) continue
+  const group = [screens[i]]
+  for (let j = i + 1; j < screens.length; j++)
+    if (!reported.has(j) && (await share(uri(screens[i].bytes), uri(screens[j].bytes))) < SAME) { group.push(screens[j]); reported.add(j) }
+  if (group.length > 1 && !group.every((s) => s.identicalOk))
+    issues.push({ level: 'FAIL', screen: group.map((s) => s.name).join(', '), rule: 'identical renders',
+      detail: 'these screens render the same; one is broken or never drew. Mark data-identical-ok on each if that is intended' })
+}
+
+const unchanged = []
+if (a.compare) {
+  for (const s of screens) {
+    try {
+      const before = await readFile(path.join(path.resolve(a.compare), `${s.name}.png`))
+      if (before.equals(s.bytes) || (await share(uri(before), uri(s.bytes))) < SAME) unchanged.push(s.name)
+    } catch {}
+  }
+}
+await diffPage.close()
+
 // ---------- optional measurements for the Figma rebuild ----------
 if (a.measure) {
   const dir = path.join(out, 'measure')
@@ -304,6 +350,7 @@ const lines = [
   `**${fails.length} FAIL · ${warns.length} warn**`,
   ``,
 ]
+if (a.compare) lines.push(`Unchanged since \`${a.compare}\` (same pixels): ${unchanged.length ? unchanged.join(', ') : 'none'}. Changed: ${screens.filter((s) => !unchanged.includes(s.name)).map((s) => s.name).join(', ') || 'none'}.`, ``)
 if (issues.length) {
   lines.push('| Level | Screen | Check | Detail |', '|---|---|---|---|')
   for (const i of [...fails, ...warns]) lines.push(`| ${i.level} | ${i.screen} | ${i.rule} | ${i.detail.replace(/\|/g, '\\|')} |`)
@@ -313,5 +360,6 @@ await writeFile(path.join(out, 'report.md'), lines.join('\n') + '\n')
 console.log(`\n${fails.length} FAIL · ${warns.length} warn`)
 for (const i of [...fails, ...warns].slice(0, 40)) console.log(`  ${i.level.padEnd(4)} ${i.screen} · ${i.rule}: ${i.detail}`)
 if (issues.length > 40) console.log(`  … ${issues.length - 40} more in report.md`)
+if (a.compare) console.log(`\nUnchanged since ${a.compare}: ${unchanged.join(', ') || 'none'}`)
 console.log(`\nPNGs, sheet.png and report.md → ${path.relative(process.cwd(), out) || '.'}/`)
 process.exit(fails.length ? 1 : 0)
