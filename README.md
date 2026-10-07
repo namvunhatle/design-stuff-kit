@@ -52,6 +52,7 @@ New to Terminal? On macOS, open **Terminal** from Spotlight (⌘ Space). Paste e
 3. **Connect Figma** if you will work on a canvas. Before opening Claude Code, `./start` asks for your Figma token and adds the connector for you; press Return to skip. Then import the Figma plugin once: see [Figma setup](docs/FIGMA_SETUP.md), steps 1 and 3 (about 5 minutes). You can skip Figma for copy, planning, and coded prototypes.
 
 4. **Turn on the agents** (optional): add `--agents all` to the command in step 2, or name the ones you want. See [Agent setup](docs/AGENTS_SETUP.md).
+5. **Starter files** (optional): permissions, `design.md`, design tokens, slash commands. `/start-design` offers them and interviews you first. See [Starter files](docs/STARTER_FILES.md).
 
 Something failed? See [Troubleshooting](docs/TROUBLESHOOTING.md).
 
@@ -148,6 +149,7 @@ The [rules](rules/) are optional Claude Code conventions. A rule without `paths:
 | [`session-cost`](rules/session-cost.md) | Session resets, screenshot cost, narrow Figma reads |
 | [`model-selection`](rules/model-selection.md) | Classifying execution versus decision work and when to switch models |
 | [`writing-style`](rules/writing-style.md) | Compressed chat and documentation |
+| [`explore`](rules/explore.md) | Conventions for `explore/` folders; path-scoped, so it loads only there |
 
 The [agents](agents/) are Claude Code templates for bounded work:
 
@@ -193,6 +195,7 @@ The skills are Markdown instructions. Installing them does not grant Figma acces
 - **Offline or changed links.** [Assemble from local files](THIRD_PARTY.md).
 - **Codex.** Copy the chosen skill folders to `~/.codex/skills/`. The onboarding is currently for Claude Code.
 - **MCP servers.** Mobbin, Rive, and GitBook entries are in [`templates/mcp.json.example`](templates/mcp.json.example). Keep credentials in your local configuration, never in the project or this repo.
+- **Starter files.** `settings.json.example` (deny → ask → allow, every Figma write under `ask`), `design.md`, `design-tokens.example.json`, `CLAUDE.local.md`, a skill template, and the `/render` and `/design-review` commands are staged with the other templates. See [Starter files](docs/STARTER_FILES.md).
 - **Agent safety.** Check each agent's `tools:` list against your installed MCP tools. An agent without a `tools:` line inherits every tool, including `figma_execute`, and a permission allowlist in `.claude/settings.json` then lets it write to Figma without asking.
 
 ## Contributing

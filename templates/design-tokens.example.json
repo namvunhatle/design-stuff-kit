@@ -1,0 +1,27 @@
+{
+  "color": {
+    "ground": { "value": "#F6F3EE", "description": "Screen background in light mode" },
+    "surface": { "value": "#FFFFFF", "description": "Sheets and raised surfaces; never for the screen background" },
+    "ink": { "value": "#17150F", "description": "Primary text and icons on ground or surface" },
+    "ink-muted": { "value": "#5E594F", "description": "Secondary text and captions; 4.5:1 or better on ground" },
+    "accent": { "value": "#2F4BD8", "description": "The one primary action per screen and its focus ring. Not for decoration" },
+    "on-accent": { "value": "#FFFFFF", "description": "Text and icons placed on accent" },
+    "hairline": { "value": "#E4DED4", "description": "Dividers and input borders" }
+  },
+  "space": {
+    "1": { "value": "4px", "description": "Base unit; every gap is a multiple of it" },
+    "2": { "value": "8px", "description": "Inside a group: icon to label, row padding" },
+    "4": { "value": "16px", "description": "Screen side margin and gap between groups" },
+    "6": { "value": "24px", "description": "Above a section heading" }
+  },
+  "radius": {
+    "control": { "value": "12px", "description": "Inputs and small controls" },
+    "card": { "value": "20px", "description": "Cards and sheets" },
+    "pill": { "value": "999px", "description": "Buttons and chips" }
+  },
+  "text": {
+    "display": { "value": "700 34px/1.1 var(--font)", "description": "One per screen: the thing the screen is about" },
+    "body": { "value": "400 17px/1.4 var(--font)", "description": "Running text" },
+    "caption": { "value": "500 13px/1.3 var(--font)", "description": "Metadata under a title; never for actions" }
+  }
+}

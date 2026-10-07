@@ -38,14 +38,16 @@ if (!positionals[0]) {
 const file = path.resolve(positionals[0])
 const out = path.resolve(a.out)
 
-// Resolve Playwright from the working folder, not from this script's folder.
-const requireHere = createRequire(path.join(process.cwd(), 'noop.js'))
+// Resolve Playwright from the working folder or the HTML file's folder (and their
+// parents), not from this script's folder, so it runs from the project root too.
 let pw
-for (const name of ['playwright', 'playwright-core']) {
-  try { pw = await import(pathToFileURL(requireHere.resolve(name)).href); break } catch {}
+search: for (const from of [path.join(process.cwd(), 'noop.js'), file]) {
+  for (const name of ['playwright', 'playwright-core']) {
+    try { pw = await import(pathToFileURL(createRequire(from).resolve(name)).href); break search } catch {}
+  }
 }
 if (!pw) {
-  console.error('Playwright is missing. In this folder run: npm i -D playwright')
+  console.error('Playwright is missing. In the folder that holds the HTML file, run: npm i -D playwright')
   process.exit(2)
 }
 pw = pw.chromium ? pw : pw.default
@@ -237,7 +239,7 @@ const issues = await page.evaluate(([onlyNames, tokenValues]) => {
 
     if (dsMode && tokens.size) {
       const off = new Map()
-      for (const el of screen.querySelectorAll('*')) {
+      for (const el of [screen, ...screen.querySelectorAll('*')]) {
         if (chrome(el) || !visible(el)) continue
         const cs = getComputedStyle(el)
         const props = ['color', 'backgroundColor']
@@ -267,8 +269,8 @@ const share = async (x, y) => diffPage.evaluate(async ([x, y]) => {
   const load = (src) => new Promise((ok, no) => { const i = new Image(); i.onload = () => ok(i); i.onerror = no; i.src = src })
   const [A, B] = await Promise.all([load(x), load(y)])
   if (A.width !== B.width || A.height !== B.height) return 1
-  const w = Math.max(1, Math.round(A.width / 3)), h = Math.max(1, Math.round(A.height / 3))
-  const px = (img) => { const c = new OffscreenCanvas(w, h); const g = c.getContext('2d'); g.drawImage(img, 0, 0, w, h); return g.getImageData(0, 0, w, h).data }
+  const w = A.width, h = A.height
+  const px = (img) => { const c = new OffscreenCanvas(w, h); const g = c.getContext('2d'); g.drawImage(img, 0, 0); return g.getImageData(0, 0, w, h).data }
   const a = px(A), b = px(B)
   let changed = 0
   for (let i = 0; i < a.length; i += 4)
@@ -276,14 +278,16 @@ const share = async (x, y) => diffPage.evaluate(async ([x, y]) => {
   return changed / (w * h)
 }, [x, y])
 const uri = (bytes) => `data:image/png;base64,${bytes.toString('base64')}`
-const SAME = 0.001 // under 0.1% of pixels changed counts as the same image
+// Measured: the same screen drawn at another position differs in ~0.001% of pixels
+// (anti-aliasing); changing one digit of 13 px text differs in ~0.008%.
+const TWINS = 0.00003
 for (const s of screens) s.bytes = await readFile(s.png)
 const reported = new Set()
 for (let i = 0; i < screens.length; i++) {
   if (reported.has(i)) continue
   const group = [screens[i]]
   for (let j = i + 1; j < screens.length; j++)
-    if (!reported.has(j) && (await share(uri(screens[i].bytes), uri(screens[j].bytes))) < SAME) { group.push(screens[j]); reported.add(j) }
+    if (!reported.has(j) && (await share(uri(screens[i].bytes), uri(screens[j].bytes))) < TWINS) { group.push(screens[j]); reported.add(j) }
   if (group.length > 1 && !group.every((s) => s.identicalOk))
     issues.push({ level: 'FAIL', screen: group.map((s) => s.name).join(', '), rule: 'identical renders',
       detail: 'these screens render the same; one is broken or never drew. Mark data-identical-ok on each if that is intended' })
@@ -294,7 +298,8 @@ if (a.compare) {
   for (const s of screens) {
     try {
       const before = await readFile(path.join(path.resolve(a.compare), `${s.name}.png`))
-      if (before.equals(s.bytes) || (await share(uri(before), uri(s.bytes))) < SAME) unchanged.push(s.name)
+      // Same position as last round, so any changed pixel is a real change.
+      if (before.equals(s.bytes) || (await share(uri(before), uri(s.bytes))) === 0) unchanged.push(s.name)
     } catch {}
   }
 }
