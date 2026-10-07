@@ -26,7 +26,7 @@ If Claude asks for `/reload-plugins`, do that before invoking the skill. Confirm
 
 ## 2. Choose working rules and agents
 
-Review `.claude/design-kit-templates/rules/` and `.claude/design-kit-templates/agents/`. Recommend only the templates relevant to this project and the connected tools. Explain each recommendation in one line and ask which to activate. Copy chosen files into `.claude/rules/` or `.claude/agents/` without overwriting existing files; when a name already exists, compare and discuss the difference. Never enable an agent whose `tools:` list does not match the available tools, and never enable one without a `tools:` line: it would inherit every tool, including `figma_execute`, and any permission allowlist would let it write without asking. For Figma work, explain the file-pinning and restore-point rule before any canvas write.
+Review `.claude/design-kit-templates/rules/` and `.claude/design-kit-templates/agents/`. Recommend only the templates relevant to this project and the connected tools. Explain each recommendation in one line and ask which to activate. Copy chosen files into `.claude/rules/` or `.claude/agents/` without overwriting existing files; when a name already exists, compare and discuss the difference. `docs/AGENTS_SETUP.md` in the kit explains each agent and its required connections. Never enable an agent whose `tools:` list does not match the available tools, and never enable one without a `tools:` line: it would inherit every tool, including `figma_execute`, and any permission allowlist would let it write without asking. For Figma work, explain the file-pinning and restore-point rule before any canvas write.
 
 Offer the project-memory templates in `.claude/design-kit-templates/project-memory/` (see the `project-memory` rule). If the project has none of these files, suggest creating `Open_Items.md`, `Figma_Map.md`, and `Session_Log.md` in the product folder, and compare `CLAUDE.template.md` with the existing `CLAUDE.md` instead of replacing it. Never overwrite an existing file.
 
@@ -45,7 +45,7 @@ Read the staged `.claude/design-kit-templates/rules/design-tracks.md` for the tr
 - Required project inputs and connected tools
 - What the designer must review or decide before edits
 
-Use the wireframe sequence for structural flows, the production UI sequence for an approved direction, the coded `interactive-prototype` skill for a React prototype, and `figma-prototype-motion` for motion in Figma. Load `figma-console-api` before Figma Plugin API writes. If required skills or tool connections are missing, give exact setup steps or choose a task that can proceed without them.
+Use the wireframe sequence for structural flows, the production UI sequence for an approved direction, `web-explore` then `ship-to-figma` when the designer wants to explore in the browser before Figma, the coded `interactive-prototype` skill for a React prototype, and `figma-prototype-motion` for motion in Figma. Load `figma-console-api` before Figma Plugin API writes. If required skills or tool connections are missing, give exact setup steps or choose a task that can proceed without them.
 
 ## 4. Begin and leave a resume point
 

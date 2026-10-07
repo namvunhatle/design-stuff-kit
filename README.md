@@ -7,6 +7,7 @@ Practical AI skills for product designers who move between exploration, Figma pr
 Tell Claude Code what you are working on, in plain words, and it follows a proven design workflow instead of guessing:
 
 - **Explore** three directions quickly, then rebuild the chosen one properly for handoff.
+- **Explore in the browser** with a live preview on your phone, have a critic score each round, then rebuild the pick in Figma and prove it still matches.
 - **Build wireframes or production UI in Figma** from your own design system, with a plan you approve before anything is drawn.
 - **Port** a finished feature from one Figma file to another without redesigning it.
 - **Fix prototype motion** in Figma (Smart Animate chains, timing).
@@ -48,6 +49,8 @@ New to Terminal? On macOS, open **Terminal** from Spotlight (⌘ Space). Paste e
    This downloads five companion skills from their author (Yummy Labs), adds the kit's skills to `your-project/.claude/skills/`, and opens Claude Code with `/start-design`. It never overwrites anything already in your project, and it is safe to run again.
 
 3. **Connect Figma** if you will work on a canvas. Before opening Claude Code, `./start` asks for your Figma token and adds the connector for you; press Return to skip. Then import the Figma plugin once: see [Figma setup](docs/FIGMA_SETUP.md), steps 1 and 3 (about 5 minutes). You can skip Figma for copy, planning, and coded prototypes.
+
+4. **Turn on the agents** (optional): add `--agents all` to the command in step 2, or name the ones you want. See [Agent setup](docs/AGENTS_SETUP.md).
 
 Something failed? See [Troubleshooting](docs/TROUBLESHOOTING.md).
 
@@ -93,6 +96,7 @@ Load `figma-console-api` before Figma Plugin API writes. Add `figma-prototype-mo
 | You need to… | Start with | Deliverable |
 |---|---|---|
 | Compare directions | `explore-vs-final` | Labeled options and a decision record |
+| Explore in code, then build the pick in Figma | `web-explore` → `ship-to-figma`, scored with `design-critique` (needs Node.js) | Live preview, checked renders, approved token map, Figma section verified against the web reference |
 | Prepare a chosen direction for handoff | `explore-vs-final` | Structured final design with intentional exceptions noted |
 | Move an existing feature to another Figma file | `figma-clone-port` | Source-to-destination mapping and verification report |
 | Build or debug a Smart Animate chain | `figma-prototype-motion` | Verified reaction graph, timing, and motion handoff |
@@ -122,6 +126,9 @@ Load `figma-console-api` before Figma Plugin API writes. Add `figma-prototype-mo
 | [`beat-synced-motion`](skills/beat-synced-motion/SKILL.md) | Picking a music track, beat-grid timing, mix, and measuring audio-to-motion lock | namvunhatle |
 | [`code-to-figma-sync`](skills/code-to-figma-sync/SKILL.md) | Rebuilding Figma frames and keyframes from a live coded prototype | namvunhatle |
 | [`web-android-port`](skills/web-android-port/SKILL.md) | Porting web motion prototypes to Android and keeping both in sync | namvunhatle |
+| [`web-explore`](skills/web-explore/SKILL.md) | HTML phone frames, live preview, render to PNG with automatic checks | namvunhatle |
+| [`design-critique`](skills/design-critique/SKILL.md) | Scored critique loop with one persistent `design-critic` agent | namvunhatle; loop inspired by [App Designer](https://www.tobiadonadon.com/projects/construct/material/skills/app-designer) by Tobia Donadon |
+| [`ship-to-figma`](skills/ship-to-figma/SKILL.md) | Token map, Figma rebuild, and three-way verification of a chosen web direction | namvunhatle |
 | [`theboxexplore`](skills/theboxexplore/SKILL.md) | Explicitly invoked satirical idea exploration | namvunhatle; inspired by [Soren's Newsletter](https://sorens.beehiiv.com/) |
 
 The Yummy Labs skills named in a workflow are needed to run that full workflow. See the [official source links](THIRD_PARTY.md) and [machine-readable source list](external-skills.json). Their files remain authored and distributed by Yummy Labs and are not covered by this repository's MIT license. The bundled ComposioHQ skill retains its Apache 2.0 license and [source credit](skills/content-research-writer/NOTICE.md).
@@ -145,11 +152,12 @@ The [agents](agents/) are Claude Code templates for bounded work:
 | Agent | Scope | Can write? |
 |---|---|---|
 | [`copy-reviewer`](agents/copy-reviewer.md) | Batch microcopy review | No |
+| [`design-critic`](agents/design-critic.md) | Scores rendered screens round after round | No |
 | [`figma-auditor`](agents/figma-auditor.md) | One-file Figma audit | No |
 | [`gitbook-porter`](agents/gitbook-porter.md) | Spec-to-GitBook change request | Mirror file and change request; no merge |
 | [`wireframe-builder`](agents/wireframe-builder.md) | Settled wireframe brief in a new section | Yes, Figma only in its new section |
 
-These templates are adapted from a private setup, with project-specific facts removed. They are not active just because this repository was cloned. Install only the ones that fit your project and its available tools.
+These templates are adapted from a private setup, with project-specific facts removed. They are not active just because this repository was cloned. Install only the ones that fit your project and its available tools: [Agent setup](docs/AGENTS_SETUP.md) covers installing, checking, and tool names.
 
 Call an agent by name with a bounded brief. Include the target product, source spec, and Figma file key when relevant; agents start without the main conversation's context. Use `figma-auditor` for read-only checks and `wireframe-builder` only when the flow is settled and a new section is acceptable. Review a GitBook change request before merging it.
 
@@ -172,13 +180,14 @@ Call an agent by name with a bounded brief. Include the target product, source s
 - **Mobbin MCP:** real-screen evidence for the design tracks. Without it, the tracks record that this evidence step could not run.
 - **Rive MCP:** optional; lets `rive-motion` build state machines in the Rive desktop editor (Early Access app must be running).
 - **GitBook MCP:** needed only for the optional `gitbook-porter` agent. Verify its tool names before installing that template.
+- **Node.js 18+ and Playwright:** `web-explore` rendering (installed per working folder). `ship-to-figma` parity also needs Pillow.
 
 The skills are Markdown instructions. Installing them does not grant Figma access or permission to edit a file.
 
 ## Advanced setup
 
-- **Contents.** Ten original skills, one routing skill that applies a Yummy Labs framework, one Apache-licensed skill by ComposioHQ, and an installer for five Yummy Labs skills supplied by their author.
-- **Installer details.** `./start` installs `gdown` into the kit's own `.venv/` when it is missing and downloads the Yummy Labs packages from the author's [official links](upstream-packages.json), keeping the author's file contents (reference files are moved only where an archive layout differs from `SKILL.md`). It checks that all five are present before modifying your project. Optional rules, agents, project-memory templates, and an MCP example are staged in `.claude/design-kit-templates/`. Flags: `--no-launch` prepares files without opening Claude Code; `--gdown PATH` uses your own gdown.
+- **Contents.** Fifteen original skills, one routing skill that applies a Yummy Labs framework, one Apache-licensed skill by ComposioHQ, and an installer for five Yummy Labs skills supplied by their author.
+- **Installer details.** `./start` installs `gdown` into the kit's own `.venv/` when it is missing and downloads the Yummy Labs packages from the author's [official links](upstream-packages.json), keeping the author's file contents (reference files are moved only where an archive layout differs from `SKILL.md`). It checks that all five are present before modifying your project. Optional rules, agents, project-memory templates, and an MCP example are staged in `.claude/design-kit-templates/`. Flags: `--no-launch` prepares files without opening Claude Code; `--gdown PATH` uses your own gdown; `--agents all|NAME,NAME` activates agents in `.claude/agents/`.
 - **Offline or changed links.** [Assemble from local files](THIRD_PARTY.md).
 - **Codex.** Copy the chosen skill folders to `~/.codex/skills/`. The onboarding is currently for Claude Code.
 - **MCP servers.** Mobbin, Rive, and GitBook entries are in [`templates/mcp.json.example`](templates/mcp.json.example). Keep credentials in your local configuration, never in the project or this repo.

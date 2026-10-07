@@ -42,6 +42,24 @@ Use this track for a selected visual direction and handoff-ready screens. `ui-de
 
 The kit's `design-tracks` rule adds a build plan from the original workflow; it is not part of Yummy Labs' skill. It answers five questions: (1) which existing components will be reused, with exact references; (2) which new components are needed and why; (3) which interaction and data states each component needs; (4) what the screen → region → component hierarchy is; and (5) which empty, failure, permission, length, and localization edge cases matter. Present one component table, one hierarchy tree, and one edge-case list for designer review before a substantial canvas build. Track decisions that arise during the build. For a narrow fix to an already approved screen, load only the skills relevant to that fix.
 
+## Explore in code, ship to Figma
+
+For a new visual direction, exploring in HTML is faster than exploring in Figma, and it runs on a real phone with motion. The chosen direction is then rebuilt in Figma through the production UI track, and the rebuild is checked against the approved web version.
+
+```text
+1 Explore   web-explore          HTML phone frames, live preview, render + checks
+            design-critique      one design-critic, scored rounds until Ready
+            designer             judges the feel in hand, picks one
+2 Lock      ship-to-figma §1-3   freeze the reference, token map with contrast → designer approves
+3 Build     production UI track  build plan → build in a new section (figma-console-api, figma-workflow)
+            ship-to-figma §6     parity vs reference · figma-auditor · design-critic again (no regression)
+            designer             reviews in Figma; Figma is now the source of truth
+```
+
+Each check answers a different question: parity asks "does it look like what was approved?", the auditor asks "is it built right?", and the critic asks "did it lose quality on the way into the design system?". Web exploration can also run in **design-system mode**, which loads the system's tokens and flags every off-token colour early. Use it once the direction is close, so phase 2 has fewer open rows.
+
+Agents for this workflow: `design-critic`, `figma-auditor`, `copy-reviewer`. Install them with `./start --project … --agents design-critic,figma-auditor,copy-reviewer` ([Agent setup](docs/AGENTS_SETUP.md)).
+
 ## Motion is an overlay
 
 Figma prototype motion is not a third design track. It runs on frames from either track: load `figma-prototype-motion` and `figma-console-api` before editing reactions or keyframes. Verify matching layer paths, reaction destinations, timeout values, and timing. Figma MCP cannot play Present mode, so the designer must judge the feel in Figma.
@@ -86,4 +104,4 @@ decide → spec .md → build in Figma → record → (publish)
 
 Agents return node IDs and findings; the main session writes them into these files. When a screen is finished and recorded, start a fresh session (`/clear`) rather than carrying a long transcript into the next task; see `session-cost`.
 
-The four agents are optional, explicitly invoked tools: `copy-reviewer` and `figma-auditor` only read, `wireframe-builder` writes only to a new section, and `gitbook-porter` prepares a reviewable change request. Give them the exact product and source files because they start without the main conversation's context. Production UI and motion stay in the main design session, where the designer can judge the canvas.
+The five agents are optional, explicitly invoked tools: `copy-reviewer`, `figma-auditor`, and `design-critic` only read, `wireframe-builder` writes only to a new section, and `gitbook-porter` prepares a reviewable change request. Give them the exact product and source files because they start without the main conversation's context. Production UI and motion stay in the main design session, where the designer can judge the canvas.
