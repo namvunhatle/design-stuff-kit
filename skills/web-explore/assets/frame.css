@@ -1,0 +1,135 @@
+/*
+ * web-explore device frames.
+ * Link this file in <head> and frame.js at the end of <body>.
+ *
+ * <section class="screen" data-name="home">              one phone screen (iOS by default)
+ *   data-device="ios|android"   platform frame (default: <html data-device>, else ios)
+ *   data-time="9:41"            clock in the status bar
+ *   data-chrome="light|none"    white status bar and indicator, or no system chrome at all
+ *   data-theme="dark"           dark screen; chrome turns white
+ *   data-freeze="450"           pause CSS/Web animations at 450 ms (storyboard frames)
+ * Inside a screen:
+ *   data-bleed                  content that leaves the screen on purpose (not flagged)
+ *   data-overlap-ok             text that overlaps other text on purpose
+ *   data-decorative             text that is not read (not contrast-checked)
+ *   data-layer="Name"           export this element's box and styles with render.mjs --measure
+ * <html data-mode="ds">         design-system mode: every colour must come from tokens.css
+ */
+
+:root {
+  --font-ios: -apple-system, "SF Pro Text", "Helvetica Neue", system-ui, sans-serif;
+  --font-android: Roboto, "Google Sans Flex", "Google Sans", system-ui, sans-serif;
+  --ios-w: 402px;
+  --ios-h: 874px;
+  --android-w: 412px;
+  --android-h: 915px;
+}
+
+html { background: #e6e6ea; }
+body {
+  margin: 0;
+  padding: 40px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 40px;
+  align-items: flex-start;
+  font-family: system-ui, sans-serif;
+}
+
+.wx-fig { margin: 0; display: flex; flex-direction: column; gap: 10px; }
+.wx-fig > figcaption { font: 500 13px/1.3 system-ui, sans-serif; color: #55555c; }
+
+.screen {
+  --top-inset: 54px;
+  --bottom-inset: 34px;
+  --chrome: #000;
+  position: relative;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  width: var(--screen-w, var(--ios-w));
+  height: var(--screen-h, var(--ios-h));
+  padding-top: var(--top-inset);
+  padding-bottom: var(--bottom-inset);
+  border-radius: var(--screen-r, 48px);
+  background: var(--bg, #fff);
+  color: var(--fg, #111);
+  font-family: var(--font-ios);
+  container-type: size;
+}
+.screen[data-device="android"] {
+  --top-inset: 40px;
+  --bottom-inset: 24px;
+  --screen-r: 28px;
+  width: var(--screen-w, var(--android-w));
+  height: var(--screen-h, var(--android-h));
+  font-family: var(--font-android);
+}
+.screen[data-theme="dark"], .screen[data-chrome="light"] { --chrome: #fff; }
+.screen[data-chrome="none"] { padding-top: 0; padding-bottom: 0; }
+
+/* Small-phone pass (render.mjs --small): no island, no indicator, shorter insets. */
+html[data-size="small"] .screen { --top-inset: 24px; --bottom-inset: 0px; --screen-r: 0px; }
+html[data-size="small"] .wx-island, html[data-size="small"] .wx-home { display: none; }
+
+.wx-status, .wx-home {
+  position: absolute;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  pointer-events: none;
+  color: var(--chrome);
+}
+.wx-status {
+  top: 0;
+  height: var(--top-inset);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+}
+.screen[data-device="ios"] .wx-status, .screen:not([data-device]) .wx-status {
+  padding: 4px 34px 0 52px;
+  font: 600 17px/1 var(--font-ios);
+}
+.screen[data-device="android"] .wx-status {
+  padding: 0 20px 0 24px;
+  font: 500 14px/1 var(--font-android);
+}
+.wx-icons { display: flex; align-items: center; gap: 6px; }
+.wx-icons svg { display: block; fill: currentColor; }
+.wx-island {
+  position: absolute;
+  left: 50%;
+  top: 11px;
+  width: 126px;
+  height: 37px;
+  margin-left: -63px;
+  border-radius: 20px;
+  background: #000;
+}
+.screen[data-device="android"] .wx-island {
+  top: 12px;
+  width: 16px;
+  height: 16px;
+  margin-left: -8px;
+  border-radius: 50%;
+}
+.wx-home { bottom: 0; height: var(--bottom-inset); }
+.wx-home::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 8px;
+  width: 139px;
+  height: 5px;
+  margin-left: -69.5px;
+  border-radius: 3px;
+  background: currentColor;
+}
+.screen[data-device="android"] .wx-home::after { bottom: 10px; width: 108px; height: 4px; margin-left: -54px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .screen *, .screen *::before, .screen *::after { animation-duration: 1ms !important; transition-duration: 1ms !important; }
+}

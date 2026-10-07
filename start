@@ -53,6 +53,32 @@ def stage_templates(project: Path) -> None:
             shutil.copy2(source, target)
 
 
+AGENTS = {path.stem: path for path in sorted((ROOT / "agents").glob("*.md"))}
+
+
+def agent_names(wanted: str) -> list:
+    names = list(AGENTS) if wanted.strip() == "all" else [n.strip() for n in wanted.split(",") if n.strip()]
+    unknown = [n for n in names if n not in AGENTS]
+    if unknown:
+        sys.exit(f"Unknown agent(s): {', '.join(unknown)}. Available: {', '.join(AGENTS)}")
+    return names
+
+
+def install_agents(project: Path, names: list) -> None:
+    """Activate the chosen agent templates in .claude/agents/ without overwriting."""
+    destination = project / ".claude" / "agents"
+    destination.mkdir(parents=True, exist_ok=True)
+    print("\nAgents:")
+    for name in names:
+        target = destination / f"{name}.md"
+        if target.exists():
+            print(f"  kept existing {target}")
+        else:
+            shutil.copy2(AGENTS[name], target)
+            print(f"  installed {target}")
+    print("Restart Claude Code, then run /agents to check. Guide: docs/AGENTS_SETUP.md")
+
+
 def connect_figma(claude: str) -> None:
     """Offer to add the Figma Console connector for this user, once."""
     if subprocess.run([claude, "mcp", "get", "figma-console"], capture_output=True).returncode == 0:
@@ -86,7 +112,9 @@ def main() -> None:
     parser.add_argument("--gdown", default="gdown", help="Path to gdown executable")
     parser.add_argument("--no-launch", action="store_true", help="Set up files without opening Claude Code")
     parser.add_argument("--skip-figma", action="store_true", help="Don't offer to connect Figma")
+    parser.add_argument("--agents", metavar="all|NAME,NAME", help="Activate agents in .claude/agents/ (see docs/AGENTS_SETUP.md)")
     args = parser.parse_args()
+    agents = agent_names(args.agents) if args.agents else []
 
     if args.project is None:
         if not sys.stdin.isatty():
@@ -112,6 +140,8 @@ def main() -> None:
     if subprocess.run(command).returncode:
         sys.exit("\nSetup stopped before changing your project. See docs/TROUBLESHOOTING.md for the message above.")
     stage_templates(project)
+    if agents:
+        install_agents(project, agents)
 
     print("\nOptional rules, agents, project-memory templates, and an MCP example are ready in .claude/design-kit-templates/.")
     if not (project / "CLAUDE.md").is_file() or not (project / "SETUP.md").is_file():

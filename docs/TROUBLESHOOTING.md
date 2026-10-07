@@ -33,6 +33,23 @@ Make sure you opened Claude Code **inside your project folder** (the one you pas
 **`claude: command not found`**
 Install Claude Code: [code.claude.com/docs](https://code.claude.com/docs/en/overview). Then run `cd your-project && claude '/start-design'`.
 
+**An agent is missing from `/agents`**
+Check that its file is in `your-project/.claude/agents/` (not only in `design-kit-templates/`), then restart Claude Code. See [Agent setup](AGENTS_SETUP.md).
+
+**An agent says it has no Figma tools**
+Its `tools:` line names a server that is not yours. Run `claude mcp list` and match the names; see [Agent setup](AGENTS_SETUP.md#match-tool-names-to-your-setup).
+
+## Web exploration
+
+**`Playwright is missing`**
+Run `npm i -D playwright` inside the exploration folder (the folder you run `render.mjs` from), not in the kit.
+
+**`No browser found`**
+Install Google Chrome, or run `npx playwright install chromium` in the exploration folder.
+
+**The phone can't open the live preview address**
+The phone and computer must be on the same Wi-Fi, and some office networks block device-to-device traffic. Use `prototype-vercel-deploy` for a public link instead.
+
 ## Figma
 
 **Claude says it cannot reach Figma, or there is no active connection**

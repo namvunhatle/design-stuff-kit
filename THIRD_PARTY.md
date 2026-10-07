@@ -22,3 +22,5 @@ Project-specific source files are not included in this release. An upstream auth
 An earlier release of this repository bundled a `voice-tone-builder` skill whose structure and checks were derived from the Yummy Labs framework above while crediting only this repository's author. It has been removed; the skill is now a routing entry point credited to Yummy Labs. The earlier text remains in older commits of this repository's history and is not licensed for reuse.
 
 `theboxexplore` is authored by namvunhatle and credits [Soren's Newsletter](https://sorens.beehiiv.com/) as inspiration. The bundled skill uses original examples and does not reproduce newsletter posts.
+
+The critique loop in `design-critique` and `design-critic` (one persistent critic, a scored rubric, a stop rule) is inspired by the **App Designer** skill for Claude Code. No App Designer files, rubric text, or scripts are included: the rubric, the render checks in `web-explore`, and the device frames were written for this kit.
