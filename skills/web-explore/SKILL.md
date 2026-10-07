@@ -43,7 +43,13 @@ Then pick the mode:
 | **Free** | Finding a direction; the design system may not express it yet | Local values in `:root`, named by role |
 | **Design system** | The direction is close, or the product must stay inside its system | `<html data-mode="ds">`, link `tokens.css`, and use only its variables |
 
-For design-system mode, export the system's colour, type, spacing, and radius tokens to `tokens.css` as CSS custom properties (Figma Console MCP `figma_get_token_values` or `figma_export_tokens`, resolved for the product's modes). The render check then flags every colour that is not a token. Those flags are your token-map questions for phase 2, found early.
+For design-system mode, keep the system's tokens in the project's `design-tokens.json`, each with a description of what it is for (derive it from Figma variables with `figma_get_token_values` or `figma_export_tokens`, resolved for the product's modes). Generate the CSS:
+
+```sh
+node .claude/skills/web-explore/scripts/tokens-to-css.mjs design-tokens.json --out explore/<feature>/tokens.css
+```
+
+The descriptions travel into `tokens.css` as comments, which is how Claude picks the right token. The render check then flags every colour that is not a token. Those flags are your token-map questions for phase 2, found early.
 
 ## 2. Three directions, then one
 
@@ -70,7 +76,7 @@ node ../../.claude/skills/web-explore/scripts/render.mjs mockup.html --out shots
 node ../../.claude/skills/web-explore/scripts/render.mjs mockup.html --out shots/r1-small --small
 ```
 
-Each run writes one 3x PNG per screen, `sheet.png`, and `report.md`. It exits with code 1 on any FAIL.
+With the kit's slash command, `/render explore/<feature>/mockup.html` does this from the project root and picks the next `shots/rN` and `--compare` for you. Each run writes one 3x PNG per screen, `sheet.png`, and `report.md`. It exits with code 1 on any FAIL.
 
 | Check | Level |
 |---|---|

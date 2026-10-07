@@ -32,6 +32,14 @@ Offer the project-memory templates in `.claude/design-kit-templates/project-memo
 
 Check which MCP servers are connected. Mobbin supplies the real-screen evidence the design tracks require, Rive MCP is needed only for `rive-motion`, and GitBook is needed only for `gitbook-porter`. If any is missing and wanted, show `.claude/design-kit-templates/mcp.json.example` and let the designer merge it into the project's `.mcp.json` or connect the service another way. Figma Console MCP needs a personal access token; keep it in the designer's local configuration, never in project files.
 
+Offer the starter files (`docs/STARTER_FILES.md` in the kit lists them by zone). Interview before writing anything that depends on the designer's judgment; ask one question at a time and never invent principles or token values:
+
+- **`.claude/settings.json`** from `settings.json.example`: ask how hands-off they want to be, keep every Figma write tool under `ask`, and match the MCP server names to `claude mcp list`. If a `settings.json` exists, merge rather than replace.
+- **`design.md`** from the template: principles, feel, always/never, deliberate refusals. Point `CLAUDE.md` to it by path.
+- **`design-tokens.json`**: derive it from the real system (Figma variables through MCP, or existing CSS/JSON), with a description per token. Skip it if there is no system yet.
+- **Slash commands** `/render` and `/design-review` into `.claude/commands/`, and the path-scoped `explore` rule, if they will explore on the web.
+- **`CLAUDE.local.md`** for personal preferences, added to `.gitignore`.
+
 If the designer wants to start without optional templates, continue. The kit's safety instructions still apply when its Figma skills are invoked.
 
 ## 3. Pick a first task

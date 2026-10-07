@@ -54,6 +54,7 @@ An agent's `tools:` line names MCP tools as `mcp__<server>__<tool>`. The kit ass
 
 ## Safety
 
+- **Keep Figma writes under `ask` in `.claude/settings.json`.** The kit's `settings.json.example` does this, so even an agent that has a write tool still has to ask ([Starter files](STARTER_FILES.md#permissions-settingsjson)).
 - **Every agent must have a `tools:` line.** An agent without one inherits every tool, including `figma_execute`. If `.claude/settings.json` allows that tool, the agent could then write to Figma without asking.
 - `figma-auditor` deliberately has no `figma_execute`. When a check needs a Plugin API query, it writes the query out for the main session to run.
 - `wireframe-builder` is the only agent that writes to Figma. Call it only with a settled brief, and only for a new section.
