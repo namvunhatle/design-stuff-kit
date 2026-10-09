@@ -39,7 +39,7 @@ The `wx-*` commands are on the PATH only inside Claude Code, while the plugin is
 **`claude: command not found`**
 Install Claude Code: [code.claude.com/docs](https://code.claude.com/docs/en/overview). Then run `cd your-project && claude '/design-kit:start-design'`.
 
-**An agent is missing from `/agents`**
+**An agent seems to be missing**
 The agents come with the plugin. Check in `/plugin` that `design-kit` is enabled, then run `/reload-plugins`. See [Agent setup](AGENTS_SETUP.md).
 
 **An agent says it has no Figma tools**

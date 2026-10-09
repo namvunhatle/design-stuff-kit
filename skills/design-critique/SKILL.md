@@ -14,7 +14,7 @@ The model does not learn between sessions. Only files that reload do. Everything
 
 ## 0. Preflight
 
-- The `design-critic` agent comes with the design-kit plugin (`design-kit:design-critic`). If `/agents` does not list it, check that the plugin is enabled in `/plugin`. Without it, score the screens yourself with the rubric in the agent file and say that no independent critic ran.
+- The `design-critic` agent comes with the design-kit plugin (`design-kit:design-critic`). If the Agent tool does not offer it, check that the plugin is enabled in `/plugin`. Without it, score the screens yourself with the rubric in the agent file and say that no independent critic ran.
 - You need PNGs. Use `wx-render` (from `web-explore`) for HTML. For Figma, export the frames (see `ship-to-figma` §5).
 - The critic judges what is visible. It cannot judge motion feel, sound, or haptics. The designer judges those (`designer-in-the-loop` §3).
 

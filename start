@@ -78,12 +78,12 @@ def migrate_old_copies(project: Path) -> None:
 
 def install_plugin(claude: str, project: Path, source: str) -> bool:
     """Register the kit's marketplace for this project and install the plugin at project scope."""
-    listed = subprocess.run([claude, "plugin", "marketplace", "list"], cwd=project, capture_output=True, text=True)
-    if MARKETPLACE not in listed.stdout:
-        added = subprocess.run([claude, "plugin", "marketplace", "add", source, "--scope", "project"], cwd=project, capture_output=True, text=True)
-        if added.returncode:
-            print(added.stdout + added.stderr)
-            return False
+    # Always declare it in the project's settings, even when this machine already knows the
+    # marketplace: the declaration is what offers the plugin to teammates. Adding again is safe.
+    added = subprocess.run([claude, "plugin", "marketplace", "add", source, "--scope", "project"], cwd=project, capture_output=True, text=True)
+    if added.returncode:
+        print(added.stdout + added.stderr)
+        return False
     installed = subprocess.run([claude, "plugin", "install", f"{PLUGIN}@{MARKETPLACE}", "--scope", "project"], cwd=project, capture_output=True, text=True)
     if installed.returncode and "already installed" not in (installed.stdout + installed.stderr).lower():
         print(installed.stdout + installed.stderr)

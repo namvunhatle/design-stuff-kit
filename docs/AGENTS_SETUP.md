@@ -26,7 +26,7 @@ Nothing to do: `./start` installs the plugin, and the agents come with it. To tu
 
 ## Check that they loaded
 
-1. In Claude Code, type `/agents`. The seven should be listed under the plugin as `design-kit:<name>`.
+1. In a terminal inside your project, run `claude plugin details design-kit`. The `Agents (7)` line lists them. Inside Claude Code you can also ask: "Which `design-kit:` agents can you call?" (Claude Code no longer has an `/agents` screen.)
 2. Run `/mcp` and check that the servers the agents need are connected: `figma-console` for the Figma agents, `gitbook` for `gitbook-porter`.
 3. Give each one a small test:
 
