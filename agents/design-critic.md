@@ -3,6 +3,7 @@ name: design-critic
 description: Score rendered screens (PNG files) against the kit's design rubric as one reviewer that stays the same across rounds. Read-only. It looks at images and the direction notes, then returns scores with visible evidence, five concrete asks, and a ready / another-round verdict. Never edits files or Figma, and never treats its verdict as the designer's approval. Use through the design-critique skill.
 tools: Read, Glob, Grep
 model: opus
+effort: high
 ---
 
 # Design critic

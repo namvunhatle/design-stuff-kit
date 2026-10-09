@@ -36,7 +36,7 @@ The kit's skills, agents, and commands come from the design-kit plugin and updat
 
 Review the rule templates in `${CLAUDE_PLUGIN_ROOT}/rules/`. Recommend only the ones relevant to this project and the connected tools. Explain each recommendation in one line and ask which to activate. Copy chosen files into `.claude/rules/` without overwriting existing files; when a name already exists, compare and discuss the difference.
 
-The kit's agents (`design-critic`, `figma-auditor`, `copy-reviewer`, `wireframe-builder`, `gitbook-porter`) come with the plugin and appear as `design-kit:<name>`. `${CLAUDE_PLUGIN_ROOT}/docs/AGENTS_SETUP.md` explains each one and the connections it needs. Mention only the ones that fit the connected tools. For Figma work, explain the file-pinning and restore-point rule before any canvas write.
+The kit's agents (`design-critic`, `figma-auditor`, `copy-reviewer`, `scout`, `wireframe-builder`, `ui-builder`, `gitbook-porter`) come with the plugin and appear as `design-kit:<name>`. `${CLAUDE_PLUGIN_ROOT}/docs/AGENTS_SETUP.md` explains each one and the connections it needs. Mention only the ones that fit the connected tools. For Figma work, explain the file-pinning and restore-point rule before any canvas write.
 
 Offer the project-memory templates in `${CLAUDE_PLUGIN_ROOT}/templates/project-memory/` (see the `project-memory` rule). If the project has none of these files, suggest creating `Open_Items.md`, `Figma_Map.md`, and `Session_Log.md` in the product folder, and compare `CLAUDE.template.md` with the existing `CLAUDE.md` instead of replacing it. Never overwrite an existing file.
 

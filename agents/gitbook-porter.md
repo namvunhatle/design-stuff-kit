@@ -3,6 +3,7 @@ name: gitbook-porter
 description: Prepare a GitBook change request from an approved local spec, verify the saved page, and return the review link. Do not write a new spec, merge the change request, publish a site, or enter a checkout.
 tools: Read, Grep, Glob, Write, Edit, mcp__gitbook__list_sites, mcp__gitbook__get_site_structure, mcp__gitbook__get_page, mcp__gitbook__search, mcp__gitbook__describe_operation, mcp__gitbook__invoke_operation, mcp__gitbook__create_change_request, mcp__gitbook__get_usage_guide
 model: sonnet
+effort: medium
 ---
 
 # GitBook porter

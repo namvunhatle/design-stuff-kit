@@ -57,6 +57,8 @@ This is the production UI track, unchanged. Load the track (`design-tracks`) and
 
 Build from `measure/*.json` and the approved token map, not from the PNG. Give each Figma layer the same name as its `data-layer`, so parity and later syncs can match them.
 
+Once the plan and token map are approved, the build can go to the `ui-builder` agent: brief it with the file key, the approved plan, the token map, `measure/`, and `reference/`. It stops on anything the contract does not cover; settle those questions with the designer here, then send it back to the same agent.
+
 ### 5. Export the Figma frames
 
 Export each frame at the reference size and scale, **named the same as the reference PNGs**, into `figma/1x/` (and `figma/3x/` for craft review). Use the Console MCP screenshot or export tool with the frame's node ID. Check that the returned file name is the product file, not the library.

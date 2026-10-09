@@ -2,9 +2,9 @@
 
 [Back to README](../README.md)
 
-The kit ships five agents. An agent is a separate Claude with its own short instructions and a fixed tool list. The main session hands it one bounded job, such as "audit this Figma section" or "score these screens", and gets a report back. They come with the design-kit plugin and appear as `design-kit:<name>`. An agent runs only when you or a skill calls it.
+The kit ships seven agents. An agent is a separate Claude with its own short instructions and a fixed tool list. The main session hands it one bounded job, such as "audit this Figma section" or "score these screens", and gets a report back. They come with the design-kit plugin and appear as `design-kit:<name>`. An agent runs only when you or a skill calls it.
 
-## The five agents
+## The seven agents
 
 | Agent | Does | Writes? | Needs | Model |
 |---|---|---|---|---|
@@ -13,6 +13,10 @@ The kit ships five agents. An agent is a separate Claude with its own short inst
 | `copy-reviewer` | Reviews a batch of interface copy against the voice and specs | No | Nothing extra (`ux-copywriter` skill recommended) | sonnet |
 | `wireframe-builder` | Builds a settled wireframe brief in a **new** Figma section | Figma, new section only | Figma Console MCP | sonnet |
 | `gitbook-porter` | Turns an approved spec into a GitBook change request; stops before merge | Mirror file and change request | GitBook MCP | sonnet |
+| `scout` | Looks up nodes, components, and tokens, finds Mobbin examples, or reads long specs; returns a short summary and never chooses | No | Figma Console MCP and/or Mobbin MCP | sonnet, low effort |
+| `ui-builder` | Builds production UI from an **approved** build plan (and token map) in a **new** Figma section; stops on any open decision | Figma, new section only | Figma Console MCP | sonnet |
+
+Each agent also sets an effort level. Why each role gets its model is in the [`model-selection`](../rules/model-selection.md) rule: the main session decides on a strong model, agents execute and gather on smaller ones, and scripts check whatever a script can.
 
 For the web-to-Figma workflow (`web-explore` → `ship-to-figma`) you need `design-critic`, `figma-auditor` and `copy-reviewer`.
 
@@ -22,7 +26,7 @@ Nothing to do: `./start` installs the plugin, and the agents come with it. To tu
 
 ## Check that they loaded
 
-1. In Claude Code, type `/agents`. The five should be listed under the plugin as `design-kit:<name>`.
+1. In Claude Code, type `/agents`. The seven should be listed under the plugin as `design-kit:<name>`.
 2. Run `/mcp` and check that the servers the agents need are connected: `figma-console` for the Figma agents, `gitbook` for `gitbook-porter`.
 3. Give each one a small test:
 
@@ -34,7 +38,7 @@ Nothing to do: `./start` installs the plugin, and the agents come with it. To tu
 
 ## Match tool names to your setup
 
-An agent's `tools:` line names MCP tools as `mcp__<server>__<tool>`. The kit assumes the server is called `figma-console` (and `gitbook`). If you added Figma Console MCP under another name, the agent starts without its Figma tools and says it cannot reach Figma. Plugin files are replaced on every update, so do not edit the agent; add the server again under the expected name (`claude mcp remove <name>`, then follow [Figma setup](FIGMA_SETUP.md) step 2).
+An agent's `tools:` line names MCP tools as `mcp__<server>__<tool>`. The kit assumes the server is called `figma-console` (and `gitbook`). If you added Figma Console MCP (or Mobbin, for `scout`) under another name, the agent starts without its Figma tools and says it cannot reach Figma. Plugin files are replaced on every update, so do not edit the agent; add the server again under the expected name (`claude mcp remove <name>`, then follow [Figma setup](FIGMA_SETUP.md) step 2).
 
 `claude mcp list` shows your server names.
 
@@ -43,7 +47,7 @@ An agent's `tools:` line names MCP tools as `mcp__<server>__<tool>`. The kit ass
 - **Keep Figma writes under `ask` in `.claude/settings.json`.** The kit's `settings.json.example` does this, so even an agent that has a write tool still has to ask ([Starter files](STARTER_FILES.md#permissions-settingsjson)).
 - **Every agent must have a `tools:` line.** The kit's agents do. If you write your own agent, give it one: an agent without it inherits every tool, including `figma_execute`, and if `.claude/settings.json` allows that tool, the agent could write to Figma without asking.
 - `figma-auditor` deliberately has no `figma_execute`. When a check needs a Plugin API query, it writes the query out for the main session to run.
-- `wireframe-builder` is the only agent that writes to Figma. Call it only with a settled brief, and only for a new section.
+- `wireframe-builder` and `ui-builder` are the only agents that write to Figma, and only into a new section. Call them only with a settled brief or an approved plan; they stop and report instead of deciding.
 - No agent replaces the designer. `design-critic`'s "Ready" means ready for the designer to judge.
 
 ## Using design-critic well

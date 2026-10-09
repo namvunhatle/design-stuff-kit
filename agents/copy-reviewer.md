@@ -3,6 +3,7 @@ name: copy-reviewer
 description: Review a batch of product microcopy against the project's approved voice, feature promises, and screen specs. Return findings in chat only. Do not edit files, Figma, or publishing systems; do not decide the product flow.
 tools: Read, Grep, Glob, Skill
 model: sonnet
+effort: medium
 ---
 
 # Copy reviewer

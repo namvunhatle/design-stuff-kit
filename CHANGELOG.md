@@ -2,10 +2,21 @@
 
 What changed in the kit, newest first. The plugin updates skills, agents, and commands on its own. **In your project** lists the hand edits an update needs in files the plugin never touches; `/design-kit:start-design` checks them for you.
 
+## 2026-10-09 · Model routing by role, two new agents
+
+- `model-selection` is rewritten: the main session decides on a strong model and does not switch; agents execute and gather on smaller models; scripts check what a script can. The old advice to switch the session's model is gone.
+- Every agent sets an `effort` level.
+- New agents: `ui-builder` builds production UI from an approved build plan in a new section, and `scout` gathers Figma facts, Mobbin examples, and spec details without filling the main session.
+
+**In your project**
+
+- `.claude/rules/model-selection.md`, if turned on: replace it with the kit's version, or merge if you edited it.
+- `.claude/settings.json`: `ui-builder` writes to Figma with the same tools as `wireframe-builder`. Keep those tools under `ask`.
+
 ## 2026-10-09 · The kit is a Claude Code plugin
 
 - The kit installs as the `design-kit` plugin from this repository's marketplace, and updates through Claude Code. Skills are now named `design-kit:<skill>`, for example `/design-kit:web-explore`.
-- The five agents and the `render` and `design-review` commands come with the plugin; `./start --agents` is no longer needed.
+- The kit's agents and the `render` and `design-review` commands come with the plugin; `./start --agents` is no longer needed.
 - `web-explore` scripts run as `wx-init`, `wx-render`, `wx-serve`, `wx-tokens`, and `wx-compare`.
 - `/design-kit:start-design` compares a project's copied rules with the kit's and lists the steps below.
 

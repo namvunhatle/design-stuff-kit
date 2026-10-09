@@ -6,4 +6,4 @@ Every turn resends the whole transcript. Three habits account for most of the co
 2. **Figma screenshots.** Each image costs roughly 1.5–2k tokens and stays in the transcript for the rest of the session. Verify geometry with numeric queries first, and capture screenshots at meaningful checkpoints rather than after every change. When a tool suggests screenshot loops, keep them to the minimum needed to judge the result.
 3. **Broad Figma reads.** `figma_get_file_data` on a whole file returns a very large JSON payload. Query specific node IDs, pages, or sections. Save large REST responses to a file and search them instead of reading them into the conversation.
 
-Subagents are not free either: each starts a separate context and re-reads its inputs. Use one when work is self-contained or needs a parallel scan, and do small edits in the main session. See `model-selection` for switching models mid-session.
+Subagents are not free either: each starts a separate context and re-reads its inputs. Use one when work is self-contained or needs a parallel scan, and do small edits in the main session. See `model-selection` for which work to hand to an agent and on which model.

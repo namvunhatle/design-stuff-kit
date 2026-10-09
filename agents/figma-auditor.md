@@ -3,6 +3,7 @@ name: figma-auditor
 description: Audit one Figma file for layout, components, variables, comments, and spec drift using read-only tools. Return evidence and uncertainty; never edit the canvas, use figma_execute, or publish comments.
 tools: Read, Grep, Glob, Skill, mcp__figma-console__figma_get_status, mcp__figma-console__figma_list_open_files, mcp__figma-console__figma_get_file_data, mcp__figma-console__figma_get_selection, mcp__figma-console__figma_navigate, mcp__figma-console__figma_take_screenshot, mcp__figma-console__figma_capture_screenshot, mcp__figma-console__figma_get_variables, mcp__figma-console__figma_get_token_values, mcp__figma-console__figma_browse_tokens, mcp__figma-console__figma_get_styles, mcp__figma-console__figma_get_text_styles, mcp__figma-console__figma_get_library_variables, mcp__figma-console__figma_get_library_components, mcp__figma-console__figma_search_components, mcp__figma-console__figma_get_component, mcp__figma-console__figma_get_component_details, mcp__figma-console__figma_get_design_system_summary, mcp__figma-console__figma_lint_design, mcp__figma-console__figma_get_comments, mcp__figma-console__figma_get_annotations, mcp__figma-console__figma_get_file_versions, mcp__figma-console__figma_blame_node
 model: sonnet
+effort: medium
 ---
 
 # Figma auditor — read only

@@ -160,7 +160,7 @@ The [rules](rules/) are optional Claude Code conventions. A rule without `paths:
 | [`explore-vs-final`](rules/explore-vs-final.md) | Construction fidelity by design stage |
 | [`project-memory`](rules/project-memory.md) | `CLAUDE.md` under 200 lines plus open items, node map, and session log ([templates](templates/project-memory/)) |
 | [`session-cost`](rules/session-cost.md) | Session resets, screenshot cost, narrow Figma reads |
-| [`model-selection`](rules/model-selection.md) | Classifying execution versus decision work and when to switch models |
+| [`model-selection`](rules/model-selection.md) | Which role does the work (main session, agent, or script) and on which model and effort |
 | [`writing-style`](rules/writing-style.md) | Compressed chat and documentation |
 | [`explore`](rules/explore.md) | Conventions for `explore/` folders; path-scoped, so it loads only there |
 
@@ -172,11 +172,13 @@ The [agents](agents/) are Claude Code templates for bounded work:
 | [`design-critic`](agents/design-critic.md) | Scores rendered screens round after round | No |
 | [`figma-auditor`](agents/figma-auditor.md) | One-file Figma audit | No |
 | [`gitbook-porter`](agents/gitbook-porter.md) | Spec-to-GitBook change request | Mirror file and change request; no merge |
+| [`scout`](agents/scout.md) | Lookups in Figma, Mobbin examples, long specs; returns a short summary | No |
+| [`ui-builder`](agents/ui-builder.md) | Production UI from an approved build plan in a new section | Yes, Figma only in its new section |
 | [`wireframe-builder`](agents/wireframe-builder.md) | Settled wireframe brief in a new section | Yes, Figma only in its new section |
 
 These agents are adapted from a private setup, with project-specific facts removed. They come with the plugin as `design-kit:<name>`, and each one runs only when you or a skill calls it. An agent whose tools are not connected cannot do its job and says so. [Agent setup](docs/AGENTS_SETUP.md) covers checking them and matching tool names.
 
-Call an agent by name with a bounded brief. Include the target product, source spec, and Figma file key when relevant; agents start without the main conversation's context. Use `figma-auditor` for read-only checks and `wireframe-builder` only when the flow is settled and a new section is acceptable. Review a GitBook change request before merging it.
+Call an agent by name with a bounded brief. Include the target product, source spec, and Figma file key when relevant; agents start without the main conversation's context. Use `figma-auditor` for read-only checks, `scout` to gather facts without filling the main session, `wireframe-builder` only when the flow is settled, and `ui-builder` only after the designer approved the build plan; both builders write to a new section only. Review a GitBook change request before merging it.
 
 ## Examples
 

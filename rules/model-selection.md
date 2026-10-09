@@ -1,29 +1,25 @@
-# Choose the model for the task
+# Route work to the right model
 
-Keep this rule without `paths:` frontmatter so it applies from the first turn. Use the project's configured model unless the designer or team has set a different policy. Treat model names, prices, and billing behavior as current product facts to verify, not permanent rules.
+Keep this rule without `paths:` frontmatter so it applies from the first turn. Use the project's configured model unless the designer or team has set a different policy. Model names, prices, and effort levels change; check them with `/model` rather than trusting this file. The kit's agents name model aliases (`opus`, `sonnet`, `haiku`), which follow the current version.
 
-## Classify the task in the first turn
+## The main session decides; agents and scripts do the rest
 
-Before starting, decide whether the request is **execution** (the path is known) or a **design decision** (trade-offs are still open).
+Assign a model by **role**, not by session. The main session stays on a strong model and does not switch. Cost comes down by handing bounded work to an agent pinned to a smaller model, or to a script that needs no model at all.
 
-| Execution: a smaller model usually suffices | Decision: keep the most capable model |
-|---|---|
-| Reading specs, looking up node IDs | Flow and information-architecture decisions |
-| Verifying Figma geometry | Multi-step prototype motion |
-| Building wireframes from a settled pattern | Debugging a Figma failure with no clear cause |
-| Porting screens from an approved source | Copy that must match voice and tone, not only meaning |
-| Editing labels, updating the session log | Design-system audits |
-| Binding variables from an agreed token map | Anything that spans two Figma files |
+| Role | Who | Model · effort | Why |
+|---|---|---|---|
+| **Decide**: flow, IA, the three directions, token map, build plan, copy that carries the voice | Main session, with the designer | Strongest available · `medium`, `high` for a big decision | Taste and trade-offs live here, and so does the designer |
+| **Execute**: build an approved plan, fix render FAILs, port by an approved map | Agent (`ui-builder`, `wireframe-builder`) | `sonnet` · `medium` | Known path, many tool calls. A fresh, small context is cheaper than switching a long session's model |
+| **Check what a script can check**: contrast, clipping, targets, identical renders, pixel parity | `wx-render`, `wx-compare` | none | Cheapest and exact. A mechanical miss that recurs becomes a gate (`design-critique` §8) |
+| **Judge what a script cannot**: quality, direction, regression | `design-critic`, blind, one per job | `opus` · `high` | Its value is independence *and* judgement. Do not economise here |
+| **Review in bulk**: one Figma file, a batch of copy | `figma-auditor`, `copy-reviewer` | `sonnet` · `medium` | Bounded reading against stated rules |
+| **Gather**: node IDs, tokens, components, Mobbin examples, long specs | `scout` | `sonnet` · `low` | Keeps large payloads and screenshots out of the main context. It reports; the main session chooses |
 
-If the task is execution and the session is on a larger model, say so in one line and wait for the designer to switch (for example with `/model`). For decision work, say nothing and begin. Do not turn this into a repeated preamble.
+## Rules of thumb
 
-Effort is separate from model choice. A moderately hard execution task may need more thinking effort, not a larger model.
-
-## Why start high and step down
-
-Switching mid-session is asymmetric. Moving **down** makes the rest of the session cheaper. Moving **up** late in a long session re-processes the accumulated context at the higher rate. So:
-
-1. **Step down freely** whenever the work turns into execution.
-2. **Step up with a fresh context.** Summarize, run `/clear`, switch, then continue, rather than upgrading at turn 40.
-3. **Two failures, then upgrade.** If a smaller model fails the same task twice in a row, the task is harder than it looked; a third attempt usually costs more than switching.
-4. **Re-evaluate when the task type changes.** After finishing one screen and moving to a different kind of work, reassess instead of keeping the previous model by default.
+- **Do not switch the main session's model to save money.** A switch re-reads the whole transcript without the cache. Delegate the work instead. If the designer asks to switch anyway, do it at a clean break (`/clear` first), never at turn 40.
+- **Never pin `model:` on a skill that runs in the main session.** It changes the model for that turn, with the same cache cost. A skill may set `effort:`, or run as `context: fork` with its own agent.
+- **Script first, model second.** Before asking any model to check something, ask whether `wx-render` or a project check could.
+- **Delegate when the work is self-contained and has a clear contract** (an approved plan, a token map, a list of screens). Keep small edits and anything that needs the designer's eye in the main session. Agents re-read their inputs, so a two-minute edit is cheaper in place.
+- **Effort is a separate dial.** Raise effort before reaching for a bigger model. Go to `xhigh` only after the same task failed twice, and in a fresh context.
+- **Settle disputes with data.** To compare two routings (for example a different model as maker or critic), run the same job both ways and compare the critic's official scores and the token totals in `CRITIQUE.md`. A critic from a different model family than the maker may grade less kindly; treat that as an experiment, not a rule.

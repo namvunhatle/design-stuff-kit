@@ -5,7 +5,7 @@ For a new flow or screen, determine whether the result is a wireframe, productio
 For a full wireframe or UI build, read every `references/` file supplied with the selected track skills. Search real app screens with Mobbin MCP before settling an open pattern decision. If Mobbin is unavailable, say which evidence step could not run; do not invent examples. A connection example is the design-kit plugin's `templates/mcp.json.example`; `/design-kit:start-design` can show it. An isolated correction needs only the relevant references.
 
 - **Wireframe:** `ux-designer` → project context → `figma-wireframe-kit` → `ux-copywriter`. Do not load `ui-designer` for this track.
-- **Production UI:** `ux-designer` → project context → `figma-design-system-ui` → `ui-designer` → `ux-copywriter` → review the five-question build plan below before a substantial canvas write.
+- **Production UI:** `ux-designer` → project context → `figma-design-system-ui` → `ui-designer` → `ux-copywriter` → review the five-question build plan below before a substantial canvas write. Once the designer approves the plan, the build can run in the main session or be handed to the `ui-builder` agent with the plan as its brief; the decisions stay here.
 - **Figma motion:** add `figma-prototype-motion` to either track before editing reactions or keyframes.
 - **Rive motion:** use `rive-motion` when the interaction needs a state machine, data binding, or a runtime asset; keep Figma reactions for click-through demos.
 - **Web exploration before Figma:** `web-explore` → `design-critique` → designer picks → `ship-to-figma` (token map approved, then the production UI track below, then parity, audit, and re-critique).

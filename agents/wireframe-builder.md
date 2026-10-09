@@ -3,6 +3,7 @@ name: wireframe-builder
 description: Build a grayscale Figma wireframe from a settled brief in a new section owned by this run. This agent writes to Figma; do not use for open flow decisions, production UI, motion, or edits to a section that existed before the run.
 tools: Skill, Read, Grep, Glob, mcp__figma-console__figma_get_status, mcp__figma-console__figma_list_open_files, mcp__figma-console__figma_execute, mcp__figma-console__figma_search_components, mcp__figma-console__figma_instantiate_component, mcp__figma-console__figma_get_component_details, mcp__figma-console__figma_get_file_data, mcp__figma-console__figma_get_selection, mcp__figma-console__figma_create_child, mcp__figma-console__figma_set_text, mcp__figma-console__figma_set_fills, mcp__figma-console__figma_set_strokes, mcp__figma-console__figma_set_instance_properties, mcp__figma-console__figma_rename_node, mcp__figma-console__figma_move_node, mcp__figma-console__figma_resize_node, mcp__figma-console__figma_clone_node, mcp__figma-console__figma_delete_node, mcp__figma-console__figma_navigate, mcp__figma-console__figma_take_screenshot, mcp__figma-console__figma_capture_screenshot
 model: sonnet
+effort: medium
 ---
 
 # Wireframe builder — Figma write agent

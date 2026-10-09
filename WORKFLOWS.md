@@ -61,7 +61,7 @@ For a new visual direction, exploring in HTML is faster than exploring in Figma,
 
 Each check answers a different question: parity asks "does it look like what was approved?", the auditor asks "is it built right?", and the critic asks "did it lose quality on the way into the design system?". Web exploration can also run in **design-system mode**, which loads the system's tokens and flags every off-token colour early. Use it once the direction is close, so phase 2 has fewer open rows. **Wireframe mode** runs the same loop on structure instead and hands its pick to the wireframe track (see above), not to phase 2.
 
-Agents for this workflow: `design-critic`, `figma-auditor`, `copy-reviewer`. They come with the plugin ([Agent setup](docs/AGENTS_SETUP.md)).
+Agents for this workflow: `design-critic`, `figma-auditor`, `copy-reviewer`, and optionally `ui-builder` for the phase-3 build and `scout` for lookups. They come with the plugin ([Agent setup](docs/AGENTS_SETUP.md)).
 
 ## Motion workflow
 
@@ -137,4 +137,4 @@ decide → spec .md → build in Figma → record → (publish)
 
 Agents return node IDs and findings; the main session writes them into these files. When a screen is finished and recorded, start a fresh session (`/clear`) rather than carrying a long transcript into the next task; see `session-cost`.
 
-The five agents are optional, explicitly invoked tools: `copy-reviewer`, `figma-auditor`, and `design-critic` only read, `wireframe-builder` writes only to a new section, and `gitbook-porter` prepares a reviewable change request. Give them the exact product and source files because they start without the main conversation's context. Production UI and motion stay in the main design session, where the designer can judge the canvas.
+The seven agents are explicitly invoked tools: `copy-reviewer`, `figma-auditor`, `design-critic`, and `scout` only read; `wireframe-builder` and `ui-builder` write only to a new section, and only from a settled brief or an approved plan; `gitbook-porter` prepares a reviewable change request. Give them the exact product and source files because they start without the main conversation's context. Decisions, motion, and anything that needs the designer's eye stay in the main design session. The [`model-selection`](rules/model-selection.md) rule says which role runs on which model.
