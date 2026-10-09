@@ -23,7 +23,7 @@ Explorations are disposable. Once a direction is built in Figma, **Figma is the 
 
 ## 0. Setup (once per working folder)
 
-Needs Node.js 18+. The `wx-*` commands come with the design-kit plugin and are on the PATH in Claude Code. Make a folder for the feature, outside the product's source code; the assets are copied in so it also deploys as is:
+Needs Node.js 18+. The `wx-*` commands come with the design-stuff-kit plugin and are on the PATH in Claude Code. Make a folder for the feature, outside the product's source code; the assets are copied in so it also deploys as is:
 
 ```sh
 wx-init explore/<feature>                 # or: wx-init explore/<feature> --wireframe
@@ -79,7 +79,7 @@ wx-render mockup.html --out shots/r1
 wx-render mockup.html --out shots/r1-small --small
 ```
 
-With the kit's slash command, `/design-kit:render explore/<feature>/mockup.html` does this from the project root and picks the next `shots/rN` and `--compare` for you. Each run writes one 3x PNG per screen, `sheet.png`, and `report.md`. It exits with code 1 on any FAIL.
+With the kit's slash command, `/design-stuff-kit:render explore/<feature>/mockup.html` does this from the project root and picks the next `shots/rN` and `--compare` for you. Each run writes one 3x PNG per screen, `sheet.png`, and `report.md`. It exits with code 1 on any FAIL.
 
 | Check | Level |
 |---|---|

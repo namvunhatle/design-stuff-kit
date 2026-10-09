@@ -47,22 +47,22 @@ New to Terminal? On macOS, open **Terminal** from Spotlight (⌘ Space). Paste e
    ./start --project /path/to/your-project
    ```
 
-   This downloads five companion skills from their author (Yummy Labs) into `your-project/.claude/skills/`, installs the kit itself as the **design-kit** Claude Code plugin for this project, and opens Claude Code with `/design-kit:start-design`. It never overwrites anything already in your project, and it is safe to run again.
+   This downloads five companion skills from their author (Yummy Labs) into `your-project/.claude/skills/`, installs the kit itself as the **design-stuff-kit** Claude Code plugin for this project, and opens Claude Code with `/design-stuff-kit:start-design`. It never overwrites anything already in your project, and it is safe to run again.
 
    The plugin is recorded in `your-project/.claude/settings.json`, so a teammate who opens the project in Claude Code is offered the same plugin.
 
 3. **Connect Figma** if you will work on a canvas. Before opening Claude Code, `./start` asks for your Figma token and adds the connector for you; press Return to skip. Then import the Figma plugin once: see [Figma setup](docs/FIGMA_SETUP.md), steps 1 and 3 (about 5 minutes). You can skip Figma for copy, planning, and coded prototypes.
 
 4. **Turn on automatic updates** (recommended): in Claude Code, run `/plugin`, open **Marketplaces**, select `product-design-agent-kit`, and choose **Enable auto-update**. See [Updating the kit](#updating-the-kit).
-5. **Starter files** (optional): permissions, `design.md`, design tokens. `/design-kit:start-design` offers them and interviews you first. See [Starter files](docs/STARTER_FILES.md).
+5. **Starter files** (optional): permissions, `design.md`, design tokens. `/design-stuff-kit:start-design` offers them and interviews you first. See [Starter files](docs/STARTER_FILES.md).
 
-The kit's skills, its five [agents](docs/AGENTS_SETUP.md), and the `/design-kit:render` and `/design-kit:design-review` commands all come with the plugin. Kit skills appear with a `design-kit:` prefix, for example `/design-kit:web-explore`; you can also just describe the task and the right skill loads.
+The kit's skills, its five [agents](docs/AGENTS_SETUP.md), and the `/design-stuff-kit:render` and `/design-stuff-kit:design-review` commands all come with the plugin. Kit skills appear with a `design-stuff-kit:` prefix, for example `/design-stuff-kit:web-explore`; you can also just describe the task and the right skill loads.
 
 ## Updating the kit
 
 With auto-update on, Claude Code checks for a new version of the plugin each time it starts, so skills, agents, and commands stay current on their own. Without it, run `/plugin marketplace update product-design-agent-kit` in Claude Code, then `/reload-plugins`.
 
-Some files live in your project and are never changed by an update: rules you turned on in `.claude/rules/`, `critique/config.md`, `design.md`, and your settings. Run `/design-kit:start-design` after an update: it compares your copies with the new kit and lists anything in the [changelog](CHANGELOG.md) that needs a hand edit.
+Some files live in your project and are never changed by an update: rules you turned on in `.claude/rules/`, `critique/config.md`, `design.md`, and your settings. Run `/design-stuff-kit:start-design` after an update: it compares your copies with the new kit and lists anything in the [changelog](CHANGELOG.md) that needs a hand edit.
 
 **Set up before the plugin?** Rerun `./start --project /path/to/your-project` from an updated kit folder (`git pull` first). It installs the plugin and offers to move the old copies of kit skills, agents, and commands into `.claude/design-kit-backup/`, so Claude Code does not show two versions of each.
 
@@ -70,7 +70,7 @@ Something failed? See [Troubleshooting](docs/TROUBLESHOOTING.md).
 
 ## Your first session
 
-`/design-kit:start-design` runs a short onboarding inside Claude Code:
+`/design-stuff-kit:start-design` runs a short onboarding inside Claude Code:
 
 1. It reads what your project already says about the product. If there is little, it points you to a one-time project interview.
 2. It suggests a few optional working rules (for example, "always save a Figma restore point") and asks which to turn on.
@@ -82,7 +82,7 @@ Good first tasks:
 >
 > "Review the copy on the onboarding screens in Figma file ABC and suggest fixes. Don't edit the file."
 
-Next time, just open Claude Code in your project and describe the task. The right skills load automatically. Run `/design-kit:start-design` again whenever you want the guided route, or after a kit update.
+Next time, just open Claude Code in your project and describe the task. The right skills load automatically. Run `/design-stuff-kit:start-design` again whenever you want the guided route, or after a kit update.
 
 ## Why it exists
 
@@ -176,7 +176,7 @@ The [agents](agents/) are Claude Code templates for bounded work:
 | [`ui-builder`](agents/ui-builder.md) | Production UI from an approved build plan in a new section | Yes, Figma only in its new section |
 | [`wireframe-builder`](agents/wireframe-builder.md) | Settled wireframe brief in a new section | Yes, Figma only in its new section |
 
-These agents are adapted from a private setup, with project-specific facts removed. They come with the plugin as `design-kit:<name>`, and each one runs only when you or a skill calls it. An agent whose tools are not connected cannot do its job and says so. [Agent setup](docs/AGENTS_SETUP.md) covers checking them and matching tool names.
+These agents are adapted from a private setup, with project-specific facts removed. They come with the plugin as `design-stuff-kit:<name>`, and each one runs only when you or a skill calls it. An agent whose tools are not connected cannot do its job and says so. [Agent setup](docs/AGENTS_SETUP.md) covers checking them and matching tool names.
 
 Call an agent by name with a bounded brief. Include the target product, source spec, and Figma file key when relevant; agents start without the main conversation's context. Use `figma-auditor` for read-only checks, `scout` to gather facts without filling the main session, `wireframe-builder` only when the flow is settled, and `ui-builder` only after the designer approved the build plan; both builders write to a new section only. Review a GitBook change request before merging it.
 
@@ -206,11 +206,11 @@ The skills are Markdown instructions. Installing them does not grant Figma acces
 ## Advanced setup
 
 - **Contents.** Fifteen original skills, one routing skill that applies a Yummy Labs framework, one Apache-licensed skill by ComposioHQ, and an installer for five Yummy Labs skills supplied by their author.
-- **Installer details.** `./start` installs `gdown` into the kit's own `.venv/` when it is missing and downloads the Yummy Labs packages from the author's [official links](upstream-packages.json), keeping the author's file contents (reference files are moved only where an archive layout differs from `SKILL.md`). It checks that all five are present before modifying your project. It then installs the design-kit plugin at project scope with `claude plugin marketplace add` and `claude plugin install`. Optional rules, project-memory templates, and an MCP example ship inside the plugin, and `/design-kit:start-design` offers them. Flags: `--no-launch` prepares files without opening Claude Code; `--gdown PATH` uses your own gdown; `--marketplace SOURCE` installs the plugin from a fork or a local folder instead of this GitHub repository.
+- **Installer details.** `./start` installs `gdown` into the kit's own `.venv/` when it is missing and downloads the Yummy Labs packages from the author's [official links](upstream-packages.json), keeping the author's file contents (reference files are moved only where an archive layout differs from `SKILL.md`). It checks that all five are present before modifying your project. It then installs the design-stuff-kit plugin at project scope with `claude plugin marketplace add` and `claude plugin install`. Optional rules, project-memory templates, and an MCP example ship inside the plugin, and `/design-stuff-kit:start-design` offers them. Flags: `--no-launch` prepares files without opening Claude Code; `--gdown PATH` uses your own gdown; `--marketplace SOURCE` installs the plugin from a fork or a local folder instead of this GitHub repository.
 - **Offline or changed links.** [Assemble from local files](THIRD_PARTY.md).
 - **Codex.** Copy the chosen skill folders to `~/.codex/skills/`. The onboarding, the `wx-*` commands, and `${CLAUDE_PLUGIN_ROOT}` paths are for Claude Code; in Codex, run the scripts under `skills/web-explore/scripts/` with `node` directly.
 - **MCP servers.** Mobbin, Rive, and GitBook entries are in [`templates/mcp.json.example`](templates/mcp.json.example). Keep credentials in your local configuration, never in the project or this repo.
-- **Starter files.** `settings.json.example` (deny → ask → allow, every Figma write under `ask`), `design.md`, `design-tokens.example.json`, `CLAUDE.local.md`, and a skill template are in `templates/`, and `/design-kit:start-design` offers them. See [Starter files](docs/STARTER_FILES.md).
+- **Starter files.** `settings.json.example` (deny → ask → allow, every Figma write under `ask`), `design.md`, `design-tokens.example.json`, `CLAUDE.local.md`, and a skill template are in `templates/`, and `/design-stuff-kit:start-design` offers them. See [Starter files](docs/STARTER_FILES.md).
 - **Agent safety.** Every kit agent has a fixed `tools:` list. Keep Figma write tools under `ask` in `.claude/settings.json` (the example does), so even `wireframe-builder` asks before it writes. If you add your own agent, give it a `tools:` line: without one it inherits every tool, including `figma_execute`.
 - **Working on the kit.** Add your clone as a marketplace (`claude plugin marketplace add /path/to/product-design-agent-kit`): Claude Code then loads the plugin straight from that folder, and `/reload-plugins` picks up an edit. Run `claude plugin validate .` before pushing. Users receive what is on `main`.
 

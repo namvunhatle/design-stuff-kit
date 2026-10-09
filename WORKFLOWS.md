@@ -4,7 +4,7 @@ This is the routing used by the original design setup, with project-specific lib
 
 ## Start a project
 
-After cloning the kit, run `./start --project /path/to/your-project`. This installs the kit as the design-kit plugin. Its `/design-kit:start-design` skill checks project context, lets the designer choose relevant rule templates, then routes a concrete first task through the tracks below. If project context is missing, use Yummy Labs' official [design-context-setup](https://yummy-design-sprint.notion.site/A-skill-for-Claude-Code-that-sets-your-design-project-up-properly-3bb6279147098015b2bae1a60aba566f) first. The kit links to that skill; it does not redistribute it.
+After cloning the kit, run `./start --project /path/to/your-project`. This installs the kit as the design-stuff-kit plugin. Its `/design-stuff-kit:start-design` skill checks project context, lets the designer choose relevant rule templates, then routes a concrete first task through the tracks below. If project context is missing, use Yummy Labs' official [design-context-setup](https://yummy-design-sprint.notion.site/A-skill-for-Claude-Code-that-sets-your-design-project-up-properly-3bb6279147098015b2bae1a60aba566f) first. The kit links to that skill; it does not redistribute it.
 
 ## Choose the stage first
 

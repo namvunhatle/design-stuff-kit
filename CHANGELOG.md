@@ -1,6 +1,6 @@
 # Changelog
 
-What changed in the kit, newest first. The plugin updates skills, agents, and commands on its own. **In your project** lists the hand edits an update needs in files the plugin never touches; `/design-kit:start-design` checks them for you.
+What changed in the kit, newest first. The plugin updates skills, agents, and commands on its own. **In your project** lists the hand edits an update needs in files the plugin never touches; `/design-stuff-kit:start-design` checks them for you.
 
 ## 2026-10-09 · Model routing by role, two new agents
 
@@ -15,10 +15,10 @@ What changed in the kit, newest first. The plugin updates skills, agents, and co
 
 ## 2026-10-09 · The kit is a Claude Code plugin
 
-- The kit installs as the `design-kit` plugin from this repository's marketplace, and updates through Claude Code. Skills are now named `design-kit:<skill>`, for example `/design-kit:web-explore`.
+- The kit installs as the `design-stuff-kit` plugin from this repository's marketplace, and updates through Claude Code. Skills are now named `design-stuff-kit:<skill>`, for example `/design-stuff-kit:web-explore`.
 - The kit's agents and the `render` and `design-review` commands come with the plugin; `./start --agents` is no longer needed.
 - `web-explore` scripts run as `wx-init`, `wx-render`, `wx-serve`, `wx-tokens`, and `wx-compare`.
-- `/design-kit:start-design` compares a project's copied rules with the kit's and lists the steps below.
+- `/design-stuff-kit:start-design` compares a project's copied rules with the kit's and lists the steps below.
 
 **In your project**
 

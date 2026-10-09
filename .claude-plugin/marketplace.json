@@ -4,7 +4,7 @@
   "owner": { "name": "namvunhatle" },
   "plugins": [
     {
-      "name": "design-kit",
+      "name": "design-stuff-kit",
       "source": "./",
       "description": "Design tracks for Figma wireframes and production UI, web exploration with render checks and a blind critic, motion workflows, and review agents."
     }

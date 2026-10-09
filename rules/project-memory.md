@@ -1,6 +1,6 @@
 # Project memory files
 
-Figma stores the canvas, not the reasons behind it. Keep a small set of Markdown files per product so a later session, a subagent, or a teammate can recover what was decided and why. Templates are in the design-kit plugin's `templates/project-memory/`; `/design-kit:start-design` offers them.
+Figma stores the canvas, not the reasons behind it. Keep a small set of Markdown files per product so a later session, a subagent, or a teammate can recover what was decided and why. Templates are in the design-stuff-kit plugin's `templates/project-memory/`; `/design-stuff-kit:start-design` offers them.
 
 | File | Holds | Update when |
 |---|---|---|

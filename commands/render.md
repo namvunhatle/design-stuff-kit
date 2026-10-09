@@ -14,4 +14,4 @@ Render the web exploration at: $ARGUMENTS
    - the FAIL and warn counts, then each FAIL in one line;
    - which screens are unchanged since the previous round, and whether any of them was meant to change;
    - the path to `sheet.png`.
-5. Do not fix anything and do not call the critic. Ask whether to fix the FAILs first or run `/design-kit:design-review`.
+5. Do not fix anything and do not call the critic. Ask whether to fix the FAILs first or run `/design-stuff-kit:design-review`.

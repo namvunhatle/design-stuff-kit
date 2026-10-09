@@ -2,7 +2,7 @@
 
 [Back to README](../README.md)
 
-These templates ship inside the design-kit plugin, in its `templates/` and `rules/` folders (the same folders in this repository). Nothing is active until it is copied into your project, which `/design-kit:start-design` does with you. Files that depend on your judgment (principles, strictness, permissions) are written **after an interview**, not guessed.
+These templates ship inside the design-stuff-kit plugin, in its `templates/` and `rules/` folders (the same folders in this repository). Nothing is active until it is copied into your project, which `/design-stuff-kit:start-design` does with you. Files that depend on your judgment (principles, strictness, permissions) are written **after an interview**, not guessed.
 
 ## Three zones
 
@@ -29,7 +29,7 @@ Zone 1 costs context on every turn, so keep it short. Zone 2 loads only when rel
 
 | File | Template | Write it by | Notes |
 |---|---|---|---|
-| `CLAUDE.md` | `project-memory/CLAUDE.template.md` | `/design-kit:start-design`, or Yummy Labs' `design-context-setup` interview | Current state only; detail goes in the project-memory files |
+| `CLAUDE.md` | `project-memory/CLAUDE.template.md` | `/design-stuff-kit:start-design`, or Yummy Labs' `design-context-setup` interview | Current state only; detail goes in the project-memory files |
 | `CLAUDE.local.md` | `CLAUDE.local.md` | Claude, when you correct a personal preference | Add it to `.gitignore` |
 | `design.md` | `design.md` | Interview first: principles, feel, always/never, refusals | Point to it from `CLAUDE.md` ("Before design work, read `design.md`"). Do not `@import` it |
 | `design-tokens.json` | `design-tokens.example.json` | From the real system (Figma variables via MCP, or existing CSS/JSON), never invented | Describe every token. `wx-tokens design-tokens.json --out explore/<feature>/tokens.css` feeds design-system mode |

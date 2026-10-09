@@ -38,7 +38,7 @@ def ensure_gdown(requested: str) -> str:
 
 
 MARKETPLACE = "product-design-agent-kit"
-PLUGIN = "design-kit"
+PLUGIN = "design-stuff-kit"
 DEFAULT_SOURCE = "namvunhatle/product-design-agent-kit"
 KIT_SKILLS = sorted(p.name for p in (ROOT / "skills").iterdir() if (p / "SKILL.md").is_file())
 KIT_AGENTS = sorted(p.name for p in (ROOT / "agents").glob("*.md"))
@@ -163,11 +163,11 @@ def main() -> None:
         print(f"  /plugin install {PLUGIN}@{MARKETPLACE}")
     migrate_old_copies(project)
 
-    print("\nOptional rules, project-memory templates, and an MCP example are in the plugin; /design-kit:start-design offers them.")
+    print("\nOptional rules, project-memory templates, and an MCP example are in the plugin; /design-stuff-kit:start-design offers them.")
     if not (project / "CLAUDE.md").is_file() or not (project / "SETUP.md").is_file():
-        print("One or both standard context files are missing. /design-kit:start-design will check for equivalent context and guide setup if needed.")
+        print("One or both standard context files are missing. /design-stuff-kit:start-design will check for equivalent context and guide setup if needed.")
     else:
-        print("Project context found. /design-kit:start-design will review it and help choose your first track.")
+        print("Project context found. /design-stuff-kit:start-design will review it and help choose your first track.")
 
     if claude and not args.skip_figma and sys.stdin.isatty():
         connect_figma(claude)

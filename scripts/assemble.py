@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Install the Yummy Labs skills the design workflow needs into a Claude Code project.
 
-The kit's own skills, agents, and commands come from the design-kit plugin, not from here.
+The kit's own skills, agents, and commands come from the design-stuff-kit plugin, not from here.
 """
 
 import argparse

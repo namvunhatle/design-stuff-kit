@@ -2,7 +2,7 @@
 
 [Back to README](../README.md)
 
-The kit ships seven agents. An agent is a separate Claude with its own short instructions and a fixed tool list. The main session hands it one bounded job, such as "audit this Figma section" or "score these screens", and gets a report back. They come with the design-kit plugin and appear as `design-kit:<name>`. An agent runs only when you or a skill calls it.
+The kit ships seven agents. An agent is a separate Claude with its own short instructions and a fixed tool list. The main session hands it one bounded job, such as "audit this Figma section" or "score these screens", and gets a report back. They come with the design-stuff-kit plugin and appear as `design-stuff-kit:<name>`. An agent runs only when you or a skill calls it.
 
 ## The seven agents
 
@@ -26,7 +26,7 @@ Nothing to do: `./start` installs the plugin, and the agents come with it. To tu
 
 ## Check that they loaded
 
-1. In a terminal inside your project, run `claude plugin details design-kit`. The `Agents (7)` line lists them. Inside Claude Code you can also ask: "Which `design-kit:` agents can you call?" (Claude Code no longer has an `/agents` screen.)
+1. In a terminal inside your project, run `claude plugin details design-stuff-kit`. The `Agents (7)` line lists them. Inside Claude Code you can also ask: "Which `design-stuff-kit:` agents can you call?" (Claude Code no longer has an `/agents` screen.)
 2. Run `/mcp` and check that the servers the agents need are connected: `figma-console` for the Figma agents, `gitbook` for `gitbook-porter`.
 3. Give each one a small test:
 
@@ -59,7 +59,7 @@ An agent's `tools:` line names MCP tools as `mcp__<server>__<tool>`. The kit ass
 ## Update or remove
 
 - **Update:** agents update with the plugin. See [Updating the kit](../README.md#updating-the-kit).
-- **Old copies:** a project set up before the plugin may still have kit agents in `.claude/agents/`. Rerun `./start` to move them to a backup, or `/design-kit:start-design` lists them.
+- **Old copies:** a project set up before the plugin may still have kit agents in `.claude/agents/`. Rerun `./start` to move them to a backup, or `/design-stuff-kit:start-design` lists them.
 - **Remove:** disable the plugin for the project in `/plugin`. Individual agents cannot be turned off separately.
 
 Something failed? See [Troubleshooting](TROUBLESHOOTING.md).

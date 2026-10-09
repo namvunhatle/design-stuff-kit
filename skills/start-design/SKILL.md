@@ -1,6 +1,6 @@
 ---
 name: start-design
-description: Onboard a design project after installing Product Design Agent Kit, and bring a project's copied rules up to date after a kit update. Use when the designer invokes /design-kit:start-design to check project context, choose relevant rules, select a design track, and begin a small first task.
+description: Onboard a design project after installing Product Design Agent Kit, and bring a project's copied rules up to date after a kit update. Use when the designer invokes /design-stuff-kit:start-design to check project context, choose relevant rules, select a design track, and begin a small first task.
 metadata:
   author: namvunhatle
   version: 2.0.0
@@ -26,7 +26,7 @@ If Claude asks for `/reload-plugins`, do that before invoking the skill. Confirm
 
 ## 2. Bring the project up to date with the kit
 
-The kit's skills, agents, and commands come from the design-kit plugin and update with it. Only the files a project copied stay behind. Check them on every run; it is quick when nothing changed.
+The kit's skills, agents, and commands come from the design-stuff-kit plugin and update with it. Only the files a project copied stay behind. Check them on every run; it is quick when nothing changed.
 
 - **Old copies of kit skills or agents.** If `.claude/skills/` or `.claude/agents/` holds a folder or file with the same name as one in `${CLAUDE_PLUGIN_ROOT}/skills/` or `${CLAUDE_PLUGIN_ROOT}/agents/`, it is a copy from the kit's pre-plugin setup, and it now shadows or duplicates the plugin's version. Say which ones, and offer to move them into `.claude/design-kit-backup/` so any local edits are kept. Do the same for `render.md` and `design-review.md` in `.claude/commands/`. Never delete them.
 - **Copied rules.** For each file in `.claude/rules/` whose name matches one in `${CLAUDE_PLUGIN_ROOT}/rules/`, compare the two. When they differ, summarise what the kit changed and what the project changed, and offer to merge. Never replace a project's own edits without asking.
@@ -36,7 +36,7 @@ The kit's skills, agents, and commands come from the design-kit plugin and updat
 
 Review the rule templates in `${CLAUDE_PLUGIN_ROOT}/rules/`. Recommend only the ones relevant to this project and the connected tools. Explain each recommendation in one line and ask which to activate. Copy chosen files into `.claude/rules/` without overwriting existing files; when a name already exists, compare and discuss the difference.
 
-The kit's agents (`design-critic`, `figma-auditor`, `copy-reviewer`, `scout`, `wireframe-builder`, `ui-builder`, `gitbook-porter`) come with the plugin and appear as `design-kit:<name>`. `${CLAUDE_PLUGIN_ROOT}/docs/AGENTS_SETUP.md` explains each one and the connections it needs. Mention only the ones that fit the connected tools. For Figma work, explain the file-pinning and restore-point rule before any canvas write.
+The kit's agents (`design-critic`, `figma-auditor`, `copy-reviewer`, `scout`, `wireframe-builder`, `ui-builder`, `gitbook-porter`) come with the plugin and appear as `design-stuff-kit:<name>`. `${CLAUDE_PLUGIN_ROOT}/docs/AGENTS_SETUP.md` explains each one and the connections it needs. Mention only the ones that fit the connected tools. For Figma work, explain the file-pinning and restore-point rule before any canvas write.
 
 Offer the project-memory templates in `${CLAUDE_PLUGIN_ROOT}/templates/project-memory/` (see the `project-memory` rule). If the project has none of these files, suggest creating `Open_Items.md`, `Figma_Map.md`, and `Session_Log.md` in the product folder, and compare `CLAUDE.template.md` with the existing `CLAUDE.md` instead of replacing it. Never overwrite an existing file.
 
@@ -47,7 +47,7 @@ Offer the starter files (`${CLAUDE_PLUGIN_ROOT}/docs/STARTER_FILES.md` lists the
 - **`.claude/settings.json`** from `settings.json.example`: ask how hands-off they want to be, keep every Figma write tool under `ask` (that also covers the plugin's agents), and match the MCP server names to `claude mcp list`. If a `settings.json` exists, merge rather than replace.
 - **`design.md`** from the template: principles, feel, always/never, deliberate refusals. Point `CLAUDE.md` to it by path.
 - **`design-tokens.json`**: derive it from the real system (Figma variables through MCP, or existing CSS/JSON), with a description per token. Skip it if there is no system yet.
-- The path-scoped `explore` rule, if they will explore on the web. The `/design-kit:render` and `/design-kit:design-review` commands come with the plugin.
+- The path-scoped `explore` rule, if they will explore on the web. The `/design-stuff-kit:render` and `/design-stuff-kit:design-review` commands come with the plugin.
 - **`CLAUDE.local.md`** for personal preferences, added to `.gitignore`.
 
 If the designer wants to start without optional templates, continue. The kit's safety instructions still apply when its Figma skills are invoked.
@@ -67,4 +67,4 @@ Use the wireframe sequence for structural flows, the production UI sequence for 
 
 ## 5. Begin and leave a resume point
 
-With the designer's chosen goal, do the smallest useful first step in the track, such as outlining the flow, reading the approved brief, or making the build plan. Do not edit a Figma canvas until the target file and scope are pinned and the relevant safety checks are satisfied. End with what was done, what needs review, and the next action. If the project uses the memory files, record the decision and reason in `Session_Log.md` and anything still open in `Open_Items.md`. On a later `/design-kit:start-design`, re-read current context and continue without repeating finished setup.
+With the designer's chosen goal, do the smallest useful first step in the track, such as outlining the flow, reading the approved brief, or making the build plan. Do not edit a Figma canvas until the target file and scope are pinned and the relevant safety checks are satisfied. End with what was done, what needs review, and the next action. If the project uses the memory files, record the decision and reason in `Session_Log.md` and anything still open in `Open_Items.md`. On a later `/design-stuff-kit:start-design`, re-read current context and continue without repeating finished setup.
