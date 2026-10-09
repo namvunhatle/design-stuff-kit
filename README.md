@@ -18,22 +18,46 @@ Claude always asks before editing a Figma file and saves a restore point first.
 
 ## Install
 
-### The quick way: inside Claude Code (2 minutes)
+Pick the way that matches where you use Claude Code. Both take about 2 minutes and install the same kit.
 
-Open Claude Code in your project folder and type these one at a time:
+### Claude Code in a terminal (CLI)
+
+Open Claude Code in your project folder (`claude`) and type these one at a time:
 
 ```text
-/plugin install design-stuff-kit --marketplace namvunhatle/design-stuff-kit
+/plugin marketplace add namvunhatle/design-stuff-kit
+/plugin install design-stuff-kit@design-stuff-kit
 /reload-plugins
 /design-stuff-kit:install-yummy
 /design-stuff-kit:start-design
 ```
 
-1. The first line adds this repository as a plugin source and installs the kit. Needs Claude Code 2.1.275 or later (`claude --version`); on an older version, run `/plugin marketplace add namvunhatle/design-stuff-kit`, then `/plugin install design-stuff-kit@design-stuff-kit`.
-2. `install-yummy` downloads five companion skills from their author, Yummy Labs, into your project (`ux-designer`, `ui-designer`, `ux-copywriter`, `interactive-prototype`, `figma-console-api`). It asks first, and needs Python 3.10+ (`python3 --version`; get it from [python.org](https://www.python.org/downloads/)).
-3. `start-design` reads your project, suggests working rules, and starts a first task. See [Your first session](#your-first-session).
+1. The first two lines add this repository as a plugin source and install the kit.
+2. `/reload-plugins` loads the kit into the open session.
+3. `install-yummy` and `start-design`: see [After installing](#after-installing).
 
 Then **turn on automatic updates**: run `/plugin`, open **Marketplaces**, select `design-stuff-kit`, and choose **Enable auto-update**.
+
+### Claude Code in VS Code (extension)
+
+In the extension's chat panel, `/plugin` does not take arguments: it only opens the **Manage plugins** dialog, so the terminal commands above do nothing there. Install from the dialog instead:
+
+1. Paste this link into your browser's address bar and open it. VS Code opens the Claude Code panel on the plugin and adds the marketplace first if needed. Pick a scope (**Project** if teammates should get it too).
+
+   ```text
+   vscode://anthropic.claude-code/install-plugin?plugin=design-stuff-kit&marketplace=namvunhatle/design-stuff-kit
+   ```
+
+   Or by hand: type `/plugins` in the chat, open the **Marketplaces** tab, add `namvunhatle/design-stuff-kit`, then in the **Plugins** tab click **Install** on `design-stuff-kit`.
+2. The dialog reloads plugins itself; no `/reload-plugins` needed. If it shows **Restart Claude to apply plugin changes**, restart the session.
+3. In the chat, run `/design-stuff-kit:install-yummy`, then `/design-stuff-kit:start-design`. See [After installing](#after-installing).
+
+The extension and the CLI share the same plugin settings. To turn on automatic updates, run `claude` once in VS Code's terminal and follow the auto-update step in the CLI section above.
+
+### After installing
+
+- `install-yummy` downloads five companion skills from their author, Yummy Labs, into your project (`ux-designer`, `ui-designer`, `ux-copywriter`, `interactive-prototype`, `figma-console-api`). It asks first, and needs Python 3.10+ (`python3 --version`; get it from [python.org](https://www.python.org/downloads/)).
+- `start-design` reads your project, suggests working rules, and starts a first task. See [Your first session](#your-first-session).
 
 **Sharing the project with a team?** In a terminal inside the project, run these once and commit `.claude/settings.json`. Teammates who open the project are then offered the same plugin.
 
