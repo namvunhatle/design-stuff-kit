@@ -1,10 +1,19 @@
 {
   "name": "design-stuff-kit",
   "displayName": "Design Stuff Kit",
+  "version": "0.1.0-beta",
   "description": "Design tracks for Figma wireframes and production UI, web exploration with render checks and a blind critic, motion workflows, and review agents.",
-  "author": { "name": "namvunhatle" },
+  "author": {
+    "name": "namvunhatle"
+  },
   "homepage": "https://github.com/namvunhatle/design-stuff-kit",
   "repository": "https://github.com/namvunhatle/design-stuff-kit",
   "license": "MIT",
-  "keywords": ["design", "figma", "ux", "wireframe", "prototype"]
+  "keywords": [
+    "design",
+    "figma",
+    "ux",
+    "wireframe",
+    "prototype"
+  ]
 }

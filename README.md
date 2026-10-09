@@ -230,7 +230,7 @@ The skills are Markdown instructions. Installing them does not grant Figma acces
 - **MCP servers.** Mobbin, Rive, and GitBook entries are in [`templates/mcp.json.example`](templates/mcp.json.example). Keep credentials in your local configuration, never in the project or this repo.
 - **Starter files.** `settings.json.example` (deny → ask → allow, every Figma write under `ask`), `design.md`, `design-tokens.example.json`, `CLAUDE.local.md`, and a skill template are in `templates/`, and `/design-stuff-kit:start-design` offers them. See [Starter files](docs/STARTER_FILES.md).
 - **Agent safety.** Every kit agent has a fixed `tools:` list. Keep Figma write tools under `ask` in `.claude/settings.json` (the example does), so even `wireframe-builder` asks before it writes. If you add your own agent, give it a `tools:` line: without one it inherits every tool, including `figma_execute`.
-- **Working on the kit.** Add your clone as a marketplace (`claude plugin marketplace add /path/to/design-stuff-kit`): Claude Code then loads the plugin straight from that folder, and `/reload-plugins` picks up an edit. Run `claude plugin validate .` before pushing. Users receive what is on `main`.
+- **Working on the kit.** Add your clone as a marketplace (`claude plugin marketplace add /path/to/design-stuff-kit`): Claude Code then loads the plugin straight from that folder, and `/reload-plugins` picks up an edit. Run `claude plugin validate .` before pushing. Users receive a new release only when `version` in `.claude-plugin/plugin.json` changes; see [Releasing](CONTRIBUTING.md#releasing).
 
 ## Contributing
 
