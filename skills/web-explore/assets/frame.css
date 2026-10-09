@@ -14,6 +14,8 @@
  *   data-decorative             text that is not read (not contrast-checked)
  *   data-layer="Name"           export this element's box and styles with render.mjs --measure
  * <html data-mode="ds">         design-system mode: every colour must come from tokens.css
+ * <html data-mode="wireframe">  wireframe mode: link wireframe.css; greys only, .wf-img for images
+ *   data-annotation             a note to the reviewer; exempt from the wireframe colour check
  */
 
 :root {

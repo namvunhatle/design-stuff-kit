@@ -24,6 +24,8 @@ ux-designer (Yummy Labs)
 
 Use this track for flows, information structure, and low-fidelity screens. `ui-designer` is **not** part of this track. A wireframe kit may supply components; if it is unavailable, use consistent grayscale primitives. Do not copy component keys from another Figma file.
 
+To compare flow structures before drawing in Figma, run `web-explore` in **wireframe mode**: grayscale HTML screens, the same render checks and blind critique (track `wireframe`), and the designer picks a flow. The pick then becomes the settled brief for this track; there is no token map or parity step.
+
 If writing through Figma Console MCP, also load `figma-console-api` from Yummy Labs before writing Plugin API code. A settled brief can be executed by `wireframe-builder` in a new section. That agent has no Mobbin tool, so resolve open pattern decisions in the main session before handing it the brief. For a review, use `figma-auditor` instead.
 
 ## Production UI track
@@ -57,7 +59,7 @@ For a new visual direction, exploring in HTML is faster than exploring in Figma,
   Learn     design-critique §8   log misses; promote repeats to CLAUDE.md, mechanical ones to checks
 ```
 
-Each check answers a different question: parity asks "does it look like what was approved?", the auditor asks "is it built right?", and the critic asks "did it lose quality on the way into the design system?". Web exploration can also run in **design-system mode**, which loads the system's tokens and flags every off-token colour early. Use it once the direction is close, so phase 2 has fewer open rows.
+Each check answers a different question: parity asks "does it look like what was approved?", the auditor asks "is it built right?", and the critic asks "did it lose quality on the way into the design system?". Web exploration can also run in **design-system mode**, which loads the system's tokens and flags every off-token colour early. Use it once the direction is close, so phase 2 has fewer open rows. **Wireframe mode** runs the same loop on structure instead and hands its pick to the wireframe track (see above), not to phase 2.
 
 Agents for this workflow: `design-critic`, `figma-auditor`, `copy-reviewer`. Install them with `./start --project … --agents design-critic,figma-auditor,copy-reviewer` ([Agent setup](docs/AGENTS_SETUP.md)).
 

@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en" data-device="ios" data-mode="wireframe">
+<!-- Wireframe mode: grayscale primitives from wireframe.css, real copy, one screen per step of the flow. -->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Wireframe: feature name</title>
+  <link rel="stylesheet" href="frame.css">
+  <link rel="stylesheet" href="wireframe.css">
+  <style>
+    .content { flex: 1; display: flex; flex-direction: column; gap: 16px; padding: 8px 20px 0; }
+    .title { margin: 0; font-size: 28px; font-weight: 700; line-height: 1.15; }
+    .meta { margin: 0; font-size: 15px; line-height: 1.4; color: var(--wf-ink-2); }
+    .actions { display: flex; flex-direction: column; gap: 8px; margin-top: auto; padding-bottom: 12px; }
+  </style>
+</head>
+<body>
+  <!-- One <section class="screen"> per step. Name screens in flow order so the sheet reads as the flow. -->
+  <section class="screen" data-name="01-entry">
+    <div class="wf-topbar"><span class="wf-icon" aria-label="Back"></span></div>
+    <div class="content">
+      <h1 class="title">The one thing this step asks of the user</h1>
+      <p class="meta">One line on why it matters, in the product's real words.</p>
+      <div class="wf-img" style="height: 180px"></div>
+      <div class="actions">
+        <button class="wf-btn">Continue to the next step</button>
+        <button class="wf-btn text">Not now</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="screen" data-name="02-empty">
+    <div class="wf-topbar"><span class="wf-icon" aria-label="Back"></span><strong>Saved</strong></div>
+    <div class="content">
+      <p class="meta">Nothing saved yet. Tap the bookmark on any item to keep it here.</p>
+      <p class="wf-note" data-annotation>Empty for a new user. A filtered-to-nothing state needs its own screen.</p>
+    </div>
+    <nav class="wf-tabbar">
+      <span><i class="wf-icon"></i>Home</span>
+      <span aria-current="page"><i class="wf-icon"></i>Saved</span>
+      <span><i class="wf-icon"></i>Profile</span>
+    </nav>
+  </section>
+
+  <script src="frame.js"></script>
+</body>
+</html>

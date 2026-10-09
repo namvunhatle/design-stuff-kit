@@ -1,9 +1,9 @@
 ---
 name: web-explore
-description: Explore UI directions as HTML phone screens with a live preview, then render them to PNG and check them automatically before a critic and the designer review them. Use when the designer wants to compare directions or try a screen quickly before committing to Figma, or wants a quick demo on a real phone. Not for building the chosen design for handoff (ship-to-figma) or for a stakeholder motion prototype in React (interactive-prototype).
+description: Explore UI directions, or wireframe a flow in grayscale, as HTML phone screens with a live preview, then render them to PNG and check them automatically before a critic and the designer review them. Use when the designer wants to compare directions or flow structures, or try a screen quickly before committing to Figma, or wants a quick demo on a real phone. Not for building the chosen design for handoff (ship-to-figma) or for a stakeholder motion prototype in React (interactive-prototype).
 metadata:
   author: namvunhatle
-  version: 1.0.0
+  version: 1.1.0
 ---
 
 # Explore on the web
@@ -17,6 +17,8 @@ HTML is the fastest canvas for exploring: one save, one reload, and it runs on a
    design-critic
 ```
 
+In wireframe mode the same loop runs on structure instead of visuals, and the pick goes to the wireframe track in Figma instead of `ship-to-figma` (§7).
+
 Explorations are disposable. Once a direction is built in Figma, **Figma is the source of truth** and these files become history.
 
 ## 0. Setup (once per working folder)
@@ -27,6 +29,7 @@ Needs Node.js 18+. Make a folder for the feature, outside the product's source c
 mkdir -p explore/<feature> && cd explore/<feature>
 cp ../../.claude/skills/web-explore/assets/{frame.css,frame.js,starter.html} .
 mv starter.html explore.html
+# wireframe mode instead: copy wireframe.css and wireframe-starter.html, rename the starter to explore.html
 npm init -y >/dev/null && npm i -D playwright     # render step only
 ```
 
@@ -42,6 +45,7 @@ Then pick the mode:
 |---|---|---|
 | **Free** | Finding a direction; the design system may not express it yet | Local values in `:root`, named by role |
 | **Design system** | The direction is close, or the product must stay inside its system | `<html data-mode="ds">`, link `tokens.css`, and use only its variables |
+| **Wireframe** | The flow, screen order, or information structure is still open | `<html data-mode="wireframe">`, link `wireframe.css`, and build from its grayscale primitives (§7) |
 
 For design-system mode, keep the system's tokens in the project's `design-tokens.json`, each with a description of what it is for (derive it from Figma variables with `figma_get_token_values` or `figma_export_tokens`, resolved for the product's modes). Generate the CSS:
 
@@ -100,15 +104,33 @@ Run `design-critique` with the `design-critic` agent: phase `explore`, the PNG p
 
 ## 6. Hand over to phase 2
 
-When the designer picks a direction, continue with `ship-to-figma`. Keep `DIRECTION.md`, `CRITIQUE.md`, and the final `shots/` folder; phase 3 is scored against them.
+When the designer picks a direction, continue with `ship-to-figma`. A wireframe-mode pick goes to §7 instead. Keep `DIRECTION.md`, `CRITIQUE.md`, and the final `shots/` folder; phase 3 is scored against them.
+
+## 7. Wireframe mode
+
+Use it when the open question is the flow, not the look. It follows the same loop (brief, three options, render, critique, designer picks) with these differences:
+
+| Step | Free and design-system modes | Wireframe mode |
+|---|---|---|
+| Brief (§1) | Three words for the feel | The user's goal, the entry point, and the exit; no feel words |
+| Skills | `ui-designer` for visual craft | `ux-designer` and `ux-copywriter` only. Do not load `ui-designer` |
+| Three options (§2) | Different ground, type, and richness | Different structure: screen order and count, where the decision sits, navigation pattern (sheet, page, inline), what is shown first. Three layouts of the same flow is one option. Search Mobbin for each pattern before settling it |
+| Build-out | Core screen, deeper level, feedback frames, dark mode | Every step of the chosen flow in order (`01-…`, `02-…`), plus its empty, error, and loading states. No dark mode, no motion, no `data-freeze` frames |
+| Construction | Local values or tokens | `wireframe.css` primitives and greys. `.wf-img` for any image. Notes to the reviewer go in `.wf-note[data-annotation]`, the only tinted element |
+| Render (§4) | Off-token colours warn in DS mode | Any tinted colour or real image warns. Contrast, clipping, and touch targets are still FAIL |
+| Critique (§5) | `Track: ui` | `Track: wireframe`: the critic scores Hierarchy, Space, Content and states, Platform fit, Craft, and Flow only |
+| Hand over | `ship-to-figma` | The wireframe track: `figma-wireframe-kit`, or a brief for `wireframe-builder`, with `mockup.html` and the final `shots/` as the settled flow. Nothing to lock and no token map |
+
+Copy stays real in wireframe mode; grey boxes replace images, never words. After the wireframe is approved in Figma, a visual direction can start in free or design-system mode from that flow.
 
 ## Hard rules
 
 | Never | Instead |
 |---|---|
-| Grey placeholder boxes, lorem, emoji as icons | Real content, drawn shapes or real images, one icon set |
+| Grey placeholder boxes, lorem, emoji as icons | Real content, drawn shapes or real images, one icon set. Wireframe mode uses `.wf-img` for images, but copy stays real |
 | A layout made of absolute coordinates | Flex or grid; absolute only for overlays and artwork |
 | Animating width, height, top, or margin | Transform, opacity, filter; respect `prefers-reduced-motion` |
 | Claiming a motion "feels right" | Say what you measured; the designer plays it |
+| Colour, brand type, or motion in wireframe mode | Greys and the system font; settle the look in a later free-mode round |
 | Polishing all three directions before a pick | Equal craft, not equal finish; polish only the winner |
 | Editing Figma in this phase | Figma starts in phase 3, after the designer approves the token map |

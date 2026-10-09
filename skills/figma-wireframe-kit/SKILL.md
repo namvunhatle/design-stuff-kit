@@ -17,7 +17,7 @@ Wireframes are reviewed as a **flow**: screen order, content, states, and decisi
 
 ### Load the track
 
-Wireframe track: `ux-designer` → project context → **this skill** → `ux-copywriter`. `ui-designer` is not part of this track. Load `figma-console-api` before writing Plugin API code. If several directions are still being compared, apply `explore-vs-final` to choose construction fidelity.
+Wireframe track: `ux-designer` → project context → **this skill** → `ux-copywriter`. `ui-designer` is not part of this track. Load `figma-console-api` before writing Plugin API code. If several directions are still being compared, apply `explore-vs-final` to choose construction fidelity. If the flow was picked in `web-explore` wireframe mode, its `mockup.html`, final `shots/`, and `CRITIQUE.md` are the settled brief: rebuild that flow, and report any difference instead of redesigning it.
 
 For a full build, **read every file in `references/` of `ux-designer` and `ux-copywriter`**. The `SKILL.md` files are summaries and their references do not load automatically. The two sets together are roughly 40 KB, cheaper than rebuilding a flow. In practice the references change designs that feel obvious: they distinguish an empty state for a new user from an empty state caused by a filter, and they note that browsable categories beat search when users do not know the vocabulary. An isolated correction needs only the relevant reference.
 

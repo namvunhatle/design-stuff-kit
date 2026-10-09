@@ -1,0 +1,71 @@
+/*
+ * web-explore wireframe primitives. Link after frame.css, with <html data-mode="wireframe">.
+ * Grayscale only: the review is about structure, order, content, and states, so nothing
+ * here should read as a visual direction. render.mjs warns on any tinted colour or real image.
+ *
+ *   .wf-img                image or illustration placeholder (set its height or aspect-ratio)
+ *   .wf-icon               24 px icon placeholder; .wf-icon.lg for 40 px
+ *   .wf-avatar             40 px round placeholder
+ *   .wf-btn                primary action; .wf-btn.secondary, .wf-btn.text
+ *   .wf-field              text field: <label class="wf-field"><span>Label</span><input …></label>
+ *   .wf-card               grouped content
+ *   .wf-row                list row: leading slot, text, trailing slot
+ *   .wf-tabbar             bottom navigation; .wf-topbar for the navigation bar
+ *   .wf-note[data-annotation]  a note to the reviewer; the only element allowed a tint
+ */
+
+:root {
+  --wf-ink: #1A1A1A;     /* headings, body, primary button fill */
+  --wf-ink-2: #5C5C5C;   /* secondary text; 4.5:1 or better on every fill below */
+  --wf-line: #C4C4C4;    /* borders and dividers */
+  --wf-fill: #EDEDED;    /* placeholders and cards */
+  --wf-ground: #FFFFFF;
+}
+html[data-mode="wireframe"] .screen { --bg: var(--wf-ground); --fg: var(--wf-ink); }
+
+.wf-img {
+  min-height: 120px;
+  border: 1px solid var(--wf-line);
+  border-radius: 8px;
+  background:
+    linear-gradient(to top right, transparent calc(50% - 0.5px), var(--wf-line) 50%, transparent calc(50% + 0.5px)),
+    linear-gradient(to bottom right, transparent calc(50% - 0.5px), var(--wf-line) 50%, transparent calc(50% + 0.5px)),
+    var(--wf-fill);
+}
+.wf-icon { flex: none; width: 24px; height: 24px; border-radius: 6px; background: var(--wf-line); }
+.wf-icon.lg { width: 40px; height: 40px; border-radius: 10px; }
+.wf-avatar { flex: none; width: 40px; height: 40px; border-radius: 50%; background: var(--wf-line); }
+
+.wf-btn {
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  width: 100%; min-height: 48px; padding: 0 16px; box-sizing: border-box;
+  border: 1px solid var(--wf-ink); border-radius: 8px;
+  background: var(--wf-ink); color: var(--wf-ground);
+  font: inherit; font-size: 16px; font-weight: 600;
+}
+.wf-btn.secondary { background: var(--wf-ground); color: var(--wf-ink); }
+.wf-btn.text { border-color: transparent; background: transparent; color: var(--wf-ink); text-decoration: underline; }
+
+.wf-field { display: flex; flex-direction: column; gap: 6px; font-size: 13px; color: var(--wf-ink-2); }
+.wf-field input, .wf-field select, .wf-field textarea {
+  min-height: 48px; padding: 0 12px; box-sizing: border-box;
+  border: 1px solid var(--wf-line); border-radius: 8px;
+  background: var(--wf-ground); color: var(--wf-ink); font: inherit; font-size: 16px;
+}
+
+.wf-card { padding: 16px; border: 1px solid var(--wf-line); border-radius: 12px; background: var(--wf-ground); }
+.wf-row { display: flex; align-items: center; gap: 12px; min-height: 56px; border-bottom: 1px solid var(--wf-line); }
+.wf-row > :not(.wf-icon, .wf-avatar, .wf-img) { flex: 1; min-width: 0; }
+
+.wf-topbar { display: flex; align-items: center; gap: 12px; min-height: 48px; padding: 0 16px; }
+.wf-tabbar { display: flex; margin-top: auto; border-top: 1px solid var(--wf-line); }
+.wf-tabbar > * {
+  flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px;
+  min-height: 52px; padding-top: 6px; font-size: 11px; color: var(--wf-ink-2);
+}
+.wf-tabbar > [aria-current] { color: var(--wf-ink); font-weight: 700; }
+
+.wf-note {
+  padding: 8px 10px; border-radius: 6px;
+  background: #FFF4C2; color: #3D3300; font-size: 12px; line-height: 1.35;
+}

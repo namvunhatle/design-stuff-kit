@@ -2,8 +2,9 @@
 // Render every <section class="screen"> in an HTML file to PNG, tile a contact
 // sheet, and check the rendered DOM for defects nobody should have to find by eye:
 // clipped, colliding or off-screen text, contrast, small text, small touch targets,
-// screens that render the same (one of them is broken or never drew), and
-// (in design-system mode) colours that are not tokens.
+// screens that render the same (one of them is broken or never drew),
+// (in design-system mode) colours that are not tokens, and (in wireframe mode)
+// colours and images that do not belong in a grayscale wireframe.
 //
 // Needs Playwright in the working folder: npm i -D playwright
 // Uses installed Google Chrome when present; otherwise run: npx playwright install chromium
@@ -148,6 +149,7 @@ const issues = await page.evaluate(([onlyNames, tokenValues]) => {
 
   // Design-system mode: colours declared in a stylesheet named tokens.css.
   const dsMode = document.documentElement.dataset.mode === 'ds'
+  const wfMode = document.documentElement.dataset.mode === 'wireframe'
   const tokens = new Set()
   if (dsMode) {
     const probe = document.createElement('i')
@@ -235,6 +237,26 @@ const issues = await page.evaluate(([onlyNames, tokenValues]) => {
       const r = t.getBoundingClientRect()
       if (r.width && (r.width < min || r.height < min))
         add('FAIL', name, 'touch target', `${label(t) === '""' ? '<' + t.tagName.toLowerCase() + '>' : label(t)} is ${Math.round(r.width)}×${Math.round(r.height)}, needs ${min}×${min}`)
+    }
+
+    if (wfMode) {
+      const tinted = new Map()
+      let images = 0
+      for (const el of [screen, ...screen.querySelectorAll('*')]) {
+        if (chrome(el) || !visible(el) || el.closest('[data-annotation]')) continue
+        const cs = getComputedStyle(el)
+        if (el.tagName === 'IMG' || el.tagName === 'VIDEO' || /url\(/.test(cs.backgroundImage)) images++
+        const props = ['color', 'backgroundColor']
+        if (parseFloat(cs.borderTopWidth) > 0) props.push('borderTopColor')
+        if (el instanceof SVGElement) props.push('fill', 'stroke')
+        for (const p of props) {
+          const c = rgba(cs[p])
+          if (!c || c.a === 0) continue
+          if (Math.max(c.r, c.g, c.b) - Math.min(c.r, c.g, c.b) > 10) tinted.set(hex(c), (tinted.get(hex(c)) || 0) + 1)
+        }
+      }
+      for (const [h, n] of tinted) add('warn', name, 'colour in wireframe', `${h} used ${n}×. Use greys, or mark a note with data-annotation`)
+      if (images) add('warn', name, 'image in wireframe', `${images} image(s). Use a .wf-img placeholder so the review stays on structure`)
     }
 
     if (dsMode && tokens.size) {

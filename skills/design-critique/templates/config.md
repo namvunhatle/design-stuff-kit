@@ -35,6 +35,9 @@ balanced
 | Craft | 3 |
 | Buildability | 1 |
 | Fidelity | 2 |
+| Flow | 3 |
+
+<!-- Track wireframe scores only Hierarchy, Space and alignment, Content and states, Platform fit, Craft, and Flow. -->
 
 ## Hard gates
 

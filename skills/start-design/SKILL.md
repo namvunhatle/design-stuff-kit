@@ -53,7 +53,7 @@ Read the staged `.claude/design-kit-templates/rules/design-tracks.md` for the tr
 - Required project inputs and connected tools
 - What the designer must review or decide before edits
 
-Use the wireframe sequence for structural flows, the production UI sequence for an approved direction, `web-explore` then `ship-to-figma` when the designer wants to explore in the browser before Figma, the coded `interactive-prototype` skill for a React prototype, and `figma-prototype-motion` for motion in Figma. Load `figma-console-api` before Figma Plugin API writes. If required skills or tool connections are missing, give exact setup steps or choose a task that can proceed without them.
+Use the wireframe sequence for structural flows, the production UI sequence for an approved direction, `web-explore` then `ship-to-figma` when the designer wants to explore in the browser before Figma (`web-explore` in wireframe mode, then the wireframe sequence, when the open question is the flow), the coded `interactive-prototype` skill for a React prototype, and `figma-prototype-motion` for motion in Figma. Load `figma-console-api` before Figma Plugin API writes. If required skills or tool connections are missing, give exact setup steps or choose a task that can proceed without them.
 
 ## 4. Begin and leave a resume point
 

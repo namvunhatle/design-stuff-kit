@@ -9,6 +9,7 @@ For a full wireframe or UI build, read every `references/` file supplied with th
 - **Figma motion:** add `figma-prototype-motion` to either track before editing reactions or keyframes.
 - **Rive motion:** use `rive-motion` when the interaction needs a state machine, data binding, or a runtime asset; keep Figma reactions for click-through demos.
 - **Web exploration before Figma:** `web-explore` → `design-critique` → designer picks → `ship-to-figma` (token map approved, then the production UI track below, then parity, audit, and re-critique).
+- **Wireframe exploration before Figma:** `web-explore` in wireframe mode (`ux-designer`, `ux-copywriter`, no `ui-designer`) → `design-critique` with track `wireframe` → designer picks a flow → the wireframe track above, with the picked HTML as the settled brief.
 - **Coded prototype:** use `interactive-prototype` instead of the Figma motion skill. Add `beat-synced-motion` if it has music, and `code-to-figma-sync` when Figma must be brought back in line with the build.
 - **Any Figma Plugin API write:** load `figma-console-api` when installed, and follow `figma-workflow`.
 

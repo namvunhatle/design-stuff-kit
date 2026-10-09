@@ -98,6 +98,7 @@ Load `figma-console-api` before Figma Plugin API writes. Add motion with the one
 | You need to… | Start with | Deliverable |
 |---|---|---|
 | Compare directions | `explore-vs-final` | Labeled options and a decision record |
+| Compare flow structures as grayscale wireframes before Figma | `web-explore` in wireframe mode → wireframe track, scored with `design-critique` (needs Node.js) | Checked grayscale flow, critique scores, a picked flow as the wireframe brief |
 | Explore in code, then build the pick in Figma | `web-explore` → `ship-to-figma`, scored with `design-critique` (needs Node.js) | Live preview, checked renders, approved token map, Figma section verified against the web reference |
 | Prepare a chosen direction for handoff | `explore-vs-final` | Structured final design with intentional exceptions noted |
 | Move an existing feature to another Figma file | `figma-clone-port` | Source-to-destination mapping and verification report |
@@ -129,7 +130,7 @@ Load `figma-console-api` before Figma Plugin API writes. Add motion with the one
 | [`beat-synced-motion`](skills/beat-synced-motion/SKILL.md) | Picking a music track, beat-grid timing, mix, and measuring audio-to-motion lock | namvunhatle |
 | [`code-to-figma-sync`](skills/code-to-figma-sync/SKILL.md) | Rebuilding Figma frames and keyframes from a live coded prototype | namvunhatle |
 | [`web-android-port`](skills/web-android-port/SKILL.md) | Porting web motion prototypes to Android and keeping both in sync | namvunhatle |
-| [`web-explore`](skills/web-explore/SKILL.md) | HTML phone frames, live preview, render to PNG with automatic checks | namvunhatle |
+| [`web-explore`](skills/web-explore/SKILL.md) | HTML phone frames (UI or grayscale wireframe), live preview, render to PNG with automatic checks | namvunhatle |
 | [`design-critique`](skills/design-critique/SKILL.md) | Blind, calibrated critique loop with one persistent `design-critic` agent, and a lessons log that turns repeat misses into rules | namvunhatle; loop inspired by Yummy Labs' [eval-loop guide](https://yummy-design-sprint.notion.site/How-to-make-Claude-keep-designing-better-ie-Agentic-evaluation-loops-39e62791470980c5b541c7020667e634) and [App Designer](https://www.tobiadonadon.com/projects/construct/material/skills/app-designer) by Tobia Donadon |
 | [`ship-to-figma`](skills/ship-to-figma/SKILL.md) | Token map, Figma rebuild, and three-way verification of a chosen web direction | namvunhatle |
 | [`theboxexplore`](skills/theboxexplore/SKILL.md) | Explicitly invoked satirical idea exploration | namvunhatle; inspired by [Soren's Newsletter](https://sorens.beehiiv.com/) |
