@@ -2,7 +2,7 @@
 
 For a new flow or screen, determine whether the result is a wireframe, production UI, Figma motion, or a coded prototype before writing. Read the project brief and design rules. Apply `explore-vs-final` to decide whether the output is being compared or prepared for handoff.
 
-For a full wireframe or UI build, read every `references/` file supplied with the selected track skills. Search real app screens with Mobbin MCP before settling an open pattern decision. If Mobbin is unavailable, say which evidence step could not run; do not invent examples. A connection example is in `.claude/design-kit-templates/mcp.json.example`. An isolated correction needs only the relevant references.
+For a full wireframe or UI build, read every `references/` file supplied with the selected track skills. Search real app screens with Mobbin MCP before settling an open pattern decision. If Mobbin is unavailable, say which evidence step could not run; do not invent examples. A connection example is the design-kit plugin's `templates/mcp.json.example`; `/design-kit:start-design` can show it. An isolated correction needs only the relevant references.
 
 - **Wireframe:** `ux-designer` → project context → `figma-wireframe-kit` → `ux-copywriter`. Do not load `ui-designer` for this track.
 - **Production UI:** `ux-designer` → project context → `figma-design-system-ui` → `ui-designer` → `ux-copywriter` → review the five-question build plan below before a substantial canvas write.

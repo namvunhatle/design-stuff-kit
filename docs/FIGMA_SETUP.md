@@ -57,7 +57,7 @@ In the open file, create a 200×200 frame named "Kit test". Then delete it.
 
 ## 5. Optional: Mobbin
 
-The design tracks look up real app screens in [Mobbin](https://mobbin.com) before choosing a pattern. Connect it in Claude's connector settings, or copy the `mobbin` entry from `.claude/design-kit-templates/mcp.json.example` into your project's `.mcp.json`. Without it, the kit still works and notes that this evidence step was skipped.
+The design tracks look up real app screens in [Mobbin](https://mobbin.com) before choosing a pattern. Connect it in Claude's connector settings, or copy the `mobbin` entry from the kit's [`templates/mcp.json.example`](../templates/mcp.json.example) into your project's `.mcp.json`. Without it, the kit still works and notes that this evidence step was skipped.
 
 ## 6. Optional: Rive
 
@@ -67,7 +67,7 @@ For interactive motion that needs a state machine (Rive), the kit can drive the 
 claude mcp add --transport http rive http://127.0.0.1:9791/mcp
 ```
 
-Or copy the `rive` entry from `.claude/design-kit-templates/mcp.json.example`. No login is needed, but the server only responds while the Rive app is running.
+Or copy the `rive` entry from the kit's [`templates/mcp.json.example`](../templates/mcp.json.example). No login is needed, but the server only responds while the Rive app is running.
 
 ## Safety habits the skills follow
 

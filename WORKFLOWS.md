@@ -4,7 +4,7 @@ This is the routing used by the original design setup, with project-specific lib
 
 ## Start a project
 
-After cloning the kit, run `./start --project /path/to/your-project`. The installed `/start-design` skill checks project context, lets the designer choose relevant rule and agent templates, then routes a concrete first task through the tracks below. If project context is missing, use Yummy Labs' official [design-context-setup](https://yummy-design-sprint.notion.site/A-skill-for-Claude-Code-that-sets-your-design-project-up-properly-3bb6279147098015b2bae1a60aba566f) first. The kit links to that skill; it does not redistribute it.
+After cloning the kit, run `./start --project /path/to/your-project`. This installs the kit as the design-kit plugin. Its `/design-kit:start-design` skill checks project context, lets the designer choose relevant rule templates, then routes a concrete first task through the tracks below. If project context is missing, use Yummy Labs' official [design-context-setup](https://yummy-design-sprint.notion.site/A-skill-for-Claude-Code-that-sets-your-design-project-up-properly-3bb6279147098015b2bae1a60aba566f) first. The kit links to that skill; it does not redistribute it.
 
 ## Choose the stage first
 
@@ -61,7 +61,7 @@ For a new visual direction, exploring in HTML is faster than exploring in Figma,
 
 Each check answers a different question: parity asks "does it look like what was approved?", the auditor asks "is it built right?", and the critic asks "did it lose quality on the way into the design system?". Web exploration can also run in **design-system mode**, which loads the system's tokens and flags every off-token colour early. Use it once the direction is close, so phase 2 has fewer open rows. **Wireframe mode** runs the same loop on structure instead and hands its pick to the wireframe track (see above), not to phase 2.
 
-Agents for this workflow: `design-critic`, `figma-auditor`, `copy-reviewer`. Install them with `./start --project … --agents design-critic,figma-auditor,copy-reviewer` ([Agent setup](docs/AGENTS_SETUP.md)).
+Agents for this workflow: `design-critic`, `figma-auditor`, `copy-reviewer`. They come with the plugin ([Agent setup](docs/AGENTS_SETUP.md)).
 
 ## Motion workflow
 

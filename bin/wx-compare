@@ -1,0 +1,3 @@
+#!/bin/sh
+# Pixel parity between two folders of PNGs (needs Pillow). Runs web-android-port's compare.py.
+exec python3 "$(cd "$(dirname "$0")/.." && pwd)/skills/web-android-port/scripts/compare.py" "$@"

@@ -2,7 +2,7 @@
 
 [Back to README](../README.md)
 
-The kit ships five agents. An agent is a separate Claude with its own short instructions and a fixed tool list. The main session hands it one bounded job, such as "audit this Figma section" or "score these screens", and gets a report back. Agents are **not active** until their files are in your project's `.claude/agents/` folder.
+The kit ships five agents. An agent is a separate Claude with its own short instructions and a fixed tool list. The main session hands it one bounded job, such as "audit this Figma section" or "score these screens", and gets a report back. They come with the design-kit plugin and appear as `design-kit:<name>`. An agent runs only when you or a skill calls it.
 
 ## The five agents
 
@@ -18,25 +18,11 @@ For the web-to-Figma workflow (`web-explore` → `ship-to-figma`) you need `desi
 
 ## Install
 
-Pick one way.
-
-**A. With setup (recommended).** From the kit folder:
-
-```sh
-./start --project /path/to/your-project --agents all
-```
-
-Or name the ones you want: `--agents design-critic,figma-auditor,copy-reviewer`. Setup copies them into `your-project/.claude/agents/` and never overwrites an agent that is already there.
-
-**B. During onboarding.** Run `/start-design` in Claude Code. Step 2 recommends agents for your project and copies the ones you choose.
-
-**C. By hand.** Copy files from `your-project/.claude/design-kit-templates/agents/` (setup staged them there) into `your-project/.claude/agents/`.
-
-Then **restart Claude Code**: agents load when a session starts.
+Nothing to do: `./start` installs the plugin, and the agents come with it. To turn every kit component off in a project, disable the plugin in `/plugin`.
 
 ## Check that they loaded
 
-1. In Claude Code, type `/agents`. Each installed agent should be listed.
+1. In Claude Code, type `/agents`. The five should be listed under the plugin as `design-kit:<name>`.
 2. Run `/mcp` and check that the servers the agents need are connected: `figma-console` for the Figma agents, `gitbook` for `gitbook-porter`.
 3. Give each one a small test:
 
@@ -48,14 +34,14 @@ Then **restart Claude Code**: agents load when a session starts.
 
 ## Match tool names to your setup
 
-An agent's `tools:` line names MCP tools as `mcp__<server>__<tool>`. The kit assumes the server is called `figma-console` (and `gitbook`). If you added Figma Console MCP under another name, edit the `tools:` line of `figma-auditor` and `wireframe-builder` to match, or the agent starts without its Figma tools and says it cannot reach Figma.
+An agent's `tools:` line names MCP tools as `mcp__<server>__<tool>`. The kit assumes the server is called `figma-console` (and `gitbook`). If you added Figma Console MCP under another name, the agent starts without its Figma tools and says it cannot reach Figma. Plugin files are replaced on every update, so do not edit the agent; add the server again under the expected name (`claude mcp remove <name>`, then follow [Figma setup](FIGMA_SETUP.md) step 2).
 
 `claude mcp list` shows your server names.
 
 ## Safety
 
 - **Keep Figma writes under `ask` in `.claude/settings.json`.** The kit's `settings.json.example` does this, so even an agent that has a write tool still has to ask ([Starter files](STARTER_FILES.md#permissions-settingsjson)).
-- **Every agent must have a `tools:` line.** An agent without one inherits every tool, including `figma_execute`. If `.claude/settings.json` allows that tool, the agent could then write to Figma without asking.
+- **Every agent must have a `tools:` line.** The kit's agents do. If you write your own agent, give it one: an agent without it inherits every tool, including `figma_execute`, and if `.claude/settings.json` allows that tool, the agent could write to Figma without asking.
 - `figma-auditor` deliberately has no `figma_execute`. When a check needs a Plugin API query, it writes the query out for the main session to run.
 - `wireframe-builder` is the only agent that writes to Figma. Call it only with a settled brief, and only for a new section.
 - No agent replaces the designer. `design-critic`'s "Ready" means ready for the designer to judge.
@@ -68,7 +54,8 @@ An agent's `tools:` line names MCP tools as `mcp__<server>__<tool>`. The kit ass
 
 ## Update or remove
 
-- **Update:** delete the agent's file from `.claude/agents/`, then rerun `./start --project … --agents <name>`. Setup never overwrites.
-- **Remove:** delete the file and restart Claude Code.
+- **Update:** agents update with the plugin. See [Updating the kit](../README.md#updating-the-kit).
+- **Old copies:** a project set up before the plugin may still have kit agents in `.claude/agents/`. Rerun `./start` to move them to a backup, or `/design-kit:start-design` lists them.
+- **Remove:** disable the plugin for the project in `/plugin`. Individual agents cannot be turned off separately.
 
 Something failed? See [Troubleshooting](TROUBLESHOOTING.md).

@@ -10,7 +10,7 @@ metadata:
 
 A prototype link is shown to stakeholders who never see the code. The deploy is done only when **the production URL serves the bundle you just built**, and you can roll back to any version that was ever shown. `vercel --prod` finishing without an error proves neither.
 
-Run `scripts/deploy_prebuilt.sh` for the whole sequence. The sections below say why each step exists, so you can adapt it when a project differs.
+Run `"${CLAUDE_PLUGIN_ROOT}/skills/prototype-vercel-deploy/scripts/deploy_prebuilt.sh"` for the whole sequence. The sections below say why each step exists, so you can adapt it when a project differs.
 
 ---
 
@@ -71,7 +71,7 @@ A match proves the right files are live. It does not prove the experience works.
 ## 6. Run it
 
 ```sh
-skills/prototype-vercel-deploy/scripts/deploy_prebuilt.sh \
+"${CLAUDE_PLUGIN_ROOT}/skills/prototype-vercel-deploy/scripts/deploy_prebuilt.sh" \
   --app path/to/prototype \
   --url https://your-prototype.vercel.app \
   --versions-dir path/to/prototype_versions

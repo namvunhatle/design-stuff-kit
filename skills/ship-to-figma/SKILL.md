@@ -26,8 +26,8 @@ Write in `DIRECTION.md` (and in the project's `Session_Log.md` if it keeps one) 
 Render the final `mockup.html` at the **Figma frame size** into `reference/`, at 1x and 3x, with measurements:
 
 ```sh
-node ../../.claude/skills/web-explore/scripts/render.mjs mockup.html --out reference/1x --scale 1 --measure
-node ../../.claude/skills/web-explore/scripts/render.mjs mockup.html --out reference/3x
+wx-render mockup.html --out reference/1x --scale 1 --measure
+wx-render mockup.html --out reference/3x
 ```
 
 Mark the elements Figma will rebuild with `data-layer="Layer name"` first, using the names the Figma layers will carry. `--measure` then writes their boxes, type, colours, radii, padding, and gap to `reference/1x/measure/*.json`, so the build reads exact numbers instead of guessing from a screenshot. Note the git commit or a copy of the HTML: the reference must not move after this point. A later web change means a new reference, recorded as such.
@@ -45,7 +45,7 @@ Map every value the reference uses onto the design system, and present it as one
 - **Bind only exact or visually identical matches.** If the nearest token changes the design, the row says so and the designer decides between bind, local value, and asking the library owner.
 - Put contrast numbers in every colour row, both before and after. A question without numbers costs a round (`figma-design-system-ui` §6).
 - Fonts: if the web used a face the platform or system does not ship, the row names the system's substitute and what changes.
-- A design-system mode run of `render.mjs` already lists the off-token colours. Start from its `report.md`.
+- A design-system mode run of `wx-render` already lists the off-token colours. Start from its `report.md`.
 
 The approved table is the contract for phase 3. Anything that comes up later and is not in it goes back to the designer (`design-tracks`, "While building").
 
@@ -67,7 +67,7 @@ All three must pass. They answer different questions and cannot replace one anot
 
 | Question | Check | Pass when |
 |---|---|---|
-| Does Figma **look like** the approved web? | `python3 ../../.claude/skills/web-android-port/scripts/compare.py reference/1x figma/1x --out parity/diff --max-mean 3` (needs Pillow) | Every frame within the threshold, or each difference traced to a row of the token map |
+| Does Figma **look like** the approved web? | `wx-compare reference/1x figma/1x --out parity/diff --max-mean 3` (needs Pillow) | Every frame within the threshold, or each difference traced to a row of the token map |
 | Is it **built right**? | `figma-auditor` agent on the new section: bindings, components, auto layout, node map | No unbound value outside the token map's local rows; no detached instances |
 | Did it **lose quality**? | `design-critique` in phase `figma`: the same critic if it is still available, otherwise a new one given the explore `CRITIQUE.md` | No line below its final explore score; Fidelity ≥ 3; stop rule met |
 

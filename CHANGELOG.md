@@ -1,0 +1,25 @@
+# Changelog
+
+What changed in the kit, newest first. The plugin updates skills, agents, and commands on its own. **In your project** lists the hand edits an update needs in files the plugin never touches; `/design-kit:start-design` checks them for you.
+
+## 2026-10-09 · The kit is a Claude Code plugin
+
+- The kit installs as the `design-kit` plugin from this repository's marketplace, and updates through Claude Code. Skills are now named `design-kit:<skill>`, for example `/design-kit:web-explore`.
+- The five agents and the `render` and `design-review` commands come with the plugin; `./start --agents` is no longer needed.
+- `web-explore` scripts run as `wx-init`, `wx-render`, `wx-serve`, `wx-tokens`, and `wx-compare`.
+- `/design-kit:start-design` compares a project's copied rules with the kit's and lists the steps below.
+
+**In your project**
+
+- Rerun `./start --project …` from an updated kit folder. It installs the plugin and offers to move old copies of kit skills, agents, and commands into `.claude/design-kit-backup/`.
+- In `.claude/settings.json`, replace the `Bash(node .claude/skills/web-explore/scripts/…)` allow rules with `Bash(wx-render:*)`, `Bash(wx-serve:*)`, `Bash(wx-tokens:*)`, `Bash(wx-init:*)`, and `Bash(wx-compare:*)`.
+- In `/plugin` → Marketplaces → `product-design-agent-kit`, choose **Enable auto-update**.
+
+## 2026-10-09 · Wireframe mode in web-explore
+
+- `web-explore` has a third mode, **Wireframe**: grayscale HTML screens to compare flow structures, the same render checks, a critique with `Track: wireframe`, and the pick handed to the wireframe track in Figma.
+
+**In your project**
+
+- `critique/config.md`: add `| Flow | 3 |` to the Weights table.
+- `.claude/rules/design-tracks.md` and `.claude/rules/explore.md`, if turned on: take the new wireframe-exploration lines from the kit's `rules/`.

@@ -23,17 +23,16 @@ Explorations are disposable. Once a direction is built in Figma, **Figma is the 
 
 ## 0. Setup (once per working folder)
 
-Needs Node.js 18+. Make a folder for the feature, outside the product's source code, and copy the assets in so it also deploys as is:
+Needs Node.js 18+. The `wx-*` commands come with the design-kit plugin and are on the PATH in Claude Code. Make a folder for the feature, outside the product's source code; the assets are copied in so it also deploys as is:
 
 ```sh
-mkdir -p explore/<feature> && cd explore/<feature>
-cp ../../.claude/skills/web-explore/assets/{frame.css,frame.js,starter.html} .
-mv starter.html explore.html
-# wireframe mode instead: copy wireframe.css and wireframe-starter.html, rename the starter to explore.html
-npm init -y >/dev/null && npm i -D playwright     # render step only
+wx-init explore/<feature>                 # or: wx-init explore/<feature> --wireframe
+cd explore/<feature> && npm init -y >/dev/null && npm i -D playwright     # render step only
 ```
 
-`render.mjs` uses installed Google Chrome when it finds it. Otherwise run `npx playwright install chromium` once. Tell the designer before installing anything.
+`wx-init` never overwrites a file. The assets live in `${CLAUDE_PLUGIN_ROOT}/skills/web-explore/assets/` and the scripts in `${CLAUDE_PLUGIN_ROOT}/skills/web-explore/scripts/`.
+
+`wx-render` uses installed Google Chrome when it finds it. Otherwise run `npx playwright install chromium` once. Tell the designer before installing anything.
 
 ## 1. Brief and mode
 
@@ -50,7 +49,7 @@ Then pick the mode:
 For design-system mode, keep the system's tokens in the project's `design-tokens.json`, each with a description of what it is for (derive it from Figma variables with `figma_get_token_values` or `figma_export_tokens`, resolved for the product's modes). Generate the CSS:
 
 ```sh
-node .claude/skills/web-explore/scripts/tokens-to-css.mjs design-tokens.json --out explore/<feature>/tokens.css
+wx-tokens design-tokens.json --out explore/<feature>/tokens.css
 ```
 
 The descriptions travel into `tokens.css` as comments, which is how Claude picks the right token. The render check then flags every colour that is not a token. Those flags are your token-map questions for phase 2, found early.
@@ -66,7 +65,7 @@ Then build the chosen direction out in `mockup.html`: the core screen in a reali
 ## 3. Live preview
 
 ```sh
-node ../../.claude/skills/web-explore/scripts/serve.mjs mockup.html
+wx-serve mockup.html
 ```
 
 It reloads on every save and prints a LAN address. Open it on a phone on the same Wi-Fi to try touch, motion, and reading distance in hand. For a link that works anywhere, use `prototype-vercel-deploy`.
@@ -76,11 +75,11 @@ Markup rules (full list in the header of `frame.css`): one `<section class="scre
 ## 4. Render and check
 
 ```sh
-node ../../.claude/skills/web-explore/scripts/render.mjs mockup.html --out shots/r1
-node ../../.claude/skills/web-explore/scripts/render.mjs mockup.html --out shots/r1-small --small
+wx-render mockup.html --out shots/r1
+wx-render mockup.html --out shots/r1-small --small
 ```
 
-With the kit's slash command, `/render explore/<feature>/mockup.html` does this from the project root and picks the next `shots/rN` and `--compare` for you. Each run writes one 3x PNG per screen, `sheet.png`, and `report.md`. It exits with code 1 on any FAIL.
+With the kit's slash command, `/design-kit:render explore/<feature>/mockup.html` does this from the project root and picks the next `shots/rN` and `--compare` for you. Each run writes one 3x PNG per screen, `sheet.png`, and `report.md`. It exits with code 1 on any FAIL.
 
 | Check | Level |
 |---|---|

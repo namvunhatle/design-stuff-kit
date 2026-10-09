@@ -16,7 +16,7 @@ This skill is the workflow. Facts about Rive live in `references/`, written from
 
 ## 0. Preflight
 
-Rive MCP is local. It only works while the **Rive desktop app (Early Access, macOS or Windows)** is running, at `http://127.0.0.1:9791/mcp`. Setup: `claude mcp add --transport http rive http://127.0.0.1:9791/mcp`, or the `rive` entry in `.claude/design-kit-templates/mcp.json.example`.
+Rive MCP is local. It only works while the **Rive desktop app (Early Access, macOS or Windows)** is running, at `http://127.0.0.1:9791/mcp`. Setup: `claude mcp add --transport http rive http://127.0.0.1:9791/mcp`, or the `rive` entry in `${CLAUDE_PLUGIN_ROOT}/templates/mcp.json.example`.
 
 1. Check the server is connected and read its tool list. Tool names change; take them from the server, not from memory. If it is not connected, say so and stop; do not describe Rive edits as done.
 2. Call `session_info` and `list_artboards`. Confirm which file and artboard you are editing before the first write.

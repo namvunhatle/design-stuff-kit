@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
-"""Assemble the design workflow in a Claude Code project from owned and upstream skills."""
+"""Install the Yummy Labs skills the design workflow needs into a Claude Code project.
+
+The kit's own skills, agents, and commands come from the design-kit plugin, not from here.
+"""
 
 import argparse
 import json
@@ -87,7 +90,7 @@ def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--project", required=True, type=Path, help="Existing Claude Code project directory")
     parser.add_argument("--upstream-dir", type=Path, help="Folder containing skills extracted from the authors' downloads")
-    parser.add_argument("--with-rules-agents", action="store_true", help="Also install the optional Claude Code rules and agents")
+    parser.add_argument("--with-rules", "--with-rules-agents", dest="with_rules", action="store_true", help="Also copy the optional Claude Code rules")
     args = parser.parse_args()
 
     project = args.project.expanduser().resolve()
@@ -98,10 +101,6 @@ def main() -> None:
 
     dest = project / ".claude" / "skills"
     dest.mkdir(parents=True, exist_ok=True)
-    for source in sorted((ROOT / "skills").iterdir()):
-        if source.is_dir() and (source / "SKILL.md").is_file():
-            print(copy_directory(source, dest / source.name))
-
     upstream = find_upstream(args.upstream_dir.expanduser().resolve()) if args.upstream_dir else {}
     missing_reference_files = {}
     for name, source in sorted(upstream.items()):
@@ -113,9 +112,8 @@ def main() -> None:
             if missing_references:
                 missing_reference_files[name] = missing_references
 
-    if args.with_rules_agents:
+    if args.with_rules:
         copy_optional_files(ROOT / "rules", project / ".claude" / "rules")
-        copy_optional_files(ROOT / "agents", project / ".claude" / "agents")
 
     missing = [item for item in EXTERNAL if not (dest / item["name"] / "SKILL.md").is_file()]
     if missing:
@@ -124,10 +122,11 @@ def main() -> None:
             print(f"- {item['name']} — {item['author']}: {item['source']}")
         print("Download from the author, extract until each skill folder contains SKILL.md, then rerun with --upstream-dir.")
     else:
-        print("\nAll skill folders in the workflow are installed.")
+        print("\nAll Yummy Labs skills the workflow needs are installed.")
     for skill, relative in sorted(REQUIRED_UPSTREAM_FILES.items()):
-        if (dest / skill).is_dir() and not (dest / relative).is_file():
-            print(f"\n{skill} needs {relative} from the author's package; it is not installed yet.")
+        # The kit skill now lives in the plugin; it reads the file from the project's .claude/skills/.
+        if not (dest / relative).is_file():
+            print(f"\nThe plugin's {skill} skill needs {relative} from the author's package; it is not installed yet.")
     if missing_reference_files:
         print("\nNote (safe to ignore): these optional reference files are mentioned by their author but not included in the download:")
         for name, files in sorted(missing_reference_files.items()):

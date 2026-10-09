@@ -72,7 +72,7 @@ def unpack_archive(archive: Path, target: Path, depth: int = 0) -> None:
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--project", required=True, type=Path, help="Existing Claude Code project directory")
-    parser.add_argument("--with-rules-agents", action="store_true", help="Install the optional Claude Code rules and agents")
+    parser.add_argument("--with-rules", "--with-rules-agents", dest="with_rules", action="store_true", help="Also copy the optional Claude Code rules")
     parser.add_argument("--gdown", default="gdown", help="Path to gdown executable (default: gdown on PATH)")
     args = parser.parse_args()
     if not args.project.expanduser().is_dir():
@@ -99,8 +99,8 @@ def main() -> None:
         if set(found) != expected:
             raise RuntimeError(f"Author packages contain {sorted(found)}; expected {sorted(expected)}. Nothing was installed.")
         command = [sys.executable, str(ROOT / "scripts" / "assemble.py"), "--project", str(args.project), "--upstream-dir", str(extracted)]
-        if args.with_rules_agents:
-            command.append("--with-rules-agents")
+        if args.with_rules:
+            command.append("--with-rules")
         subprocess.run(command, check=True)
 
 

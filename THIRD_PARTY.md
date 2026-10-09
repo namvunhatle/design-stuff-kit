@@ -2,7 +2,7 @@
 
 The ComposioHQ skill is bundled under its Apache 2.0 license, with [source credit](skills/content-research-writer/NOTICE.md). The five Yummy Labs skills are not redistributed here. The [installer](scripts/install.py) downloads them into your project from the author's [public packages](upstream-packages.json). A public download page establishes provenance and access, but it does not by itself grant permission to republish the files under this repository's MIT license.
 
-For an offline/manual install, download the four packages from the pages below, extract any nested `.skill` or `.zip` files until each skill has a `SKILL.md`, then run `python3 scripts/assemble.py --project /path/to/your-project --upstream-dir /path/to/extracted-skills --with-rules-agents`. The assembler copies the original file bytes and does not overwrite existing files.
+For an offline/manual install, download the four packages from the pages below, extract any nested `.skill` or `.zip` files until each skill has a `SKILL.md`, then run `python3 scripts/assemble.py --project /path/to/your-project --upstream-dir /path/to/extracted-skills`, and install the plugin as the README describes. The assembler copies the original file bytes and does not overwrite existing files.
 
 Known source-package gap: `figma-console-api/SKILL.md` points to `references/design-reference.md`, but that file is not in the author's current download. The installer reports it. Use your own design reference while working through that step.
 

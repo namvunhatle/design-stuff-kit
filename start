@@ -8,6 +8,7 @@ import shlex
 import shutil
 import subprocess
 import sys
+import time
 from pathlib import Path
 
 
@@ -36,47 +37,61 @@ def ensure_gdown(requested: str) -> str:
     return str(local)
 
 
-def stage_templates(project: Path) -> None:
-    """Keep optional rules, agents, and project templates available without activating them."""
-    staging = project / ".claude" / "design-kit-templates"
-    for kind in ("rules", "agents"):
-        destination = staging / kind
-        destination.mkdir(parents=True, exist_ok=True)
-        for source in sorted((ROOT / kind).glob("*.md")):
-            target = destination / source.name
-            if not target.exists():
-                shutil.copy2(source, target)
-    for source in sorted((ROOT / "templates").rglob("*")):
-        target = staging / source.relative_to(ROOT / "templates")
-        if source.is_file() and not target.exists():
-            target.parent.mkdir(parents=True, exist_ok=True)
-            shutil.copy2(source, target)
+MARKETPLACE = "product-design-agent-kit"
+PLUGIN = "design-kit"
+DEFAULT_SOURCE = "namvunhatle/product-design-agent-kit"
+KIT_SKILLS = sorted(p.name for p in (ROOT / "skills").iterdir() if (p / "SKILL.md").is_file())
+KIT_AGENTS = sorted(p.name for p in (ROOT / "agents").glob("*.md"))
+KIT_COMMANDS = sorted(p.name for p in (ROOT / "commands").glob("*.md"))
 
 
-AGENTS = {path.stem: path for path in sorted((ROOT / "agents").glob("*.md"))}
+def old_copies(project: Path) -> list:
+    """Kit files copied into the project by the pre-plugin setup. They now duplicate the plugin."""
+    claude_dir = project / ".claude"
+    found = [claude_dir / "skills" / n for n in KIT_SKILLS if (claude_dir / "skills" / n).is_dir()]
+    found += [claude_dir / "agents" / n for n in KIT_AGENTS if (claude_dir / "agents" / n).is_file()]
+    found += [claude_dir / "commands" / n for n in KIT_COMMANDS if (claude_dir / "commands" / n).is_file()]
+    return found
 
 
-def agent_names(wanted: str) -> list:
-    names = list(AGENTS) if wanted.strip() == "all" else [n.strip() for n in wanted.split(",") if n.strip()]
-    unknown = [n for n in names if n not in AGENTS]
-    if unknown:
-        sys.exit(f"Unknown agent(s): {', '.join(unknown)}. Available: {', '.join(AGENTS)}")
-    return names
+def migrate_old_copies(project: Path) -> None:
+    found = old_copies(project)
+    if not found:
+        return
+    claude_dir = project / ".claude"
+    print("\nThis project has copies of kit files from the old setup. The plugin now provides them:")
+    for path in found:
+        print(f"  {path.relative_to(project)}")
+    backup = claude_dir / "design-kit-backup" / time.strftime("%Y%m%d-%H%M%S")
+    if not sys.stdin.isatty():
+        print(f"Move them into {backup.relative_to(project)}/ (keeps any local edits), or run ./start again in a terminal to do it for you.")
+        return
+    if input(f"Move them into {backup.relative_to(project)}/? Local edits are kept there. [y/N] ").strip().lower() != "y":
+        print("Left in place. Claude Code will show both the old copies and the plugin's versions until you move them.")
+        return
+    for path in found:
+        target = backup / path.relative_to(claude_dir)
+        target.parent.mkdir(parents=True, exist_ok=True)
+        shutil.move(str(path), str(target))
+    print(f"Moved. Compare with the plugin's versions if you had edited any of them.")
 
 
-def install_agents(project: Path, names: list) -> None:
-    """Activate the chosen agent templates in .claude/agents/ without overwriting."""
-    destination = project / ".claude" / "agents"
-    destination.mkdir(parents=True, exist_ok=True)
-    print("\nAgents:")
-    for name in names:
-        target = destination / f"{name}.md"
-        if target.exists():
-            print(f"  kept existing {target}")
-        else:
-            shutil.copy2(AGENTS[name], target)
-            print(f"  installed {target}")
-    print("Restart Claude Code, then run /agents to check. Guide: docs/AGENTS_SETUP.md")
+def install_plugin(claude: str, project: Path, source: str) -> bool:
+    """Register the kit's marketplace for this project and install the plugin at project scope."""
+    listed = subprocess.run([claude, "plugin", "marketplace", "list"], cwd=project, capture_output=True, text=True)
+    if MARKETPLACE not in listed.stdout:
+        added = subprocess.run([claude, "plugin", "marketplace", "add", source, "--scope", "project"], cwd=project, capture_output=True, text=True)
+        if added.returncode:
+            print(added.stdout + added.stderr)
+            return False
+    installed = subprocess.run([claude, "plugin", "install", f"{PLUGIN}@{MARKETPLACE}", "--scope", "project"], cwd=project, capture_output=True, text=True)
+    if installed.returncode and "already installed" not in (installed.stdout + installed.stderr).lower():
+        print(installed.stdout + installed.stderr)
+        return False
+    print(f"\nInstalled the {PLUGIN} plugin for this project (declared in .claude/settings.json, so teammates are offered it too).")
+    print("To get kit updates automatically: in Claude Code run /plugin, open Marketplaces, select")
+    print(f"{MARKETPLACE}, and choose Enable auto-update. Otherwise run /plugin marketplace update {MARKETPLACE}.")
+    return True
 
 
 def connect_figma(claude: str) -> None:
@@ -112,9 +127,11 @@ def main() -> None:
     parser.add_argument("--gdown", default="gdown", help="Path to gdown executable")
     parser.add_argument("--no-launch", action="store_true", help="Set up files without opening Claude Code")
     parser.add_argument("--skip-figma", action="store_true", help="Don't offer to connect Figma")
-    parser.add_argument("--agents", metavar="all|NAME,NAME", help="Activate agents in .claude/agents/ (see docs/AGENTS_SETUP.md)")
+    parser.add_argument("--marketplace", default=DEFAULT_SOURCE, help="Where to install the plugin from: a GitHub owner/repo, git URL, or local path (default: %(default)s)")
+    parser.add_argument("--agents", help=argparse.SUPPRESS)
     args = parser.parse_args()
-    agents = agent_names(args.agents) if args.agents else []
+    if args.agents:
+        print("Note: --agents is no longer needed. The kit's agents come with the plugin.")
 
     if args.project is None:
         if not sys.stdin.isatty():
@@ -139,26 +156,28 @@ def main() -> None:
         command = [sys.executable, str(ROOT / "scripts" / "install.py"), "--project", str(project), "--gdown", gdown]
     if subprocess.run(command).returncode:
         sys.exit("\nSetup stopped before changing your project. See docs/TROUBLESHOOTING.md for the message above.")
-    stage_templates(project)
-    if agents:
-        install_agents(project, agents)
-
-    print("\nOptional rules, agents, project-memory templates, and an MCP example are ready in .claude/design-kit-templates/.")
-    if not (project / "CLAUDE.md").is_file() or not (project / "SETUP.md").is_file():
-        print("One or both standard context files are missing. /start-design will check for equivalent context and guide setup if needed.")
-    else:
-        print("Project context found. /start-design will review it and help choose your first track.")
-
     claude = shutil.which("claude")
+    if claude is None or not install_plugin(claude, project, args.marketplace):
+        print("\nThe plugin is not installed yet. In Claude Code, inside your project, run:")
+        print(f"  /plugin marketplace add {args.marketplace}")
+        print(f"  /plugin install {PLUGIN}@{MARKETPLACE}")
+    migrate_old_copies(project)
+
+    print("\nOptional rules, project-memory templates, and an MCP example are in the plugin; /design-kit:start-design offers them.")
+    if not (project / "CLAUDE.md").is_file() or not (project / "SETUP.md").is_file():
+        print("One or both standard context files are missing. /design-kit:start-design will check for equivalent context and guide setup if needed.")
+    else:
+        print("Project context found. /design-kit:start-design will review it and help choose your first track.")
+
     if claude and not args.skip_figma and sys.stdin.isatty():
         connect_figma(claude)
     if args.no_launch or claude is None or not (sys.stdin.isatty() and sys.stdout.isatty()):
-        print(f"\nNext: cd {shlex.quote(str(project))} && claude '/start-design'")
+        print(f"\nNext: cd {shlex.quote(str(project))} && claude '/{PLUGIN}:start-design'")
         if claude is None:
             print("Install Claude Code first: https://code.claude.com/docs/en/overview")
         return
-    print("\nOpening Claude Code with /start-design…", flush=True)
-    subprocess.run([claude, "/start-design"], cwd=project, check=True)
+    print(f"\nOpening Claude Code with /{PLUGIN}:start-design…", flush=True)
+    subprocess.run([claude, f"/{PLUGIN}:start-design"], cwd=project, check=True)
 
 
 if __name__ == "__main__":

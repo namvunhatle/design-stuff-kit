@@ -27,14 +27,20 @@ Setup never changes your project until every download has succeeded, so it is sa
 
 ## Claude Code
 
-**`/start-design` is not listed**
-Make sure you opened Claude Code **inside your project folder** (the one you passed to `--project`), not inside the kit. Check that `your-project/.claude/skills/start-design/SKILL.md` exists. Restart Claude Code after installing.
+**`/design-kit:start-design` is not listed**
+Make sure you opened Claude Code **inside your project folder** (the one you passed to `--project`), not inside the kit, and that you trusted the folder when asked. Run `/plugin` and check that `design-kit` is installed and enabled; if `./start` printed an install error, run the two `/plugin` commands it showed. Then run `/reload-plugins`.
+
+**Each kit skill appears twice**
+The project still has copies from the setup used before the plugin. Rerun `./start --project …` to move them into `.claude/design-kit-backup/`.
+
+**`wx-render: command not found`**
+The `wx-*` commands are on the PATH only inside Claude Code, while the plugin is enabled. In your own terminal, run `node <kit folder>/skills/web-explore/scripts/render.mjs` instead.
 
 **`claude: command not found`**
-Install Claude Code: [code.claude.com/docs](https://code.claude.com/docs/en/overview). Then run `cd your-project && claude '/start-design'`.
+Install Claude Code: [code.claude.com/docs](https://code.claude.com/docs/en/overview). Then run `cd your-project && claude '/design-kit:start-design'`.
 
 **An agent is missing from `/agents`**
-Check that its file is in `your-project/.claude/agents/` (not only in `design-kit-templates/`), then restart Claude Code. See [Agent setup](AGENTS_SETUP.md).
+The agents come with the plugin. Check in `/plugin` that `design-kit` is enabled, then run `/reload-plugins`. See [Agent setup](AGENTS_SETUP.md).
 
 **An agent says it has no Figma tools**
 Its `tools:` line names a server that is not yours. Run `claude mcp list` and match the names; see [Agent setup](AGENTS_SETUP.md#match-tool-names-to-your-setup).
@@ -68,10 +74,6 @@ You are in Figma for the browser. Use Figma Desktop.
 
 ## Updating the kit
 
-```sh
-cd product-design-agent-kit
-git pull
-./start --project /path/to/your-project --no-launch
-```
+See [Updating the kit](../README.md#updating-the-kit). In short: turn on auto-update for the `product-design-agent-kit` marketplace in `/plugin`, or run `/plugin marketplace update product-design-agent-kit`. Then run `/design-kit:start-design` to bring copied rules and config up to date.
 
-Setup never overwrites skills that are already in your project. To take an updated kit skill, first delete that skill's folder from `your-project/.claude/skills/`, then rerun the command.
+**An update did not arrive.** Run `/plugin marketplace update product-design-agent-kit`, then `/reload-plugins`. If the marketplace is private, your git credentials must work without a prompt (`gh auth login`, then `gh auth setup-git`).

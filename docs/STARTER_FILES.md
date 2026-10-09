@@ -2,7 +2,7 @@
 
 [Back to README](../README.md)
 
-`./start` stages these templates in `your-project/.claude/design-kit-templates/`. Nothing is active until you copy it into place, or let `/start-design` do it with you. Files that depend on your judgment (principles, strictness, permissions) are written **after an interview**, not guessed.
+These templates ship inside the design-kit plugin, in its `templates/` and `rules/` folders (the same folders in this repository). Nothing is active until it is copied into your project, which `/design-kit:start-design` does with you. Files that depend on your judgment (principles, strictness, permissions) are written **after an interview**, not guessed.
 
 ## Three zones
 
@@ -17,7 +17,7 @@ your-project/
     settings.json           · shared permissions: deny → ask → allow
     rules/                  2 · conventions; a rule with paths: loads only near matching files
     skills/                 2 · procedures, opened only for their job
-    commands/               2 · your slash commands (/render, /design-review)
+    commands/               2 · your own slash commands (the kit's come with the plugin)
     agents/                 2 · bounded helpers (see AGENTS_SETUP.md)
   critique/                 2 · the team's critique rulebook, anchors, and lessons (design-critique)
   explore/<feature>/        3 · web explorations (web-explore)
@@ -29,13 +29,12 @@ Zone 1 costs context on every turn, so keep it short. Zone 2 loads only when rel
 
 | File | Template | Write it by | Notes |
 |---|---|---|---|
-| `CLAUDE.md` | `project-memory/CLAUDE.template.md` | `/start-design`, or Yummy Labs' `design-context-setup` interview | Current state only; detail goes in the project-memory files |
+| `CLAUDE.md` | `project-memory/CLAUDE.template.md` | `/design-kit:start-design`, or Yummy Labs' `design-context-setup` interview | Current state only; detail goes in the project-memory files |
 | `CLAUDE.local.md` | `CLAUDE.local.md` | Claude, when you correct a personal preference | Add it to `.gitignore` |
 | `design.md` | `design.md` | Interview first: principles, feel, always/never, refusals | Point to it from `CLAUDE.md` ("Before design work, read `design.md`"). Do not `@import` it |
-| `design-tokens.json` | `design-tokens.example.json` | From the real system (Figma variables via MCP, or existing CSS/JSON), never invented | Describe every token. `node .claude/skills/web-explore/scripts/tokens-to-css.mjs design-tokens.json --out explore/<feature>/tokens.css` feeds design-system mode |
+| `design-tokens.json` | `design-tokens.example.json` | From the real system (Figma variables via MCP, or existing CSS/JSON), never invented | Describe every token. `wx-tokens design-tokens.json --out explore/<feature>/tokens.css` feeds design-system mode |
 | `.claude/settings.json` | `settings.json.example` | Ask the designer how hands-off to be, then adapt | See below |
 | `.claude/rules/explore.md` | `rules/explore.md` | Copy; change the path if explorations live elsewhere | Example of a path-scoped rule |
-| `.claude/commands/` | `commands/render.md`, `commands/design-review.md` | Copy | `/render <file>` and `/design-review <feature folder>` |
 | `.claude/skills/<name>/SKILL.md` | `skill/SKILL.template.md` | Claude asks what "done" looks like, then writes | For your own repeated procedures |
 | `.mcp.json` | `mcp.json.example` | Merge the servers you use | Keep tokens in user config, never in this file |
 | `critique/` | in the `design-critique` skill's `templates/` | Designer scores the anchors | See `design-critique` §1 |

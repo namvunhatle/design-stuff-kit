@@ -1,0 +1,18 @@
+#!/bin/sh
+# Start a web-explore folder: wx-init explore/<feature> [--wireframe]
+# Copies the frame assets and a starter as explore.html. Never overwrites a file.
+set -e
+dir=$1
+[ -n "$dir" ] || { echo "Usage: wx-init explore/<feature> [--wireframe]" >&2; exit 2; }
+assets="$(cd "$(dirname "$0")/.." && pwd)/skills/web-explore/assets"
+mkdir -p "$dir"
+copy() { if [ -e "$dir/$2" ]; then echo "kept existing $dir/$2"; else cp "$assets/$1" "$dir/$2"; echo "added $dir/$2"; fi; }
+copy frame.css frame.css
+copy frame.js frame.js
+if [ "$2" = "--wireframe" ]; then
+  copy wireframe.css wireframe.css
+  copy wireframe-starter.html explore.html
+else
+  copy starter.html explore.html
+fi
+(cd "$dir" && node -e "require.resolve('playwright')" >/dev/null 2>&1) || echo "Rendering needs Playwright once: cd $dir && npm init -y >/dev/null && npm i -D playwright"

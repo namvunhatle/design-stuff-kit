@@ -65,17 +65,17 @@ Do not rebuild the mix in Kotlin. **Bake** it: render the web's own Web Audio gr
 
 ## 6. Parity checks
 
-Use the scripts in `scripts/`. They need Playwright with Chromium (web), `adb` (Android), and Pillow (`compare.py`; install in a venv if the system Python is managed). Pick 12–20 checkpoints: the start and settle of every scene, every beat accent, and each destination.
+Use the scripts in `${CLAUDE_PLUGIN_ROOT}/skills/web-android-port/scripts/`. They need Playwright with Chromium (web), `adb` (Android), and Pillow (`compare.py`; install in a venv if the system Python is managed). Pick 12–20 checkpoints: the start and settle of every scene, every beat accent, and each destination.
 
 ```sh
 # web (local preview or live URL) → web/<t>.png
-node scripts/capture_web.mjs --url http://localhost:4173 --times 0.5,4.8,6.1,12.4 --out parity/web
+node "${CLAUDE_PLUGIN_ROOT}/skills/web-android-port/scripts/capture_web.mjs" --url http://localhost:4173 --times 0.5,4.8,6.1,12.4 --out parity/web
 
 # Android → android/<t>.png (force-stops and relaunches per frame)
-scripts/capture_android.sh --component com.example.demo/.MainActivity --times 0.5,4.8,6.1,12.4 --out parity/android
+"${CLAUDE_PLUGIN_ROOT}/skills/web-android-port/scripts/capture_android.sh" --component com.example.demo/.MainActivity --times 0.5,4.8,6.1,12.4 --out parity/android
 
 # compare → report + diff images
-python3 scripts/compare.py parity/web parity/android --out parity/diff
+wx-compare parity/web parity/android --out parity/diff
 ```
 
 - `compare.py` scales both images to the web's size (or `--size 360x800`) and reports the mean difference out of 255, plus the share of pixels differing by more than 16. Rough guide: under 2/255 is a match, and a localized spike is a real bug. Open the diff image before drawing conclusions.

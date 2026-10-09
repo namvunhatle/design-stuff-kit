@@ -1,0 +1,10 @@
+{
+  "name": "design-kit",
+  "displayName": "Product Design Agent Kit",
+  "description": "Design tracks for Figma wireframes and production UI, web exploration with render checks and a blind critic, motion workflows, and review agents.",
+  "author": { "name": "namvunhatle" },
+  "homepage": "https://github.com/namvunhatle/product-design-agent-kit",
+  "repository": "https://github.com/namvunhatle/product-design-agent-kit",
+  "license": "MIT",
+  "keywords": ["design", "figma", "ux", "wireframe", "prototype"]
+}
