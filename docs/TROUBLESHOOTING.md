@@ -17,7 +17,7 @@ Click **Install** in the pop-up (or run `xcode-select --install`), wait for it t
 
 ### gdown
 
-`./start` installs gdown by itself into the kit's `.venv/` folder. If that fails:
+`./start` installs gdown by itself into the kit's `.venv/` folder, and `/design-stuff-kit:install-yummy` into the plugin's data folder. If that fails:
 
 - **`externally-managed-environment`**: you ran `pip install` yourself. Skip it; `./start` handles gdown.
 - **Download errors, "Too many users have viewed or downloaded this file"**: Google Drive is limiting the author's link. Wait a few hours, or download the packages manually from the links in [THIRD_PARTY.md](../THIRD_PARTY.md) and follow its "assemble from local files" steps.

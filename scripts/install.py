@@ -3,6 +3,7 @@
 
 import argparse
 import json
+import os
 import shutil
 import stat
 import subprocess
@@ -18,6 +19,23 @@ PACKAGES = json.loads((ROOT / "upstream-packages.json").read_text(encoding="utf-
 MAX_ARCHIVE_MEMBERS = 1000
 MAX_FILE_BYTES = 20 * 1024 * 1024
 MAX_TOTAL_BYTES = 100 * 1024 * 1024
+
+
+def gdown_from_venv(venv: Path) -> str:
+    """Install gdown into its own virtual environment once, and return its path."""
+    bin_dir = venv / ("Scripts" if os.name == "nt" else "bin")
+    local = bin_dir / "gdown"
+    if local.is_file():
+        return str(local)
+    if sys.version_info < (3, 10):
+        sys.exit("Python 3.10 or newer is needed. Install it from https://www.python.org/downloads/ and try again.")
+    print(f"Installing the downloader (gdown) into {venv}. This happens once…", flush=True)
+    try:
+        subprocess.run([sys.executable, "-m", "venv", str(venv)], check=True)
+        subprocess.run([str(bin_dir / "python"), "-m", "pip", "install", "--quiet", "gdown"], check=True)
+    except subprocess.CalledProcessError:
+        sys.exit("Could not install gdown automatically. Install it with: python3 -m pip install gdown")
+    return str(local)
 
 
 def run_gdown(executable: str, url: str, output: Path = None):
@@ -74,10 +92,17 @@ def main() -> None:
     parser.add_argument("--project", required=True, type=Path, help="Existing Claude Code project directory")
     parser.add_argument("--with-rules", "--with-rules-agents", dest="with_rules", action="store_true", help="Also copy the optional Claude Code rules")
     parser.add_argument("--gdown", default="gdown", help="Path to gdown executable (default: gdown on PATH)")
+    parser.add_argument("--venv", type=Path, help="If gdown is missing, install it into this virtual environment")
     args = parser.parse_args()
     if not args.project.expanduser().is_dir():
         parser.error(f"Project directory does not exist: {args.project}")
+    skills = args.project.expanduser().resolve() / ".claude" / "skills"
+    if all((skills / name / "SKILL.md").is_file() for name in EXTERNAL_BY_NAME):
+        print("All five Yummy Labs skills are already in this project. Nothing to download.")
+        return
     executable = shutil.which(args.gdown)
+    if executable is None and args.venv:
+        executable = gdown_from_venv(args.venv.expanduser())
     if executable is None:
         parser.error("gdown is required. Install it with: python3 -m pip install gdown")
 

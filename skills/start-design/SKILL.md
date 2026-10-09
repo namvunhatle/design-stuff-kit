@@ -28,6 +28,7 @@ If Claude asks for `/reload-plugins`, do that before invoking the skill. Confirm
 
 The kit's skills, agents, and commands come from the design-stuff-kit plugin and update with it. Only the files a project copied stay behind. Check them on every run; it is quick when nothing changed.
 
+- **Yummy Labs skills.** If any of `ux-designer`, `ui-designer`, `ux-copywriter`, `interactive-prototype`, or `figma-console-api` is missing from `.claude/skills/` (common when the kit was installed with `/plugin install` instead of `./start`), say which, and offer to run the `install-yummy` skill.
 - **Old copies of kit skills or agents.** If `.claude/skills/` or `.claude/agents/` holds a folder or file with the same name as one in `${CLAUDE_PLUGIN_ROOT}/skills/` or `${CLAUDE_PLUGIN_ROOT}/agents/`, it is a copy from the kit's pre-plugin setup, and it now shadows or duplicates the plugin's version. Say which ones, and offer to move them into `.claude/design-kit-backup/` so any local edits are kept. Do the same for `render.md` and `design-review.md` in `.claude/commands/`. Never delete them.
 - **Copied rules.** For each file in `.claude/rules/` whose name matches one in `${CLAUDE_PLUGIN_ROOT}/rules/`, compare the two. When they differ, summarise what the kit changed and what the project changed, and offer to merge. Never replace a project's own edits without asking.
 - **Notes that need a hand edit.** Read `${CLAUDE_PLUGIN_ROOT}/CHANGELOG.md` and list any "In your project" step that applies to this project and is not done yet, such as a new row in `critique/config.md`.

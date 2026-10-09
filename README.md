@@ -56,7 +56,9 @@ New to Terminal? On macOS, open **Terminal** from Spotlight (⌘ Space). Paste e
 4. **Turn on automatic updates** (recommended): in Claude Code, run `/plugin`, open **Marketplaces**, select `product-design-agent-kit`, and choose **Enable auto-update**. See [Updating the kit](#updating-the-kit).
 5. **Starter files** (optional): permissions, `design.md`, design tokens. `/design-stuff-kit:start-design` offers them and interviews you first. See [Starter files](docs/STARTER_FILES.md).
 
-The kit's skills, its five [agents](docs/AGENTS_SETUP.md), and the `/design-stuff-kit:render` and `/design-stuff-kit:design-review` commands all come with the plugin. Kit skills appear with a `design-stuff-kit:` prefix, for example `/design-stuff-kit:web-explore`; you can also just describe the task and the right skill loads.
+**Installing from inside Claude Code instead?** Run `/plugin install design-stuff-kit --marketplace namvunhatle/product-design-agent-kit`, then `/design-stuff-kit:install-yummy` to download the five Yummy Labs skills into the project (needs Python 3.10+). `/design-stuff-kit:start-design` offers this step if the skills are missing.
+
+The kit's skills, its seven [agents](docs/AGENTS_SETUP.md), and the `/design-stuff-kit:render` and `/design-stuff-kit:design-review` commands all come with the plugin. Kit skills appear with a `design-stuff-kit:` prefix, for example `/design-stuff-kit:web-explore`; you can also just describe the task and the right skill loads.
 
 ## Updating the kit
 

@@ -13,7 +13,7 @@ For a full wireframe or UI build, read every `references/` file supplied with th
 - **Coded prototype:** use `interactive-prototype` instead of the Figma motion skill. Add `beat-synced-motion` if it has music, and `code-to-figma-sync` when Figma must be brought back in line with the build.
 - **Any Figma Plugin API write:** load `figma-console-api` when installed, and follow `figma-workflow`.
 
-The external skills above are by Yummy Labs. If a required one is missing, tell the designer and give its official source. Do not silently claim the full track ran. For an isolated fix, load only the skills that affect that fix.
+The external skills above are by Yummy Labs. If a required one is missing, tell the designer, give its official source, and offer `/design-stuff-kit:install-yummy`, which downloads all five from the author's links. Do not silently claim the full track ran. For an isolated fix, load only the skills that affect that fix.
 
 - `ux-designer`, `ui-designer`: https://yummy-design.notion.site/Claude-UX-UI-Design-Skills-31462791470981a99fe1c993b08c5347
 - `ux-copywriter`: https://yummy-design-sprint.notion.site/Claude-UX-Copywriter-Skill-31962791470980989abdcd6312890920
