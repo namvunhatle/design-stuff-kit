@@ -14,15 +14,16 @@ Work in the current design project. Keep setup short and make it safe to resume.
 
 Read `CLAUDE.md` and `SETUP.md` if present, plus the smallest set of project files needed to understand the product, users, platform, design system, and current design stage. Summarize what is known and identify missing or contradictory facts. Do not invent project facts.
 
-If either context file is missing or empty, first check for equivalent project context. If enough context already exists, accept it rather than requiring those filenames. Otherwise, ask the designer to run Yummy Labs' official **design-context-setup** skill from [yummylabs-coder/yummy-design-plugins](https://github.com/yummylabs-coder/yummy-design-plugins). The author's current Claude Code install sequence is:
+If either context file is missing or empty, first check for equivalent project context. If enough context already exists, accept it rather than requiring those filenames. Otherwise, ask the designer to run Yummy Labs' official **design-context-setup** skill from [yummylabs-coder/yummy-design-plugins](https://github.com/yummylabs-coder/yummy-design-plugins). Do not hand the designer `/plugin ...` lines to type: in the VS Code extension, `/plugin` ignores arguments and only opens the plugin dialog. Instead, offer to install it for them, and on a yes run these with the shell tool (they work the same whether the designer uses the terminal or VS Code):
 
-```text
-/plugin marketplace add yummylabs-coder/yummy-design-plugins
-/plugin install design-context@yummy-design
-/design-context:design-context-setup
+```sh
+claude plugin marketplace add yummylabs-coder/yummy-design-plugins
+claude plugin install design-context@yummy-design
 ```
 
-If Claude asks for `/reload-plugins`, do that before invoking the skill. Confirm the sequence against the [upstream README](https://github.com/yummylabs-coder/yummy-design-plugins) if installation fails. That skill owns the project interview and context draft; do not copy or simulate its seven-question interview. After it finishes, re-read the generated context and continue here.
+If `claude` is not found (the VS Code extension can run without the CLI on the PATH), give the VS Code route instead: open `vscode://anthropic.claude-code/install-plugin?plugin=design-context&marketplace=yummylabs-coder/yummy-design-plugins` in a browser and pick a scope, or type `/plugins`, add `yummylabs-coder/yummy-design-plugins` in **Marketplaces**, and install `design-context` in **Plugins**.
+
+The new skill loads in a fresh session. In the terminal, `/reload-plugins` is enough; in VS Code, open a new Claude Code conversation (or restart it if the plugin dialog asks). Then the designer runs `/design-context:design-context-setup`. Confirm the names against the [upstream README](https://github.com/yummylabs-coder/yummy-design-plugins) if installation fails. That skill owns the project interview and context draft; do not copy or simulate its seven-question interview. After it finishes, re-read the generated context and continue here.
 
 ## 2. Bring the project up to date with the kit
 

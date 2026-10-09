@@ -32,4 +32,4 @@ The download takes a minute or two. If `python3` is older than 3.10, the script 
 
 ## 3. Report
 
-Reply with which skills were installed and any note the script printed. The new skills load in the next session, so ask the designer to run `/reload-plugins` or restart Claude Code. If a download failed, show the script's message and point to `${CLAUDE_PLUGIN_ROOT}/docs/TROUBLESHOOTING.md`, section "gdown". The skills stay authored by Yummy Labs and are not covered by this kit's license.
+Reply with which skills were installed and any note the script printed. The new skills load in the next session, so ask the designer to run `/reload-plugins` in the terminal, or open a new Claude Code conversation in VS Code. If a download failed, show the script's message and point to `${CLAUDE_PLUGIN_ROOT}/docs/TROUBLESHOOTING.md`, section "gdown". The skills stay authored by Yummy Labs and are not covered by this kit's license.

@@ -1,7 +1,7 @@
 {
   "name": "design-stuff-kit",
   "displayName": "Design Stuff Kit",
-  "version": "0.1.0-beta",
+  "version": "0.1.1-beta",
   "description": "Design tracks for Figma wireframes and production UI, web exploration with render checks and a blind critic, motion workflows, and review agents.",
   "author": {
     "name": "namvunhatle"

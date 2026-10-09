@@ -6,7 +6,7 @@ Claude always asks before editing a Figma file and saves a restore point first.
 
 ## Install
 
-Pick the way that matches where you use Claude Code.
+Pick the way that matches where you use Claude Code. Both end with `install-yummy` (adds five Yummy Labs skills, needs Python 3.10+) and `start-design` (see [First time](#first-time)).
 
 ### Claude Code in a terminal (CLI)
 
@@ -38,11 +38,6 @@ In the chat panel, `/plugin` only opens the **Manage plugins** dialog and ignore
 
 The extension shares plugin settings with the CLI. To turn on auto-update, run `claude` once in VS Code's terminal and use the CLI step above.
 
-### What the last two commands do
-
-- **`install-yummy`** downloads five companion skills from Yummy Labs into your project (`ux-designer`, `ui-designer`, `ux-copywriter`, `interactive-prototype`, `figma-console-api`). Needs Python 3.10+.
-- **`start-design`** reads your project, suggests working rules, and starts a first small task.
-
 ### Other ways
 
 - **Team project:** run once in a terminal inside the project, then commit `.claude/settings.json`:
@@ -64,9 +59,19 @@ The extension shares plugin settings with the CLI. To turn on auto-update, run `
 
 ## Use it
 
-Open Claude Code in your project and describe the task. The right skill loads on its own. For example:
+### First time
 
-> "Compare three layouts for the saved-items screen. Keep them rough; I'll pick one."
+Run `/design-stuff-kit:start-design`. It:
+
+1. Reads your project. If context is thin, it offers to install Yummy Labs' `design-context-setup` for a short interview.
+2. Suggests a few working rules. You pick which to turn on.
+3. Asks for one task, shows the plan, and does the first step.
+
+### After that
+
+Open Claude Code in your project and say what you need. The right skill loads on its own:
+
+> "Compare three layouts for the saved-items screen. Keep them rough."
 >
 > "Review the copy on the onboarding screens in Figma file ABC. Don't edit the file."
 
@@ -81,7 +86,7 @@ Open Claude Code in your project and describe the task. The right skill loads on
 | Set a product voice | `voice-tone-builder` |
 | Ship a prototype link, or an Android demo | `prototype-vercel-deploy`, `web-android-port` |
 
-The full step-by-step tracks are in [Workflows](WORKFLOWS.md). Every skill, rule, and agent is listed in the [Reference](docs/REFERENCE.md).
+Run `start-design` again after a kit update. Full tracks: [Workflows](WORKFLOWS.md). Every skill, rule, and agent is listed in the [Reference](docs/REFERENCE.md).
 
 ## Updating the kit
 

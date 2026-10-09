@@ -2,6 +2,17 @@
 
 What changed in the kit, newest first. Each heading is the plugin `version`; users receive a release when that number changes. The plugin updates skills, agents, and commands on its own. **In your project** lists the hand edits an update needs in files the plugin never touches; `/design-stuff-kit:start-design` checks them for you.
 
+## 0.1.1-beta · 2026-10-09
+
+### Setup works in the VS Code extension
+
+- `/design-stuff-kit:start-design` no longer asks you to type `/plugin` commands to get Yummy Labs' `design-context-setup`. In VS Code, `/plugin` ignores arguments, so those lines did nothing. Claude now offers to install it for you, and gives a VS Code install link when the `claude` command is not available.
+- The README has separate install steps for the terminal and for VS Code.
+
+**In your project**
+
+- Nothing.
+
 ## 0.1.0-beta · 2026-10-09
 
 First release as a Claude Code plugin. The steps below are what changed on the way, and what a project set up with the earlier copied-skills kit needs.
