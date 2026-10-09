@@ -106,7 +106,7 @@ def main() -> None:
     if executable is None:
         parser.error("gdown is required. Install it with: python3 -m pip install gdown")
 
-    with tempfile.TemporaryDirectory(prefix="product-design-agent-kit-") as temporary:
+    with tempfile.TemporaryDirectory(prefix="design-stuff-kit-") as temporary:
         extracted = Path(temporary) / "extracted"
         extracted.mkdir()
         for package in PACKAGES:

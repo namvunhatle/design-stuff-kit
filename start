@@ -37,9 +37,9 @@ def ensure_gdown(requested: str) -> str:
     return str(local)
 
 
-MARKETPLACE = "product-design-agent-kit"
+MARKETPLACE = "design-stuff-kit"
 PLUGIN = "design-stuff-kit"
-DEFAULT_SOURCE = "namvunhatle/product-design-agent-kit"
+DEFAULT_SOURCE = "namvunhatle/design-stuff-kit"
 KIT_SKILLS = sorted(p.name for p in (ROOT / "skills").iterdir() if (p / "SKILL.md").is_file())
 KIT_AGENTS = sorted(p.name for p in (ROOT / "agents").glob("*.md"))
 KIT_COMMANDS = sorted(p.name for p in (ROOT / "commands").glob("*.md"))
@@ -145,7 +145,7 @@ def main() -> None:
     if not project.is_dir():
         parser.error(f"Project directory does not exist: {project}")
     if project == ROOT or ROOT in project.parents:
-        parser.error("Choose your design project, outside the product-design-agent-kit folder")
+        parser.error("Choose your design project, outside the design-stuff-kit folder")
 
     skills = project / ".claude" / "skills"
     has_external = all((skills / name / "SKILL.md").is_file() for name in EXTERNAL)

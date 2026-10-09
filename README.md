@@ -1,6 +1,6 @@
-# Product Design Agent Kit
+# Design Stuff Kit
 
-Practical AI skills for product designers who move between exploration, Figma production work, prototypes, and developer handoff.
+A Claude Code plugin for product designers who move between exploration, Figma production work, prototypes, and developer handoff.
 
 ## What you can do with it
 
@@ -16,57 +16,68 @@ Tell Claude Code what you are working on, in plain words, and it follows a prove
 
 Claude always asks before editing a Figma file and saves a restore point first.
 
-## Before you start
+## Install
 
-| You need | Check | Get it |
+### The quick way: inside Claude Code (2 minutes)
+
+Open Claude Code in your project folder and type these one at a time:
+
+```text
+/plugin install design-stuff-kit --marketplace namvunhatle/design-stuff-kit
+/reload-plugins
+/design-stuff-kit:install-yummy
+/design-stuff-kit:start-design
+```
+
+1. The first line adds this repository as a plugin source and installs the kit. Needs Claude Code 2.1.275 or later (`claude --version`); on an older version, run `/plugin marketplace add namvunhatle/design-stuff-kit`, then `/plugin install design-stuff-kit@design-stuff-kit`.
+2. `install-yummy` downloads five companion skills from their author, Yummy Labs, into your project (`ux-designer`, `ui-designer`, `ux-copywriter`, `interactive-prototype`, `figma-console-api`). It asks first, and needs Python 3.10+ (`python3 --version`; get it from [python.org](https://www.python.org/downloads/)).
+3. `start-design` reads your project, suggests working rules, and starts a first task. See [Your first session](#your-first-session).
+
+Then **turn on automatic updates**: run `/plugin`, open **Marketplaces**, select `design-stuff-kit`, and choose **Enable auto-update**.
+
+**Sharing the project with a team?** In a terminal inside the project, run `claude plugin install design-stuff-kit@design-stuff-kit --scope project` once and commit `.claude/settings.json`. Teammates who open the project are then offered the same plugin.
+
+### Also needed for some work
+
+| For | You need | Get it |
 |---|---|---|
-| Claude Code | `claude --version` in Terminal | [Install guide](https://code.claude.com/docs/en/overview) |
-| Git | `git --version` | macOS offers to install it the first time you run the command |
-| Python 3.10+ | `python3 --version` | [python.org](https://www.python.org/downloads/) |
-| A project folder | Any folder for your product, even an empty one | — |
-| For Figma work: Figma Desktop | Open it once | [Figma setup guide](docs/FIGMA_SETUP.md) |
-| For Figma work or web exploration: Node.js 18+ | `node --version` | [nodejs.org](https://nodejs.org) (LTS) |
+| Anything in Figma | Figma Desktop and the Figma Console connector | [Figma setup](docs/FIGMA_SETUP.md), about 5 minutes |
+| Web exploration, rendering, Figma work | Node.js 18+ (`node --version`) | [nodejs.org](https://nodejs.org) (LTS) |
+| Real-app references for pattern decisions | Mobbin connector (optional) | [Figma setup](docs/FIGMA_SETUP.md#5-optional-mobbin) |
 
-New to Terminal? On macOS, open **Terminal** from Spotlight (⌘ Space). Paste each command, press Return, and wait for it to finish before the next one.
+Copy, planning, and coded prototypes need none of these.
 
-## Install (about 5 minutes)
+### The terminal way: `./start`
 
-1. **Download the kit** somewhere outside your project. Either:
+Prefer one script that does everything, including connecting Figma? Clone the kit outside your project and point it at your project folder:
 
-   - **Without Git:** open the [kit on GitHub](https://github.com/namvunhatle/product-design-agent-kit), choose **Code → Download ZIP**, and double-click the ZIP to unpack it. In Terminal, type `cd ` (with a space), drag the unpacked folder into the window, and press Return.
-   - **With Git:**
+```sh
+git clone https://github.com/namvunhatle/design-stuff-kit.git
+cd design-stuff-kit
+./start --project /path/to/your-project
+```
 
-     ```sh
-     git clone https://github.com/namvunhatle/product-design-agent-kit.git
-     cd product-design-agent-kit
-     ```
+Tip: type `./start --project ` and drag your project folder into the Terminal window. `./start` downloads the Yummy Labs skills, installs the plugin for that project (recorded in its `.claude/settings.json`), asks for your Figma token to connect Figma (press Return to skip), and opens Claude Code with `/design-stuff-kit:start-design`. It never overwrites anything already in your project and is safe to run again. It needs Git and Python 3.10+. No Git? On GitHub choose **Code → Download ZIP**, unzip it, and run the same command from that folder.
 
-2. **Install it into your project**, replacing the path with your project folder (tip: type `./start --project ` then drag the folder into Terminal):
+### What you get
 
-   ```sh
-   ./start --project /path/to/your-project
-   ```
+Eighteen skills, seven [agents](docs/AGENTS_SETUP.md), and two commands, all prefixed `design-stuff-kit:`. You rarely need to type them: describe the task and the right skill loads. A few you may call by name:
 
-   This downloads five companion skills from their author (Yummy Labs) into `your-project/.claude/skills/`, installs the kit itself as the **design-stuff-kit** Claude Code plugin for this project, and opens Claude Code with `/design-stuff-kit:start-design`. It never overwrites anything already in your project, and it is safe to run again.
-
-   The plugin is recorded in `your-project/.claude/settings.json`, so a teammate who opens the project in Claude Code is offered the same plugin.
-
-3. **Connect Figma** if you will work on a canvas. Before opening Claude Code, `./start` asks for your Figma token and adds the connector for you; press Return to skip. Then import the Figma plugin once: see [Figma setup](docs/FIGMA_SETUP.md), steps 1 and 3 (about 5 minutes). You can skip Figma for copy, planning, and coded prototypes.
-
-4. **Turn on automatic updates** (recommended): in Claude Code, run `/plugin`, open **Marketplaces**, select `product-design-agent-kit`, and choose **Enable auto-update**. See [Updating the kit](#updating-the-kit).
-5. **Starter files** (optional): permissions, `design.md`, design tokens. `/design-stuff-kit:start-design` offers them and interviews you first. See [Starter files](docs/STARTER_FILES.md).
-
-**Installing from inside Claude Code instead?** Run `/plugin install design-stuff-kit --marketplace namvunhatle/product-design-agent-kit`, then `/design-stuff-kit:install-yummy` to download the five Yummy Labs skills into the project (needs Python 3.10+). `/design-stuff-kit:start-design` offers this step if the skills are missing.
-
-The kit's skills, its seven [agents](docs/AGENTS_SETUP.md), and the `/design-stuff-kit:render` and `/design-stuff-kit:design-review` commands all come with the plugin. Kit skills appear with a `design-stuff-kit:` prefix, for example `/design-stuff-kit:web-explore`; you can also just describe the task and the right skill loads.
+| Command | Does |
+|---|---|
+| `/design-stuff-kit:start-design` | Onboarding, and a project check after each kit update |
+| `/design-stuff-kit:web-explore` | Explore directions or wireframes as HTML phone screens |
+| `/design-stuff-kit:render` | Render those screens to PNG and run the automatic checks |
+| `/design-stuff-kit:design-review` | One scored round from the blind design critic |
+| `/design-stuff-kit:install-yummy` | Download the Yummy Labs skills into this project |
 
 ## Updating the kit
 
-With auto-update on, Claude Code checks for a new version of the plugin each time it starts, so skills, agents, and commands stay current on their own. Without it, run `/plugin marketplace update product-design-agent-kit` in Claude Code, then `/reload-plugins`.
+With auto-update on, Claude Code checks for a new version each time it starts, so skills, agents, and commands stay current on their own. Without it, run `/plugin marketplace update design-stuff-kit`, then `/reload-plugins`.
 
-Some files live in your project and are never changed by an update: rules you turned on in `.claude/rules/`, `critique/config.md`, `design.md`, and your settings. Run `/design-stuff-kit:start-design` after an update: it compares your copies with the new kit and lists anything in the [changelog](CHANGELOG.md) that needs a hand edit.
+Some files live in your project and an update never changes them: rules you turned on in `.claude/rules/`, `critique/config.md`, `design.md`, and your settings. Run `/design-stuff-kit:start-design` after an update: it compares your copies with the new kit and lists anything in the [changelog](CHANGELOG.md) that needs a hand edit.
 
-**Set up before the plugin?** Rerun `./start --project /path/to/your-project` from an updated kit folder (`git pull` first). It installs the plugin and offers to move the old copies of kit skills, agents, and commands into `.claude/design-kit-backup/`, so Claude Code does not show two versions of each.
+**Set up before the plugin existed?** Run `./start --project /path/to/your-project` from a fresh clone. It installs the plugin and offers to move the old copies of kit skills, agents, and commands into `.claude/design-kit-backup/`, so Claude Code does not show two versions of each.
 
 Something failed? See [Troubleshooting](docs/TROUBLESHOOTING.md).
 
@@ -214,7 +225,7 @@ The skills are Markdown instructions. Installing them does not grant Figma acces
 - **MCP servers.** Mobbin, Rive, and GitBook entries are in [`templates/mcp.json.example`](templates/mcp.json.example). Keep credentials in your local configuration, never in the project or this repo.
 - **Starter files.** `settings.json.example` (deny → ask → allow, every Figma write under `ask`), `design.md`, `design-tokens.example.json`, `CLAUDE.local.md`, and a skill template are in `templates/`, and `/design-stuff-kit:start-design` offers them. See [Starter files](docs/STARTER_FILES.md).
 - **Agent safety.** Every kit agent has a fixed `tools:` list. Keep Figma write tools under `ask` in `.claude/settings.json` (the example does), so even `wireframe-builder` asks before it writes. If you add your own agent, give it a `tools:` line: without one it inherits every tool, including `figma_execute`.
-- **Working on the kit.** Add your clone as a marketplace (`claude plugin marketplace add /path/to/product-design-agent-kit`): Claude Code then loads the plugin straight from that folder, and `/reload-plugins` picks up an edit. Run `claude plugin validate .` before pushing. Users receive what is on `main`.
+- **Working on the kit.** Add your clone as a marketplace (`claude plugin marketplace add /path/to/design-stuff-kit`): Claude Code then loads the plugin straight from that folder, and `/reload-plugins` picks up an edit. Run `claude plugin validate .` before pushing. Users receive what is on `main`.
 
 ## Contributing
 

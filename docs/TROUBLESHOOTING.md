@@ -74,6 +74,6 @@ You are in Figma for the browser. Use Figma Desktop.
 
 ## Updating the kit
 
-See [Updating the kit](../README.md#updating-the-kit). In short: turn on auto-update for the `product-design-agent-kit` marketplace in `/plugin`, or run `/plugin marketplace update product-design-agent-kit`. Then run `/design-stuff-kit:start-design` to bring copied rules and config up to date.
+See [Updating the kit](../README.md#updating-the-kit). In short: turn on auto-update for the `design-stuff-kit` marketplace in `/plugin`, or run `/plugin marketplace update design-stuff-kit`. Then run `/design-stuff-kit:start-design` to bring copied rules and config up to date.
 
-**An update did not arrive.** Run `/plugin marketplace update product-design-agent-kit`, then `/reload-plugins`. If the marketplace is private, your git credentials must work without a prompt (`gh auth login`, then `gh auth setup-git`).
+**An update did not arrive.** Run `/plugin marketplace update design-stuff-kit`, then `/reload-plugins`. If the marketplace is private, your git credentials must work without a prompt (`gh auth login`, then `gh auth setup-git`).

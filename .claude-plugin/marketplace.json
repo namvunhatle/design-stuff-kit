@@ -1,6 +1,6 @@
 {
-  "name": "product-design-agent-kit",
-  "description": "The Product Design Agent Kit for Claude Code",
+  "name": "design-stuff-kit",
+  "description": "Design Stuff Kit: a product design plugin for Claude Code",
   "owner": { "name": "namvunhatle" },
   "plugins": [
     {

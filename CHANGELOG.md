@@ -2,6 +2,16 @@
 
 What changed in the kit, newest first. The plugin updates skills, agents, and commands on its own. **In your project** lists the hand edits an update needs in files the plugin never touches; `/design-stuff-kit:start-design` checks them for you.
 
+## 2026-10-09 · Renamed to Design Stuff Kit
+
+- The repository is now `namvunhatle/design-stuff-kit`, and the marketplace is named `design-stuff-kit`, the same as the plugin. Install with `/plugin install design-stuff-kit --marketplace namvunhatle/design-stuff-kit`.
+- The README starts with the two-minute install inside Claude Code.
+
+**In your project**
+
+- If you installed the plugin earlier as `design-stuff-kit@product-design-agent-kit`, reinstall it: in a terminal inside the project, run `claude plugin marketplace remove product-design-agent-kit`, then `claude plugin install design-stuff-kit --marketplace namvunhatle/design-stuff-kit --scope project`. In `.claude/settings.json`, delete the old `product-design-agent-kit` entries.
+- In a clone of the kit: `git remote set-url origin https://github.com/namvunhatle/design-stuff-kit.git`.
+
 ## 2026-10-09 · Install the Yummy Labs skills from inside Claude Code
 
 - New `/design-stuff-kit:install-yummy` downloads the five Yummy Labs skills from the author's links into the project, so a plugin installed with `/plugin install` gets the full workflow without cloning the kit or running `./start`.
@@ -33,7 +43,7 @@ What changed in the kit, newest first. The plugin updates skills, agents, and co
 
 - Rerun `./start --project …` from an updated kit folder. It installs the plugin and offers to move old copies of kit skills, agents, and commands into `.claude/design-kit-backup/`.
 - In `.claude/settings.json`, replace the `Bash(node .claude/skills/web-explore/scripts/…)` allow rules with `Bash(wx-render:*)`, `Bash(wx-serve:*)`, `Bash(wx-tokens:*)`, `Bash(wx-init:*)`, and `Bash(wx-compare:*)`.
-- In `/plugin` → Marketplaces → `product-design-agent-kit`, choose **Enable auto-update**.
+- In `/plugin` → Marketplaces → `design-stuff-kit`, choose **Enable auto-update**.
 
 ## 2026-10-09 · Wireframe mode in web-explore
 
