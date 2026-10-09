@@ -35,7 +35,12 @@ Open Claude Code in your project folder and type these one at a time:
 
 Then **turn on automatic updates**: run `/plugin`, open **Marketplaces**, select `design-stuff-kit`, and choose **Enable auto-update**.
 
-**Sharing the project with a team?** In a terminal inside the project, run `claude plugin install design-stuff-kit@design-stuff-kit --scope project` once and commit `.claude/settings.json`. Teammates who open the project are then offered the same plugin.
+**Sharing the project with a team?** In a terminal inside the project, run these once and commit `.claude/settings.json`. Teammates who open the project are then offered the same plugin.
+
+```sh
+claude plugin marketplace add namvunhatle/design-stuff-kit --scope project
+claude plugin install design-stuff-kit@design-stuff-kit --scope project
+```
 
 ### Also needed for some work
 
