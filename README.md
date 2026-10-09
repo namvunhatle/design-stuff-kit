@@ -1,28 +1,16 @@
 # Design Stuff Kit
 
-A Claude Code plugin for product designers who move between exploration, Figma production work, prototypes, and developer handoff.
-
-## What you can do with it
-
-Tell Claude Code what you are working on, in plain words, and it follows a proven design workflow instead of guessing:
-
-- **Explore** three directions quickly, then rebuild the chosen one properly for handoff.
-- **Explore in the browser** with a live preview on your phone, have a critic score each round, then rebuild the pick in Figma and prove it still matches.
-- **Build wireframes or production UI in Figma** from your own design system, with a plan you approve before anything is drawn.
-- **Port** a finished feature from one Figma file to another without redesigning it.
-- **Fix prototype motion** in Figma (Smart Animate chains, timing).
-- **Write and review interface copy** in a consistent voice.
-- **Ship a coded prototype** to a shareable link and, when needed, an Android demo for developers.
+A Claude Code plugin for product designers. Describe the task in plain words and Claude follows a tested design workflow: explore options fast, build in Figma from your design system, fix prototype motion, review copy, and ship a shareable prototype.
 
 Claude always asks before editing a Figma file and saves a restore point first.
 
 ## Install
 
-Pick the way that matches where you use Claude Code. Both take about 2 minutes and install the same kit.
+Pick the way that matches where you use Claude Code.
 
 ### Claude Code in a terminal (CLI)
 
-Open Claude Code in your project folder (`claude`) and type these one at a time:
+In your project folder, start `claude` and type these one at a time:
 
 ```text
 /plugin marketplace add namvunhatle/design-stuff-kit
@@ -32,234 +20,77 @@ Open Claude Code in your project folder (`claude`) and type these one at a time:
 /design-stuff-kit:start-design
 ```
 
-1. The first two lines add this repository as a plugin source and install the kit.
-2. `/reload-plugins` loads the kit into the open session.
-3. `install-yummy` and `start-design`: see [After installing](#after-installing).
-
-Then **turn on automatic updates**: run `/plugin`, open **Marketplaces**, select `design-stuff-kit`, and choose **Enable auto-update**.
+Then turn on auto-update: `/plugin` → **Marketplaces** → `design-stuff-kit` → **Enable auto-update**.
 
 ### Claude Code in VS Code (extension)
 
-In the extension's chat panel, `/plugin` does not take arguments: it only opens the **Manage plugins** dialog, so the terminal commands above do nothing there. Install from the dialog instead:
+In the chat panel, `/plugin` only opens the **Manage plugins** dialog and ignores arguments, so install from the dialog:
 
-1. Paste this link into your browser's address bar and open it. VS Code opens the Claude Code panel on the plugin and adds the marketplace first if needed. Pick a scope (**Project** if teammates should get it too).
+1. Paste this link into your browser and open it, then pick a scope (**Project** to share with teammates):
 
    ```text
    vscode://anthropic.claude-code/install-plugin?plugin=design-stuff-kit&marketplace=namvunhatle/design-stuff-kit
    ```
 
-   Or by hand: type `/plugins` in the chat, open the **Marketplaces** tab, add `namvunhatle/design-stuff-kit`, then in the **Plugins** tab click **Install** on `design-stuff-kit`.
-2. The dialog reloads plugins itself; no `/reload-plugins` needed. If it shows **Restart Claude to apply plugin changes**, restart the session.
-3. In the chat, run `/design-stuff-kit:install-yummy`, then `/design-stuff-kit:start-design`. See [After installing](#after-installing).
+   Or type `/plugins`, add `namvunhatle/design-stuff-kit` in **Marketplaces**, and click **Install** in **Plugins**.
+2. If the dialog says **Restart Claude to apply plugin changes**, restart the session.
+3. In the chat, run `/design-stuff-kit:install-yummy`, then `/design-stuff-kit:start-design`.
 
-The extension and the CLI share the same plugin settings. To turn on automatic updates, run `claude` once in VS Code's terminal and follow the auto-update step in the CLI section above.
+The extension shares plugin settings with the CLI. To turn on auto-update, run `claude` once in VS Code's terminal and use the CLI step above.
 
-### After installing
+### What the last two commands do
 
-- `install-yummy` downloads five companion skills from their author, Yummy Labs, into your project (`ux-designer`, `ui-designer`, `ux-copywriter`, `interactive-prototype`, `figma-console-api`). It asks first, and needs Python 3.10+ (`python3 --version`; get it from [python.org](https://www.python.org/downloads/)).
-- `start-design` reads your project, suggests working rules, and starts a first task. See [Your first session](#your-first-session).
+- **`install-yummy`** downloads five companion skills from Yummy Labs into your project (`ux-designer`, `ui-designer`, `ux-copywriter`, `interactive-prototype`, `figma-console-api`). Needs Python 3.10+.
+- **`start-design`** reads your project, suggests working rules, and starts a first small task.
 
-**Sharing the project with a team?** In a terminal inside the project, run these once and commit `.claude/settings.json`. Teammates who open the project are then offered the same plugin.
+### Other ways
 
-```sh
-claude plugin marketplace add namvunhatle/design-stuff-kit --scope project
-claude plugin install design-stuff-kit@design-stuff-kit --scope project
-```
+- **Team project:** run once in a terminal inside the project, then commit `.claude/settings.json`:
 
-### Also needed for some work
+  ```sh
+  claude plugin marketplace add namvunhatle/design-stuff-kit --scope project
+  claude plugin install design-stuff-kit@design-stuff-kit --scope project
+  ```
 
-| For | You need | Get it |
-|---|---|---|
-| Anything in Figma | Figma Desktop and the Figma Console connector | [Figma setup](docs/FIGMA_SETUP.md), about 5 minutes |
-| Web exploration, rendering, Figma work | Node.js 18+ (`node --version`) | [nodejs.org](https://nodejs.org) (LTS) |
-| Real-app references for pattern decisions | Mobbin connector (optional) | [Figma setup](docs/FIGMA_SETUP.md#5-optional-mobbin) |
+- **One script for everything, including Figma:** clone this repo and run `./start --project /path/to/your-project`. Needs Git and Python 3.10+.
 
-Copy, planning, and coded prototypes need none of these.
+### Needed for some work
 
-### The terminal way: `./start`
-
-Prefer one script that does everything, including connecting Figma? Clone the kit outside your project and point it at your project folder:
-
-```sh
-git clone https://github.com/namvunhatle/design-stuff-kit.git
-cd design-stuff-kit
-./start --project /path/to/your-project
-```
-
-Tip: type `./start --project ` and drag your project folder into the Terminal window. `./start` downloads the Yummy Labs skills, installs the plugin for that project (recorded in its `.claude/settings.json`), asks for your Figma token to connect Figma (press Return to skip), and opens Claude Code with `/design-stuff-kit:start-design`. It never overwrites anything already in your project and is safe to run again. It needs Git and Python 3.10+. No Git? On GitHub choose **Code → Download ZIP**, unzip it, and run the same command from that folder.
-
-### What you get
-
-Eighteen skills, seven [agents](docs/AGENTS_SETUP.md), and two commands, all prefixed `design-stuff-kit:`. You rarely need to type them: describe the task and the right skill loads. A few you may call by name:
-
-| Command | Does |
+| For | You need |
 |---|---|
-| `/design-stuff-kit:start-design` | Onboarding, and a project check after each kit update |
-| `/design-stuff-kit:web-explore` | Explore directions or wireframes as HTML phone screens |
-| `/design-stuff-kit:render` | Render those screens to PNG and run the automatic checks |
-| `/design-stuff-kit:design-review` | One scored round from the blind design critic |
-| `/design-stuff-kit:install-yummy` | Download the Yummy Labs skills into this project |
+| Anything in Figma | Figma Desktop and the Figma Console connector ([setup](docs/FIGMA_SETUP.md), ~5 min) |
+| Web exploration and rendering | Node.js 18+ |
+| Real-app references | Mobbin connector, optional ([setup](docs/FIGMA_SETUP.md#5-optional-mobbin)) |
 
-## Updating the kit
+## Use it
 
-With auto-update on, Claude Code checks for a new version each time it starts, so skills, agents, and commands stay current on their own. Without it, run `/plugin marketplace update design-stuff-kit`, then `/reload-plugins`.
-
-Some files live in your project and an update never changes them: rules you turned on in `.claude/rules/`, `critique/config.md`, `design.md`, and your settings. Run `/design-stuff-kit:start-design` after an update: it compares your copies with the new kit and lists anything in the [changelog](CHANGELOG.md) that needs a hand edit.
-
-**Set up before the plugin existed?** Run `./start --project /path/to/your-project` from a fresh clone. It installs the plugin and offers to move the old copies of kit skills, agents, and commands into `.claude/design-kit-backup/`, so Claude Code does not show two versions of each.
-
-Something failed? See [Troubleshooting](docs/TROUBLESHOOTING.md).
-
-## Your first session
-
-`/design-stuff-kit:start-design` runs a short onboarding inside Claude Code:
-
-1. It reads what your project already says about the product. If there is little, it points you to a one-time project interview.
-2. It suggests a few optional working rules (for example, "always save a Figma restore point") and asks which to turn on.
-3. It asks for **one concrete task**, shows the plan (which skills, what you need to provide, what you will review), and does the first small step.
-
-Good first tasks:
+Open Claude Code in your project and describe the task. The right skill loads on its own. For example:
 
 > "Compare three layouts for the saved-items screen. Keep them rough; I'll pick one."
 >
-> "Review the copy on the onboarding screens in Figma file ABC and suggest fixes. Don't edit the file."
+> "Review the copy on the onboarding screens in Figma file ABC. Don't edit the file."
 
-Next time, just open Claude Code in your project and describe the task. The right skills load automatically. Run `/design-stuff-kit:start-design` again whenever you want the guided route, or after a kit update.
-
-## Why it exists
-
-An AI assistant can make a polished screen while missing the actual job: moving too slowly during exploration, treating a port as a redesign, or declaring a prototype correct after checking only static frames. These skills capture the decisions and checks that prevent those failures. They are generalized from real product-design work and contain no product specs, client files, screenshots, or Figma file keys.
-
-## Core concepts
-
-- **Design stage changes construction.** Exploration favors fast comparison; a selected direction gets maintainable layout, tokens, components, and handoff checks.
-- **A port has a source of truth.** Preserve the chosen flow and content while adapting the destination design system.
-- **Motion has two kinds of verification.** Inspect the reaction graph and geometry with tools; play the prototype in Figma to judge the feel.
-- **Canvas writes need a recovery point.** Default to advice, pin the target file, save a version-history point, read back uncertain writes, and limit edits to the requested section.
-- **Figma stores the canvas, not the reasons.** Keep a short `CLAUDE.md` plus open items, a node map, and a session log so the next session can recover what was decided and why.
-- **Verify with numbers, spend screenshots carefully.** Geometry, bindings, contrast, and alignment are measured by query. Screenshots stay in the transcript and cost tokens every turn.
-
-## Workflows
-
-The kit has **two Figma tracks**. Read [How the skills work together](WORKFLOWS.md) for the exact sequence, the required reference and Mobbin preflight, the five-question UI plan, rules, motion overlay, and agent handoffs.
-
-| Wireframe | Production UI |
+| You want to… | Skill |
 |---|---|
-| `ux-designer` → project context → `figma-wireframe-kit` → `ux-copywriter` | `ux-designer` → project context → `figma-design-system-ui` → `ui-designer` → `ux-copywriter` → build plan |
+| Compare directions, then finalize the pick | `explore-vs-final` |
+| Explore as HTML phone screens, then rebuild in Figma | `web-explore` → `ship-to-figma` |
+| Build wireframes or production UI in Figma | `figma-wireframe-kit`, `figma-design-system-ui` |
+| Move a feature to another Figma file | `figma-clone-port` |
+| Fix Smart Animate motion, or build it in Rive | `figma-prototype-motion`, `rive-motion` |
+| Get a scored critique of rendered screens | `design-critique` |
+| Set a product voice | `voice-tone-builder` |
+| Ship a prototype link, or an Android demo | `prototype-vercel-deploy`, `web-android-port` |
 
-Load `figma-console-api` before Figma Plugin API writes. Add motion with the one [motion workflow](WORKFLOWS.md#motion-workflow): it picks Figma reactions, a coded prototype, or Rive, then builds, has you play it, and hands off. The named external skills come from their original authors and must be installed from those sources.
+The full step-by-step tracks are in [Workflows](WORKFLOWS.md). Every skill, rule, and agent is listed in the [Reference](docs/REFERENCE.md).
 
-| You need to… | Start with | Deliverable |
-|---|---|---|
-| Compare directions | `explore-vs-final` | Labeled options and a decision record |
-| Compare flow structures as grayscale wireframes before Figma | `web-explore` in wireframe mode → wireframe track, scored with `design-critique` (needs Node.js) | Checked grayscale flow, critique scores, a picked flow as the wireframe brief |
-| Explore in code, then build the pick in Figma | `web-explore` → `ship-to-figma`, scored with `design-critique` (needs Node.js) | Live preview, checked renders, approved token map, Figma section verified against the web reference |
-| Prepare a chosen direction for handoff | `explore-vs-final` | Structured final design with intentional exceptions noted |
-| Move an existing feature to another Figma file | `figma-clone-port` | Source-to-destination mapping and verification report |
-| Build or debug a Smart Animate chain | `figma-prototype-motion` | Verified reaction graph, timing, and motion handoff |
-| Build state-driven motion that ships as a `.riv` asset | `rive-motion` (needs Rive desktop app and Rive MCP) | `.riv` file plus artboard, state machine, and view-model spec |
-| Build structural screens from a wireframe kit | `figma-wireframe-kit` | Measured grayscale flow and open decisions |
-| Build approved UI from an existing design system | `figma-design-system-ui` | Bound components/tokens and visual verification |
-| Set a product voice across several contexts | `voice-tone-builder` (applies Yummy Labs' framework) | Voice guide and consistency audit |
-| Put a coded prototype on a shareable link | `prototype-vercel-deploy` (needs Node.js and a Vercel account) | Versioned deploy, verified live link |
-| Lock a trailer or onboarding animation to music | `beat-synced-motion` | Chosen track, beat grid, measured audio-to-motion offset |
-| Update Figma after the coded prototype moved ahead | `code-to-figma-sync` | Figma keyframes measured from the live build, plus a mapping table |
-| Give developers an Android demo of a web prototype | `web-android-port` (needs Android Studio) | Compose/Views demo and a web-vs-Android parity report |
-| Explore a real frustration through satire | `theboxexplore` | Original ideas and a separate serious-concept table |
+## Updating the kit
 
-## Skills
+With auto-update on, the kit updates when Claude Code starts. Otherwise run `/plugin marketplace update design-stuff-kit`, then `/reload-plugins`.
 
-| Skill | What it covers | Author |
-|---|---|---|
-| [`content-research-writer`](skills/content-research-writer/SKILL.md) | Research-backed long-form writing | ComposioHQ; [Apache License 2.0](skills/content-research-writer/LICENSE-2.0.txt) |
-| [`start-design`](skills/start-design/SKILL.md) | Project onboarding and first-task routing | namvunhatle |
-| [`explore-vs-final`](skills/explore-vs-final/SKILL.md) | Construction fidelity for options and final designs | namvunhatle |
-| [`figma-clone-port`](skills/figma-clone-port/SKILL.md) | Porting components, screens, tokens, and prototype graphs | namvunhatle |
-| [`figma-prototype-motion`](skills/figma-prototype-motion/SKILL.md) | Smart Animate rigs, reaction traps, timing, and handoff | namvunhatle |
-| [`figma-wireframe-kit`](skills/figma-wireframe-kit/SKILL.md) | Wireframe construction using a kit discovered in the target file | namvunhatle |
-| [`figma-design-system-ui`](skills/figma-design-system-ui/SKILL.md) | Production UI using a live, read-only design system | namvunhatle |
-| [`voice-tone-builder`](skills/voice-tone-builder/SKILL.md) | Entry point that applies Yummy Labs' voice and tone framework from `ux-copywriter` | Routing by namvunhatle; framework by Yummy Labs, not bundled |
-| [`rive-motion`](skills/rive-motion/SKILL.md) | Choosing Rive vs Motion/Lottie and building state-machine motion through Rive MCP | namvunhatle |
-| [`prototype-vercel-deploy`](skills/prototype-vercel-deploy/SKILL.md) | Versioned, verified Vercel deploys of coded prototypes | namvunhatle |
-| [`beat-synced-motion`](skills/beat-synced-motion/SKILL.md) | Picking a music track, beat-grid timing, mix, and measuring audio-to-motion lock | namvunhatle |
-| [`code-to-figma-sync`](skills/code-to-figma-sync/SKILL.md) | Rebuilding Figma frames and keyframes from a live coded prototype | namvunhatle |
-| [`web-android-port`](skills/web-android-port/SKILL.md) | Porting web motion prototypes to Android and keeping both in sync | namvunhatle |
-| [`web-explore`](skills/web-explore/SKILL.md) | HTML phone frames (UI or grayscale wireframe), live preview, render to PNG with automatic checks | namvunhatle |
-| [`design-critique`](skills/design-critique/SKILL.md) | Blind, calibrated critique loop with one persistent `design-critic` agent, and a lessons log that turns repeat misses into rules | namvunhatle; loop inspired by Yummy Labs' [eval-loop guide](https://yummy-design-sprint.notion.site/How-to-make-Claude-keep-designing-better-ie-Agentic-evaluation-loops-39e62791470980c5b541c7020667e634) and [App Designer](https://www.tobiadonadon.com/projects/construct/material/skills/app-designer) by Tobia Donadon |
-| [`ship-to-figma`](skills/ship-to-figma/SKILL.md) | Token map, Figma rebuild, and three-way verification of a chosen web direction | namvunhatle |
-| [`theboxexplore`](skills/theboxexplore/SKILL.md) | Explicitly invoked satirical idea exploration | namvunhatle; inspired by [Soren's Newsletter](https://sorens.beehiiv.com/) |
+Files in your project (`.claude/rules/`, `critique/config.md`, `design.md`, settings) never change on update. Run `/design-stuff-kit:start-design` after an update to see what needs a hand edit.
 
-The Yummy Labs skills named in a workflow are needed to run that full workflow. See the [official source links](THIRD_PARTY.md) and [machine-readable source list](external-skills.json). Their files remain authored and distributed by Yummy Labs and are not covered by this repository's MIT license. The bundled ComposioHQ skill retains its Apache 2.0 license and [source credit](skills/content-research-writer/NOTICE.md).
-
-## Rules and agents
-
-The [rules](rules/) are optional Claude Code conventions. A rule without `paths:` frontmatter loads in every session, so activate only the ones the project needs:
-
-| Rule | Covers |
-|---|---|
-| [`figma-workflow`](rules/figma-workflow.md) | Advisory default, file pinning, restore points, fix in place, new sections, docs publishing |
-| [`design-tracks`](rules/design-tracks.md) | Track routing, reference and Mobbin preflight, five-question build plan |
-| [`explore-vs-final`](rules/explore-vs-final.md) | Construction fidelity by design stage |
-| [`project-memory`](rules/project-memory.md) | `CLAUDE.md` under 200 lines plus open items, node map, and session log ([templates](templates/project-memory/)) |
-| [`session-cost`](rules/session-cost.md) | Session resets, screenshot cost, narrow Figma reads |
-| [`model-selection`](rules/model-selection.md) | Which role does the work (main session, agent, or script) and on which model and effort |
-| [`writing-style`](rules/writing-style.md) | Compressed chat and documentation |
-| [`explore`](rules/explore.md) | Conventions for `explore/` folders; path-scoped, so it loads only there |
-
-The [agents](agents/) are Claude Code templates for bounded work:
-
-| Agent | Scope | Can write? |
-|---|---|---|
-| [`copy-reviewer`](agents/copy-reviewer.md) | Batch microcopy review | No |
-| [`design-critic`](agents/design-critic.md) | Scores rendered screens round after round | No |
-| [`figma-auditor`](agents/figma-auditor.md) | One-file Figma audit | No |
-| [`gitbook-porter`](agents/gitbook-porter.md) | Spec-to-GitBook change request | Mirror file and change request; no merge |
-| [`scout`](agents/scout.md) | Lookups in Figma, Mobbin examples, long specs; returns a short summary | No |
-| [`ui-builder`](agents/ui-builder.md) | Production UI from an approved build plan in a new section | Yes, Figma only in its new section |
-| [`wireframe-builder`](agents/wireframe-builder.md) | Settled wireframe brief in a new section | Yes, Figma only in its new section |
-
-These agents are adapted from a private setup, with project-specific facts removed. They come with the plugin as `design-stuff-kit:<name>`, and each one runs only when you or a skill calls it. An agent whose tools are not connected cannot do its job and says so. [Agent setup](docs/AGENTS_SETUP.md) covers checking them and matching tool names.
-
-Call an agent by name with a bounded brief. Include the target product, source spec, and Figma file key when relevant; agents start without the main conversation's context. Use `figma-auditor` for read-only checks, `scout` to gather facts without filling the main session, `wireframe-builder` only when the flow is settled, and `ui-builder` only after the designer approved the build plan; both builders write to a new section only. Review a GitBook change request before merging it.
-
-## Examples
-
-**Explore:** “I'm comparing three ways to show a saved item in a habit tracker. Use `explore-vs-final`; keep the options quick to change and tell me what must be rebuilt after I choose one.”
-
-**Port:** “Use `figma-clone-port` to move the reviewed search flow from file A into file B. Keep the source flow and copy, use file B's components, and report every token substitution that changes contrast or layout.”
-
-**Prototype:** “Use `figma-prototype-motion` to debug the card exit chain. Check matching layer paths, copied reactions, timeout values, and velocity before changing the easing.”
-
-**Ship:** “Deploy the onboarding prototype with `prototype-vercel-deploy`, then check the live link frame by frame against my local build.”
-
-## Supported tools
-
-- **Claude Code:** the kit installs as a plugin; the Yummy Labs skills go in project-local `.claude/skills/` folders.
-- **Codex:** personal `~/.codex/skills/` folders.
-- **gdown:** needed only by the automatic installer to retrieve the author's public Google Drive packages.
-- **Figma Console MCP:** required to execute the Figma-specific procedures. Tool names and available API operations can change; check the connected server before running a snippet.
-- **Mobbin MCP:** real-screen evidence for the design tracks. Without it, the tracks record that this evidence step could not run.
-- **Rive MCP:** optional; lets `rive-motion` build state machines in the Rive desktop editor (Early Access app must be running).
-- **GitBook MCP:** needed only for the optional `gitbook-porter` agent. Verify its tool names before installing that template.
-- **Node.js 18+ and Playwright:** `web-explore` rendering (installed per working folder). `ship-to-figma` parity also needs Pillow.
-
-The skills are Markdown instructions. Installing them does not grant Figma access or permission to edit a file.
-
-## Advanced setup
-
-- **Contents.** Fifteen original skills, one routing skill that applies a Yummy Labs framework, one Apache-licensed skill by ComposioHQ, and an installer for five Yummy Labs skills supplied by their author.
-- **Installer details.** `./start` installs `gdown` into the kit's own `.venv/` when it is missing and downloads the Yummy Labs packages from the author's [official links](upstream-packages.json), keeping the author's file contents (reference files are moved only where an archive layout differs from `SKILL.md`). It checks that all five are present before modifying your project. It then installs the design-stuff-kit plugin at project scope with `claude plugin marketplace add` and `claude plugin install`. Optional rules, project-memory templates, and an MCP example ship inside the plugin, and `/design-stuff-kit:start-design` offers them. Flags: `--no-launch` prepares files without opening Claude Code; `--gdown PATH` uses your own gdown; `--marketplace SOURCE` installs the plugin from a fork or a local folder instead of this GitHub repository.
-- **Offline or changed links.** [Assemble from local files](THIRD_PARTY.md).
-- **Codex.** Copy the chosen skill folders to `~/.codex/skills/`. The onboarding, the `wx-*` commands, and `${CLAUDE_PLUGIN_ROOT}` paths are for Claude Code; in Codex, run the scripts under `skills/web-explore/scripts/` with `node` directly.
-- **MCP servers.** Mobbin, Rive, and GitBook entries are in [`templates/mcp.json.example`](templates/mcp.json.example). Keep credentials in your local configuration, never in the project or this repo.
-- **Starter files.** `settings.json.example` (deny → ask → allow, every Figma write under `ask`), `design.md`, `design-tokens.example.json`, `CLAUDE.local.md`, and a skill template are in `templates/`, and `/design-stuff-kit:start-design` offers them. See [Starter files](docs/STARTER_FILES.md).
-- **Agent safety.** Every kit agent has a fixed `tools:` list. Keep Figma write tools under `ask` in `.claude/settings.json` (the example does), so even `wireframe-builder` asks before it writes. If you add your own agent, give it a `tools:` line: without one it inherits every tool, including `figma_execute`.
-- **Working on the kit.** Add your clone as a marketplace (`claude plugin marketplace add /path/to/design-stuff-kit`): Claude Code then loads the plugin straight from that folder, and `/reload-plugins` picks up an edit. Run `claude plugin validate .` before pushing. Users receive a new release only when `version` in `.claude-plugin/plugin.json` changes; see [Releasing](CONTRIBUTING.md#releasing).
-
-## Contributing
-
-See [CONTRIBUTING.md](CONTRIBUTING.md). Contributions should be generalizable, tested on a real design task, and free of client or company information.
+Something failed? See [Troubleshooting](docs/TROUBLESHOOTING.md).
 
 ## License
 
-The original skills (including the `voice-tone-builder` routing text), rules, agents, templates, scripts, and repository documentation are released under the [MIT License](LICENSE). The bundled ComposioHQ skill keeps its [Apache License 2.0](skills/content-research-writer/LICENSE-2.0.txt). The five Yummy Labs skills linked in `THIRD_PARTY.md`, including the voice and tone framework inside `ux-copywriter`, are distributed by their author and are not included in either license grant here.
+Original content is [MIT](LICENSE). `content-research-writer` by ComposioHQ keeps its [Apache 2.0](skills/content-research-writer/LICENSE-2.0.txt) license. The Yummy Labs skills are distributed by their author and are not covered here; see [Third-party](THIRD_PARTY.md). Contributions: [CONTRIBUTING.md](CONTRIBUTING.md).
