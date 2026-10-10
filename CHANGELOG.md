@@ -2,6 +2,7 @@
 
 ## Launcher update
 
+- Default installation instructions now clone into the project's `.design-stuff-kit/`, avoiding a required write to `~/.local/share`. Document approval for profile/network access and use `--no-launch` inside an agent session.
 - Both `start` and `start-codex` now set up the current working directory when `--project` is omitted, including an empty project folder and noninteractive use.
 - Keep `--project` as an explicit override and protect the kit source directory from accidental project setup.
 - Document first-time installation from the project folder and direct onboarding through an already installed Codex plugin.

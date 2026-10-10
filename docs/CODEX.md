@@ -5,10 +5,10 @@ The Codex edition is built from the same workflows as the Claude Code edition. I
 ## One-command setup (recommended)
 
 ```sh
-"$HOME/.local/share/design-stuff-kit-codex/start-codex"
+./.design-stuff-kit/start-codex
 ```
 
-Run this from the design project folder after cloning the kit as shown in the README. Omitting `--project` uses the current working directory, including an empty folder; it never asks for another path. `--project /path/to/project` remains an optional override. The project must be outside the kit's source checkout. Both launchers in this branch use the current folder by default. The setup sequence is companion installation, plugin installation, duplicate-copy backup offer, optional Figma connection, and automatic launch into `start-design`.
+Run this from the design project folder after cloning the kit as shown in the README. Omitting `--project` uses the current working directory, including an empty folder; it never asks for another path. `--project /path/to/project` remains an optional override. The project can contain the kit in `.design-stuff-kit/`; keep the terminal in the parent project folder. The project must not be the kit checkout itself or a directory inside that checkout. Both launchers in this branch use the current folder by default. The setup sequence is companion installation, plugin installation, duplicate-copy backup offer, optional Figma connection, and automatic launch into `start-design`.
 
 The context interview is bundled and works without a separate plugin or connection. It keeps Yummy Labs' seven interview topics and seven setup phases, adapted to Codex instructions and tools. `start-design` invokes it when context is missing and returns to the kit's working rules and first task afterward. On a repeat run it reads `SETUP.md` and resumes rather than starting over.
 
@@ -23,6 +23,14 @@ The setup order is equivalent to the Claude edition, but Codex uses its own UI, 
 The launcher reports the active `CODEX_HOME` (default `~/.codex`) and includes it in the printed launch command. A separate `.codex-cli-only` profile therefore stays selected even when the command is pasted into another terminal.
 
 For an existing Claude project, `start-design` reads `CLAUDE.md` and relevant Claude rules as migration context. It reuses `SETUP.md`, specs, project memory, and critique history, and links shared context from `AGENTS.md`. Existing Claude configuration stays intact. The generated package supplies Codex-specific role/cost rules, `AGENTS.template.md`, and a skill template; Claude permission and personal-instruction examples are excluded.
+
+## Installing from a sandboxed agent session
+
+Use the project-local checkout from the README, then run `./.design-stuff-kit/start-codex --no-launch`. Do not require a checkout under `~/.local/share`. The clone, build, and companion files then live under the writable project. The plugin installer still writes to `CODEX_HOME`, so it may need host approval.
+
+If a required command fails because profile writes or network access are blocked, use the host's approval mechanism for that specific command when available. Do not bypass the sandbox or change profiles to hide the error. If approval is denied or unavailable, report what succeeded and the exact blocked step, then offer local-terminal instructions. An existing folder is not proof of a successful install; confirm the plugin installer succeeded.
+
+Use a fresh Codex conversation for `start-design` after installation. `--no-launch` deliberately avoids opening a nested interactive CLI from an agent tool call.
 
 ## How Codex loads this kit
 

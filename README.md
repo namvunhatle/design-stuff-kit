@@ -8,17 +8,19 @@ This is the **`codex-support` branch**. The [Claude Code edition remains on `mai
 
 Requires Python 3.10+ and a signed-in Codex CLI with `codex plugin` support (tested with 0.162.1). The design project folder must already exist.
 
-Create an empty project folder and open a terminal there, including VS Code's integrated terminal. Install the kit once, then start setup in that same folder:
+Create an empty project folder and open a terminal there, including VS Code's integrated terminal. Clone the kit into a hidden subfolder, then start setup from the project folder:
 
 ```sh
-mkdir -p "$HOME/.local/share"
-git clone --branch codex-support --single-branch https://github.com/namvunhatle/design-stuff-kit.git "$HOME/.local/share/design-stuff-kit-codex"
-"$HOME/.local/share/design-stuff-kit-codex/start-codex"
+git clone --branch codex-support --single-branch https://github.com/namvunhatle/design-stuff-kit.git .design-stuff-kit
+printf '\n/.design-stuff-kit/\n' >> .gitignore
+./.design-stuff-kit/start-codex
 ```
 
-The current folder is your project; there is no project-path question. The kit is stored separately so its source files stay out of your design work. Keep that checkout: it holds the local marketplace used for installation and updates. For the next project, open a terminal in its folder and run just the last command. Use `--project /path/to/project` only when you want to target another folder. Setup inside the kit's own source folder is rejected.
+The current folder is your project; there is no project-path question. Keep the terminal here—do not `cd .design-stuff-kit`. The hidden checkout holds the local marketplace and is ignored by the project's Git repository. Keep it for updates. Use `--project /path/to/project` only when you want to target another folder. Setup inside the kit's own source folder is rejected; setup in its parent project is supported.
 
 If the plugin is already installed, open the empty project folder in Codex CLI or the Codex IDE extension and invoke `$start-design` to begin setup there directly.
+
+**Installing through an agent:** ask it to follow these steps in the current workspace and run the launcher with `--no-launch`. Clone/build files stay inside the workspace, but plugin installation still writes to the active Codex profile (`CODEX_HOME`, normally `~/.codex`). If the host blocks that write or network access, the agent should request the specific permission through its approval tool when available. A GitHub DNS failure may be sandbox-related; retry with approved network access before treating it as an outage. If approval is unavailable or denied, explain the blocked step and provide the command for a local terminal. After installation, open a fresh Codex conversation and select `start-design`; the running session may not discover newly installed skills.
 
 Like the Claude edition's `./start`, this launcher:
 
@@ -33,9 +35,9 @@ Onboarding asks the original seven context questions one at a time, recommends c
 Useful options:
 
 ```sh
-./start-codex --project /path/to/project --no-launch
-./start-codex --project /path/to/project --skip-figma
-./start-codex --project /path/to/project --skip-companions
+./.design-stuff-kit/start-codex --no-launch
+./.design-stuff-kit/start-codex --skip-figma
+./.design-stuff-kit/start-codex --skip-companions
 ```
 
 `--skip-companions` defers the five downloads; the context interview still works. Full design tracks may still need those companions. Noninteractive runs also default to the current folder, skip interactive prompts, and print a safely quoted command to start onboarding later.
@@ -117,8 +119,8 @@ Figma workflows retain file pinning, restore points, and scope review. The setup
 The launcher automatically creates a new immutable package when source content changes, with a distinct cache version. From your design project folder, update and resume with:
 
 ```sh
-git -C "$HOME/.local/share/design-stuff-kit-codex" pull --ff-only
-"$HOME/.local/share/design-stuff-kit-codex/start-codex"
+git -C .design-stuff-kit pull --ff-only
+./.design-stuff-kit/start-codex
 ```
 
 Existing project skills and configuration are preserved. Workflow parity does not guarantee identical model output; live Figma and interview behavior need checking with the user's connected tools.

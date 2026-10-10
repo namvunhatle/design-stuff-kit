@@ -25,7 +25,9 @@ class CodexCliTests(unittest.TestCase):
             project.mkdir()
             profile = root / "isolated profile"
             profile.mkdir()
-            checkout = root / "kit checkout"
+            # Match the documented agent-friendly install: the kit checkout
+            # is inside the design project, while cwd remains the project.
+            checkout = project / ".design-stuff-kit"
             (checkout / "skills").mkdir(parents=True)
             (checkout / "codex/skills").mkdir(parents=True)
             legacy = project / "CLAUDE.md"
@@ -65,7 +67,7 @@ class CodexCliTests(unittest.TestCase):
             self.assertEqual(len(list((cached / "skills").glob("*/SKILL.md"))), 21)
             self.assertEqual(legacy.read_text(), "Existing design decisions\n")
             self.assertEqual(progress.read_text(), "## Decided against\n- No Rive work\n")
-            self.assertEqual(sorted(p.name for p in project.iterdir()), ["CLAUDE.md", "SETUP.md"])
+            self.assertEqual(sorted(p.name for p in project.iterdir()), [".design-stuff-kit", "CLAUDE.md", "SETUP.md"])
 
 
 if __name__ == "__main__":
