@@ -5,14 +5,14 @@ The Codex edition is built from the same workflows as the Claude Code edition. I
 ## One-command setup (recommended)
 
 ```sh
-./start-codex --project /path/to/your-design-project
+"$HOME/.local/share/design-stuff-kit-codex/start-codex"
 ```
 
-Omit `--project` to choose the folder interactively. The folder must exist outside this checkout. This mirrors the Claude `./start` sequence: companion installation, plugin installation, duplicate-copy backup offer, optional Figma connection, and automatic launch into `start-design`.
+Run this from the design project folder after cloning the kit as shown in the README. Omitting `--project` uses the current working directory, including an empty folder; it never asks for another path. `--project /path/to/project` remains an optional override. The project must be outside the kit's source checkout. Both launchers in this branch use the current folder by default. The setup sequence is companion installation, plugin installation, duplicate-copy backup offer, optional Figma connection, and automatic launch into `start-design`.
 
 The context interview is bundled and works without a separate plugin or connection. It keeps Yummy Labs' seven interview topics and seven setup phases, adapted to Codex instructions and tools. `start-design` invokes it when context is missing and returns to the kit's working rules and first task afterward. On a repeat run it reads `SETUP.md` and resumes rather than starting over.
 
-`--no-launch` prepares everything and prints the launch command. `--skip-figma` defers the token prompt. `--skip-companions` defers the five downloads without disabling the bundled interview. Noninteractive runs require `--project`, retain duplicate skills, skip token prompts, and print the launch command.
+`--no-launch` prepares everything and prints the launch command. `--skip-figma` defers the token prompt. `--skip-companions` defers the five downloads without disabling the bundled interview. Noninteractive runs also default to the current directory, retain duplicate skills, skip token prompts, and print the launch command.
 
 The launcher builds immutable releases under `dist/codex-setup/` using a content hash and a distinct plugin cache version. It refreshes its own local marketplace entry and invokes Codex's plugin installer. Rerun it after pulling updates. It never replaces project skill folders or an edited generated release. CLI/plugin failures stop launch and return a nonzero exit code; an optional Figma failure is reported and can be retried later.
 

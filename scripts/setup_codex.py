@@ -147,7 +147,7 @@ def migrate_copies(project):
 
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--project", type=Path, help="Existing design project; prompted if omitted")
+    parser.add_argument("--project", type=Path, default=Path.cwd(), help="Design project (default: current working directory)")
     parser.add_argument("--no-launch", action="store_true", help="Prepare setup without opening Codex")
     parser.add_argument("--skip-figma", action="store_true", help="Skip the optional Figma token prompt")
     parser.add_argument("--skip-companions", action="store_true", help="Defer the five optional Yummy Labs downloads")
@@ -155,13 +155,6 @@ def main(argv=None):
     args = parser.parse_args(argv)
     if sys.version_info < (3, 10):
         parser.error("Python 3.10 or newer is required")
-    if args.project is None:
-        if not sys.stdin.isatty():
-            parser.error("Pass --project when running without an interactive terminal")
-        answer = input("Path to your design project: ").strip()
-        if not answer:
-            parser.error("A project path is required")
-        args.project = Path(answer)
     project = args.project.expanduser().resolve()
     if not project.is_dir() or project == ROOT or ROOT in project.parents:
         parser.error("Choose an existing design project outside the kit folder")

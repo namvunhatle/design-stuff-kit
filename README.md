@@ -8,13 +8,17 @@ This is the **`codex-support` branch**. The [Claude Code edition remains on `mai
 
 Requires Python 3.10+ and a signed-in Codex CLI with `codex plugin` support (tested with 0.162.1). The design project folder must already exist.
 
+Create an empty project folder and open a terminal there, including VS Code's integrated terminal. Install the kit once, then start setup in that same folder:
+
 ```sh
-git clone --branch codex-support --single-branch https://github.com/namvunhatle/design-stuff-kit.git design-stuff-kit-codex
-cd design-stuff-kit-codex
-./start-codex --project /path/to/your-design-project
+mkdir -p "$HOME/.local/share"
+git clone --branch codex-support --single-branch https://github.com/namvunhatle/design-stuff-kit.git "$HOME/.local/share/design-stuff-kit-codex"
+"$HOME/.local/share/design-stuff-kit-codex/start-codex"
 ```
 
-Or run `./start-codex` and enter your project path when prompted. Use a design project outside this kit checkout. Keep the kit checkout: it holds the local marketplace used for installation and updates.
+The current folder is your project; there is no project-path question. The kit is stored separately so its source files stay out of your design work. Keep that checkout: it holds the local marketplace used for installation and updates. For the next project, open a terminal in its folder and run just the last command. Use `--project /path/to/project` only when you want to target another folder. Setup inside the kit's own source folder is rejected.
+
+If the plugin is already installed, open the empty project folder in Codex CLI or the Codex IDE extension and invoke `$start-design` to begin setup there directly.
 
 Like the Claude edition's `./start`, this launcher:
 
@@ -34,7 +38,7 @@ Useful options:
 ./start-codex --project /path/to/project --skip-companions
 ```
 
-`--skip-companions` defers the five downloads; the context interview still works. Full design tracks may still need those companions. Without a terminal, pass `--project`; the launcher skips interactive prompts and prints a safely quoted command to start onboarding later.
+`--skip-companions` defers the five downloads; the context interview still works. Full design tracks may still need those companions. Noninteractive runs also default to the current folder, skip interactive prompts, and print a safely quoted command to start onboarding later.
 
 In an already installed plugin, open a new chat in your design project and select `start-design` (CLI/IDE: `$start-design`). For plugin-only/manual desktop installation, see [the Codex guide](docs/CODEX.md). Setup changes your Codex plugin profile; project instructions are written during the interview after you review them.
 
@@ -93,7 +97,7 @@ Both editions follow the same design workflow and use the same design assets, re
 
 | Experience | Claude Code | Codex |
 |---|---|---|
-| Start setup | `./start --project …` | `./start-codex --project …` |
+| Start setup | Run the kit's `start` from the project folder | Run the kit's `start-codex` from the project folder |
 | Interview | Yummy Labs context plugin | Bundled, credited adaptation of that interview |
 | Resume work | Existing project context and `SETUP.md` | Same context and `SETUP.md`; reads Claude context when migrating |
 | Select a workflow | `/design-stuff-kit:<skill>` | Select the kit skill, or `$<skill>` |
@@ -110,11 +114,11 @@ Figma workflows retain file pinning, restore points, and scope review. The setup
 
 ## Build, test, and update
 
-The launcher automatically creates a new immutable package when source content changes, with a distinct cache version. From your kit checkout, update and resume with:
+The launcher automatically creates a new immutable package when source content changes, with a distinct cache version. From your design project folder, update and resume with:
 
 ```sh
-git pull --ff-only
-./start-codex --project /path/to/your-design-project
+git -C "$HOME/.local/share/design-stuff-kit-codex" pull --ff-only
+"$HOME/.local/share/design-stuff-kit-codex/start-codex"
 ```
 
 Existing project skills and configuration are preserved. Workflow parity does not guarantee identical model output; live Figma and interview behavior need checking with the user's connected tools.

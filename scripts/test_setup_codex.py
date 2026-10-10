@@ -4,6 +4,7 @@ import contextlib
 import io
 import json
 import os
+import runpy
 import subprocess
 import sys
 import tempfile
@@ -22,6 +23,33 @@ class CodexSetupTests(unittest.TestCase):
         self.root = Path(self.temporary.name).resolve()
         self.project = self.root / "designer project"
         self.project.mkdir()
+
+    def test_empty_current_folder_is_default_without_path_prompt(self):
+        with patch.object(Path, "cwd", return_value=self.project), \
+             patch.object(setup.shutil, "which", return_value="codex"), \
+             patch.object(setup.subprocess, "run", return_value=subprocess.CompletedProcess([], 0, '{"marketplaces": []}')) as run, \
+             patch.object(setup, "prepare_marketplace", return_value=self.root), \
+             patch.object(setup.sys.stdin, "isatty", return_value=False), \
+             patch("builtins.input") as prompt, contextlib.redirect_stdout(io.StringIO()):
+            self.assertEqual(setup.main(["--no-launch", "--skip-figma"]), 0)
+        prompt.assert_not_called()
+        companion = run.call_args_list[1].args[0]
+        self.assertEqual(companion[companion.index("--project") + 1], str(self.project))
+        self.assertEqual(run.call_args_list[-1].kwargs["cwd"], self.project)
+
+    def test_claude_launcher_also_defaults_to_current_folder(self):
+        launcher = runpy.run_path(str(ROOT / "start"))
+        main = launcher["main"]
+        with patch.object(Path, "cwd", return_value=self.project), \
+             patch.object(sys, "argv", ["start", "--no-launch", "--skip-figma"]), \
+             patch.object(setup.shutil, "which", return_value="claude"), \
+             patch.object(setup.subprocess, "run", return_value=subprocess.CompletedProcess([], 0)) as run, \
+             patch.dict(main.__globals__, {"ensure_gdown": lambda requested: "gdown", "install_plugin": lambda *args: True}), \
+             patch("builtins.input") as prompt, contextlib.redirect_stdout(io.StringIO()):
+            main()
+        prompt.assert_not_called()
+        command = run.call_args.args[0]
+        self.assertEqual(command[command.index("--project") + 1], str(self.project))
 
     def test_setup_installs_then_launches_in_project(self):
         calls = []

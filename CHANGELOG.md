@@ -1,5 +1,11 @@
 # Changelog
 
+## Launcher update
+
+- Both `start` and `start-codex` now set up the current working directory when `--project` is omitted, including an empty project folder and noninteractive use.
+- Keep `--project` as an explicit override and protect the kit source directory from accidental project setup.
+- Document first-time installation from the project folder and direct onboarding through an already installed Codex plugin.
+
 ## Codex 0.2.1-beta
 
 - Replace Claude model-routing and cost rules with Codex role guidance; preserve independent critique and reviewer continuity.
