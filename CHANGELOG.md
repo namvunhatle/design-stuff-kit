@@ -1,5 +1,12 @@
 # Changelog
 
+## Codex 0.2.0-beta
+
+- Add `start-codex` to install companions and the plugin, offer Figma setup, and open onboarding in the chosen project.
+- Bundle a credited MIT adaptation of Yummy Labs design-context interview and references; resume from SETUP.md.
+- Build immutable setup releases with content-specific cache versions. Preserve project edits and stop launch on mandatory setup failures.
+- Keep the Claude launcher unchanged.
+
 What changed in the kit, newest first. Each heading is the plugin `version`; users receive a release when that number changes. The plugin updates skills, agents, and commands on its own. **In your project** lists the hand edits an update needs in files the plugin never touches; `/design-stuff-kit:start-design` checks them for you.
 
 ## 0.1.1-beta · 2026-10-09

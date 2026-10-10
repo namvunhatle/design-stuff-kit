@@ -1,0 +1,7 @@
+#!/usr/bin/env python3
+"""Set up a design project and open Codex onboarding."""
+
+from scripts.setup_codex import main
+
+if __name__ == "__main__":
+    raise SystemExit(main())

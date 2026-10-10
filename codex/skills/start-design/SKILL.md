@@ -7,13 +7,19 @@ description: Set up or resume a product design project with Design Stuff Kit in 
 
 Work in the user's design project, not the installed plugin directory. Read applicable `AGENTS.md`, `SETUP.md`, `design.md`, and equivalent product context before asking for facts already supplied. Identify the product, users, platform, design system, and current stage; ask only for missing facts needed for the chosen task.
 
-If the user wants Yummy Labs' `design-context-setup` interview, check whether that skill is available. If missing, identify its [author's repository](https://github.com/yummylabs-coder/yummy-design-plugins) and explain that it needs a separate Codex-compatible installation. Do not run Claude plugin commands or recreate the author's interview. Ordinary design work can proceed with enough existing context.
+## First run or unfinished setup
+
+If context is missing or the user asks for onboarding, load the bundled `../design-context-setup/SKILL.md` now. It is a credited Codex adaptation of Yummy Labs' actual seven-question interview and seven-phase setup. Do not redirect the designer to install another plugin or replace it with a generic summary. Ask one unanswered interview question, wait for the answer, and continue the workflow in the designer's language.
+
+If `SETUP.md` exists, resume the first unfinished item and respect its `Decided against` and `Add later` sections. When equivalent project context already exists, summarize it and skip answered questions. Complete context setup before choosing a first design task unless the designer explicitly wants to skip or defer it.
+
+After context setup, return here to check kit companions, select working rules, and begin the task. Do not repeat decisions or questions already handled by the interview.
 
 ## Check the project and tools
 
 - Check the available skills and `.agents/skills/` for `ux-designer`, `ui-designer`, `ux-copywriter`, `interactive-prototype`, and `figma-console-api`. Offer the bundled `install-yummy` skill when a selected track needs missing companions. These packages remain authored by Yummy Labs and are not bundled here.
 - Check Figma Console tools for Figma work, Mobbin for real-app evidence, Rive for Rive motion, and GitBook for GitBook work. Use existing connections where available. Otherwise consult `${KIT_ROOT}/docs/CODEX.md`. Never request secrets in chat or write them into the project.
-- Compare relevant kit rule templates with the project's existing instructions. Propose only meaningful changes; preserve local decisions. Do not move or delete similarly named skills, rules, or project files automatically.
+- Read the bundled CHANGELOG.md for relevant update notes. Compare relevant kit rule templates with the project's existing instructions. Propose only meaningful changes; preserve local decisions. Do not move or delete similarly named skills, rules, or project files automatically.
 
 ## Choose working rules and starter files
 

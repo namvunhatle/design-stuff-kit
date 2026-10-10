@@ -28,3 +28,9 @@ The critique loop in `design-critique` and `design-critic` (one persistent criti
 The calibration (anchors, team config), blind grading, verified-only high scores, identical-render check, and learn-after-the-job practices in `design-critique`, `design-critic`, and `web-explore` follow ideas from Yummy Labs' guide [How to make Claude keep designing better (agentic evaluation loops)](https://yummy-design-sprint.notion.site/How-to-make-Claude-keep-designing-better-ie-Agentic-evaluation-loops-39e62791470980c5b541c7020667e634). The guide's prompts and panel structure are not reproduced; the kit's text and templates are its own.
 
 The starter-file set in `templates/` and `docs/STARTER_FILES.md` (three zones, interview-first files, `design.md`, described design tokens, a permissions file, slash commands, `CLAUDE.local.md`) follows Yummy Labs' [Claude Code starter files](https://yummy-design-sprint.notion.site/Claude-Code-starter-files-3856279147098121b033c4e81c757a89). The templates are written for this kit's workflow and do not reproduce Yummy Labs' templates or samples.
+
+## Bundled Codex design-context onboarding
+
+The Codex edition includes an adaptation of `design-context-setup` by Carmen Rincon / Yummy Labs, from [yummy-design-plugins](https://github.com/yummylabs-coder/yummy-design-plugins/tree/3d5c5a763e4a4d3816bd60f09de4014a5832e287/plugins/design-context/skills/design-context-setup), commit `3d5c5a763e4a4d3816bd60f09de4014a5832e287`.
+
+This particular skill and its references are distributed under MIT. The original copyright and license are preserved in `codex/skills/design-context-setup/LICENSE`; changes are described in `NOTICE.md` alongside it. The generated package carries both files. This differs from the five separately downloaded companion packages described above; their distribution terms remain unchanged.

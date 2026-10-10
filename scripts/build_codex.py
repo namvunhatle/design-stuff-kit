@@ -13,7 +13,7 @@ from zipfile import ZIP_DEFLATED, ZipFile
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_OUTPUT = ROOT / "dist" / "codex" / "design-stuff-kit"
 COPIED_DIRS = ("skills", "agents", "rules", "templates", "bin")
-COPIED_FILES = ("LICENSE", "THIRD_PARTY.md", "external-skills.json", "upstream-packages.json")
+COPIED_FILES = ("LICENSE", "THIRD_PARTY.md", "CHANGELOG.md", "external-skills.json", "upstream-packages.json")
 
 
 def adapt(text):
@@ -53,10 +53,12 @@ def populate(output):
         shutil.copy2(ROOT / "scripts" / name, output / "scripts" / name)
     (output / "docs").mkdir()
     shutil.copy2(ROOT / "docs" / "CODEX.md", output / "docs" / "CODEX.md")
+    shutil.copy2(ROOT / "docs" / "FIGMA_SETUP_CODEX.md", output / "docs" / "FIGMA_SETUP_CODEX.md")
 
-    # These two workflows contain host-specific setup, so use maintained overrides.
+    # Codex overrides may include additional onboarding skills and references.
     for skill in (ROOT / "codex" / "skills").iterdir():
-        shutil.copy2(skill / "SKILL.md", output / "skills" / skill.name / "SKILL.md")
+        if skill.is_dir():
+            shutil.copytree(skill, output / "skills" / skill.name, dirs_exist_ok=True)
     for source in (ROOT / "commands").glob("*.md"):
         front, body = source.read_text(encoding="utf-8")[4:].split("\n---", 1)
         description = re.search(r"^description: (.+)$", front, re.M).group(1)
@@ -93,6 +95,7 @@ def populate(output):
     shutil.copy2(ROOT / "codex" / "runtime.md", output / "CODEX_RUNTIME.md")
     original = json.loads((ROOT / ".claude-plugin" / "plugin.json").read_text(encoding="utf-8"))
     identity = {key: original[key] for key in ("name", "version", "description", "author", "homepage", "repository", "license", "keywords")}
+    identity["version"] = (ROOT / "codex" / "version.txt").read_text().strip()
     interface = {"displayName": "Design Stuff Kit", "shortDescription": "Product design workflows for Codex", "category": "Productivity"}
     write_json(output / "plugin.json", {
         "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",

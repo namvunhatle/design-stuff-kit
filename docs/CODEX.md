@@ -1,6 +1,24 @@
 # Design Stuff Kit for Codex
 
-The Codex edition is built from the same workflows as the Claude Code edition. It includes 18 existing skills and two additional skills, `render` and `design-review`, converted from Claude commands. Python 3.10+ builds the package without downloads. Runtime dependencies remain workflow-specific: Node.js for web tools, Playwright and a browser for rendering, and connected MCP tools for external services.
+The Codex edition is built from the same workflows as the Claude Code edition. It includes 21 skills: 18 existing workflows, `render` and `design-review` converted from Claude commands, and a bundled MIT-licensed Codex adaptation of Yummy Labs' `design-context-setup`. Python 3.10+ builds the package without downloads. Runtime dependencies remain workflow-specific: Node.js for web tools, Playwright and a browser for rendering, and connected MCP tools for external services.
+
+## One-command setup (recommended)
+
+```sh
+./start-codex --project /path/to/your-design-project
+```
+
+Omit `--project` to choose the folder interactively. The folder must exist outside this checkout. This mirrors the Claude `./start` sequence: companion installation, plugin installation, duplicate-copy backup offer, optional Figma connection, and automatic launch into `start-design`.
+
+The context interview is bundled and works without a separate plugin or connection. It keeps Yummy Labs' seven interview topics and seven setup phases, adapted to Codex instructions and tools. `start-design` invokes it when context is missing and returns to the kit's working rules and first task afterward. On a repeat run it reads `SETUP.md` and resumes rather than starting over.
+
+`--no-launch` prepares everything and prints the launch command. `--skip-figma` defers the token prompt. `--skip-companions` defers the five downloads without disabling the bundled interview. Noninteractive runs require `--project`, retain duplicate skills, skip token prompts, and print the launch command.
+
+The launcher builds immutable releases under `dist/codex-setup/` using a content hash and a distinct plugin cache version. It refreshes its own local marketplace entry and invokes Codex's plugin installer. Rerun it after pulling updates. It never replaces project skill folders or an edited generated release. CLI/plugin failures stop launch and return a nonzero exit code; an optional Figma failure is reported and can be retried later.
+
+Figma instructions: [Connect Codex to Figma Console](FIGMA_SETUP_CODEX.md). A configured server still needs a running Desktop Bridge and a live status check.
+
+The setup order is equivalent to the Claude edition, but Codex uses its own UI, user-profile plugin configuration, `.agents/skills/`, and `AGENTS.md`. It does not import Claude permission settings or claim Claude auto-update behavior.
 
 ## How Codex loads this kit
 
@@ -78,7 +96,7 @@ For personal use, copy the package to `~/.codex/plugins/design-stuff-kit`, merge
 
 ## Connections and companions
 
-Use existing authenticated connections first. This is a skills-only package; it deliberately does not start optional MCP servers or distribute tokens. In Codex CLI, inspect connections with `codex mcp list`. Add a required HTTP server with, for example:
+Use existing authenticated connections first. The plugin package itself is skills-only. The separate setup launcher can configure Figma Console at your request; it does not distribute tokens. In Codex CLI, inspect connections with `codex mcp list`. Add a required HTTP server with, for example:
 
 ```sh
 codex mcp add mobbin --url https://api.mobbin.com/mcp
@@ -86,7 +104,7 @@ codex mcp add rive --url http://127.0.0.1:9791/mcp
 codex mcp add gitbook --url https://mcp.gitbook.com/mcp
 ```
 
-Connect only services you need. Rive requires the desktop app's local server to be running. Figma workflows need **Figma Console** capabilities, not merely any connector named Figma. Use the host's connection setup and the provider's current instructions; never paste a token into chat or commit it. The original `FIGMA_SETUP.md` describes Claude setup and should not be applied literally to Codex.
+Connect only services you need. Rive requires the desktop app's local server to be running. Figma workflows need **Figma Console** capabilities, not merely any connector named Figma. Use the host's connection setup and the provider's current instructions; never paste a token into chat or commit it. Use `FIGMA_SETUP_CODEX.md` for this edition. The original `FIGMA_SETUP.md` describes Claude setup.
 
 `install-yummy` calls the existing downloader with `--target codex`, placing companions in `.agents/skills/`. Claude remains the default target for the original installer. The third-party downloads are not included in the built package, and their internal instructions still need checking for host-specific commands. Some full design tracks depend on these companions; a missing dependency must be reported.
 
