@@ -21,7 +21,9 @@ def adapt(text):
     for old, new in (
         ("${CLAUDE_PLUGIN_ROOT}", "${KIT_ROOT}"),
         (".claude/skills/", ".agents/skills/"),
-        ("`CLAUDE.md`", "`AGENTS.md`"),
+        ("CLAUDE.md", "AGENTS.md"),
+        ("CLAUDE.template.md", "AGENTS.template.md"),
+        ("templates/mcp.json.example", "docs/CODEX.md#connections-and-companions"),
         ("/design-stuff-kit:", "$"),
         ("SendMessage in Claude Code", "the available Codex agent continuation tool"),
         ("claude mcp add --transport http rive http://127.0.0.1:9791/mcp",
@@ -29,6 +31,10 @@ def adapt(text):
         ("are on the PATH in Claude Code", "must be run by absolute path or added to PATH for the current shell call"),
     ):
         text = text.replace(old, new)
+    text = text.replace(
+        "- The agent defaults to `model: opus`, because judging taste is the job. For a quick `figma`-phase regression check, you may run it on `sonnet`.",
+        "- Use the session's configured model for the critic unless the designer has chosen another supported model. Preserve independent judgment and the same critic across rounds; read `${KIT_ROOT}/rules/model-selection.md` for Codex routing.",
+    )
     return text
 
 
@@ -55,10 +61,14 @@ def populate(output):
     shutil.copy2(ROOT / "docs" / "CODEX.md", output / "docs" / "CODEX.md")
     shutil.copy2(ROOT / "docs" / "FIGMA_SETUP_CODEX.md", output / "docs" / "FIGMA_SETUP_CODEX.md")
 
-    # Codex overrides may include additional onboarding skills and references.
-    for skill in (ROOT / "codex" / "skills").iterdir():
-        if skill.is_dir():
-            shutil.copytree(skill, output / "skills" / skill.name, dirs_exist_ok=True)
+    # Explicit Codex files are already adapted; do not rewrite legacy-context
+    # mentions in them (e.g. reading an existing CLAUDE.md during migration).
+    overrides = set()
+    for directory in COPIED_DIRS:
+        source = ROOT / "codex" / directory
+        if source.is_dir():
+            overrides.update(path.relative_to(ROOT / "codex") for path in source.rglob("*") if path.is_file())
+            shutil.copytree(source, output / directory, dirs_exist_ok=True)
     for source in (ROOT / "commands").glob("*.md"):
         front, body = source.read_text(encoding="utf-8")[4:].split("\n---", 1)
         description = re.search(r"^description: (.+)$", front, re.M).group(1)
@@ -72,12 +82,21 @@ def populate(output):
             # This Apache-licensed upstream skill is retained byte-for-byte.
             if "content-research-writer" in path.parts:
                 continue
-            text = adapt(path.read_text(encoding="utf-8"))
+            text = path.read_text(encoding="utf-8")
+            if path.relative_to(output) not in overrides:
+                text = adapt(text)
             if directory == "agents" and text.startswith("---\n"):
                 text = text[4:].split("\n---", 1)[1].lstrip()
             if path.name == "SKILL.md" and directory == "skills":
                 text = inject_runtime(text)
             path.write_text(text, encoding="utf-8")
+
+    (output / "templates/project-memory/CLAUDE.template.md").rename(
+        output / "templates/project-memory/AGENTS.template.md")
+    # These examples configure Claude permissions/loading and have no Codex
+    # equivalent. Connections are documented in docs/CODEX.md instead.
+    for name in ("CLAUDE.local.md", "settings.json.example", "mcp.json.example"):
+        (output / "templates" / name).unlink()
 
     # Remove misleading host loading claims from the Codex rule templates.
     explore = output / "rules" / "explore.md"

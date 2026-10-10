@@ -1,6 +1,7 @@
 """Offline package and installer regression tests: python3 -m unittest discover -s scripts -p 'test_codex.py'."""
 
 import json
+import re
 import subprocess
 import sys
 import tempfile
@@ -50,6 +51,27 @@ class CodexPackageTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             build(self.package)
         self.assertEqual(local.read_text(), "local edit")
+
+    def test_workflow_resources_resolve_in_built_package(self):
+        # Catch broken paths after renaming templates or excluding host files.
+        for directory in ("skills", "rules", "agents"):
+            for path in (self.package / directory).rglob("*.md"):
+                for relative in re.findall(r"\$\{KIT_ROOT\}/([\w./-]+)", path.read_text()):
+                    self.assertTrue((self.package / relative).exists(), f"{path}: {relative}")
+        self.assertTrue((self.package / "templates/project-memory/AGENTS.template.md").is_file())
+        for name in ("CLAUDE.local.md", "settings.json.example", "mcp.json.example"):
+            self.assertFalse((self.package / "templates" / name).exists())
+
+    def test_shared_workflows_use_codex_instructions(self):
+        # A promotion must update the instructions Codex reads, including
+        # unquoted mentions in templates; upstream attribution stays untouched.
+        for directory in ("rules", "templates", "skills/design-critique"):
+            for path in (self.package / directory).rglob("*.md"):
+                content = path.read_text()
+                self.assertNotIn("CLAUDE.md", content, path)
+                self.assertNotRegex(content, r"`(?:opus|sonnet|haiku)`|model: opus|context: fork")
+        # Existing Claude instructions remain a valid migration input.
+        self.assertIn("`CLAUDE.md`", (self.package / "skills/start-design/SKILL.md").read_text())
 
     def test_zip_preserves_layout_and_executable_helpers(self):
         output, archive = self.work / "zip package", self.work / "kit.zip"

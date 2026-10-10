@@ -6,7 +6,7 @@ This is the **`codex-support` branch**. The [Claude Code edition remains on `mai
 
 ## Install
 
-Requires Python 3.10+ and a Codex CLI version with `codex plugin` support.
+Requires Python 3.10+ and a signed-in Codex CLI with `codex plugin` support (tested with 0.162.1). The design project folder must already exist.
 
 ```sh
 git clone --branch codex-support --single-branch https://github.com/namvunhatle/design-stuff-kit.git design-stuff-kit-codex
@@ -14,7 +14,7 @@ cd design-stuff-kit-codex
 ./start-codex --project /path/to/your-design-project
 ```
 
-Or run `./start-codex` and enter your project path when prompted. Use a design project outside this kit checkout.
+Or run `./start-codex` and enter your project path when prompted. Use a design project outside this kit checkout. Keep the kit checkout: it holds the local marketplace used for installation and updates.
 
 Like the Claude edition's `./start`, this launcher:
 
@@ -37,6 +37,8 @@ Useful options:
 `--skip-companions` defers the five downloads; the context interview still works. Full design tracks may still need those companions. Without a terminal, pass `--project`; the launcher skips interactive prompts and prints a safely quoted command to start onboarding later.
 
 In an already installed plugin, open a new chat in your design project and select `start-design` (CLI/IDE: `$start-design`). For plugin-only/manual desktop installation, see [the Codex guide](docs/CODEX.md). Setup changes your Codex plugin profile; project instructions are written during the interview after you review them.
+
+The launcher shows the active profile (`CODEX_HOME`, or `~/.codex` by default). Its printed launch command preserves that profile, including a separate `.codex-cli-only` setup. When continuing a Claude project, onboarding reuses existing context, setup decisions, and critique history; Codex-specific loading instructions go in `AGENTS.md`.
 
 ## How Codex loads the kit
 
@@ -87,22 +89,40 @@ Installing the kit does not connect external services. Companion skills install 
 
 ## Codex adaptations
 
+Both editions follow the same design workflow and use the same design assets, render scripts, critique rubric, and handoff conventions. Host-specific commands and instruction files differ:
+
+| Experience | Claude Code | Codex |
+|---|---|---|
+| Start setup | `./start --project …` | `./start-codex --project …` |
+| Interview | Yummy Labs context plugin | Bundled, credited adaptation of that interview |
+| Resume work | Existing project context and `SETUP.md` | Same context and `SETUP.md`; reads Claude context when migrating |
+| Select a workflow | `/design-stuff-kit:<skill>` | Select the kit skill, or `$<skill>` |
+| Standing instructions | `CLAUDE.md` and Claude rules | `AGENTS.md` and scoped `AGENTS.md` files |
+| Review and iteration | Render checks, blind critic, designer decisions | Same checks and rubric; independent review needs available delegation or a separate session |
+
 - Setup uses `AGENTS.md` and `.agents/skills/`.
 - Claude commands become Codex skills.
 - Bundled scripts resolve from the installed package rather than Claude environment variables.
 - Agent definitions are reusable role briefs. Independent blind critique requires available, authorized delegation or a separate reviewer session.
 - Selected rules are merged into project instructions; Claude permission settings are not imported.
 
-Figma workflows retain file pinning, restore points, and scope review. The setup sequence matches the Claude launcher; host UI and instruction files differ. This edition has offline package and simulated setup coverage; live authentication, Figma connectivity, and the interactive interview still need verification in the target environment.
+Figma workflows retain file pinning, restore points, and scope review. The setup sequence matches the Claude launcher; host UI and instruction files differ. Package and setup tests pass, including real installation, repeated setup, and upgrades with Codex CLI 0.162.1 in an isolated profile. Live authentication, Figma connectivity, and the interactive interview still need verification in the target environment.
 
 ## Build, test, and update
 
-The launcher automatically creates a new immutable package when source content changes, with a distinct cache version. Rerun `./start-codex --project …` after pulling updates to install it and resume onboarding. Existing project skills and configuration are preserved.
+The launcher automatically creates a new immutable package when source content changes, with a distinct cache version. From your kit checkout, update and resume with:
+
+```sh
+git pull --ff-only
+./start-codex --project /path/to/your-design-project
+```
+
+Existing project skills and configuration are preserved. Workflow parity does not guarantee identical model output; live Figma and interview behavior need checking with the user's connected tools.
 
 For a standalone distribution build (the launcher does not need a ZIP):
 
 ```sh
-python3 scripts/build_codex.py --output dist/codex-0.2.0/design-stuff-kit --zip dist/design-stuff-kit-codex-0.2.0.zip
+python3 scripts/build_codex.py --output dist/codex-0.2.1/design-stuff-kit --zip dist/design-stuff-kit-codex-0.2.1.zip
 ```
 
 Run the offline regression tests:
@@ -110,6 +130,8 @@ Run the offline regression tests:
 ```sh
 python3 -m unittest discover -s scripts -p 'test*codex*.py' -v
 ```
+
+To also exercise an installed Codex CLI, set `DESIGN_KIT_TEST_CODEX_CLI=1` before that command. The CLI test uses a temporary profile and project, with companion downloads and Figma setup skipped; it leaves your normal Codex profile untouched.
 
 `dist/` is generated and is not committed. Maintain the shared workflows plus `codex/` overrides and rebuild. Identical builds can be repeated; differing existing output and existing ZIPs are never overwritten. For updates, use a fresh output directory and update the marketplace/install as described in [the Codex guide](docs/CODEX.md#build). Refresh the installed plugin and open a fresh session after updates.
 
@@ -124,7 +146,7 @@ codex/                  Codex runtime guidance and setup overrides
 scripts/build_codex.py  Codex package and marketplace builder
 start-codex             One-command setup and onboarding launcher
 scripts/setup_codex.py  Setup orchestration and Figma prompt
-scripts/test*codex*.py  Offline regression tests
+scripts/test*codex*.py  Offline tests and opt-in real CLI checks
 docs/CODEX.md           Detailed setup and compatibility guide
 dist/                   Generated package, marketplace, and optional ZIP
 ```

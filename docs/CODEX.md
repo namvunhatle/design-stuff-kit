@@ -20,6 +20,10 @@ Figma instructions: [Connect Codex to Figma Console](FIGMA_SETUP_CODEX.md). A co
 
 The setup order is equivalent to the Claude edition, but Codex uses its own UI, user-profile plugin configuration, `.agents/skills/`, and `AGENTS.md`. It does not import Claude permission settings or claim Claude auto-update behavior.
 
+The launcher reports the active `CODEX_HOME` (default `~/.codex`) and includes it in the printed launch command. A separate `.codex-cli-only` profile therefore stays selected even when the command is pasted into another terminal.
+
+For an existing Claude project, `start-design` reads `CLAUDE.md` and relevant Claude rules as migration context. It reuses `SETUP.md`, specs, project memory, and critique history, and links shared context from `AGENTS.md`. Existing Claude configuration stays intact. The generated package supplies Codex-specific role/cost rules, `AGENTS.template.md`, and a skill template; Claude permission and personal-instruction examples are excluded.
+
 ## How Codex loads this kit
 
 | Part | What it does |
@@ -114,6 +118,12 @@ Connect only services you need. Rive requires the desktop app's local server to 
 - `${CLAUDE_PLUGIN_ROOT}` becomes a `KIT_ROOT` path resolved from the loaded skill; Codex is not assumed to export that variable. `bin/wx-*` tools use an absolute path or an explicitly set PATH.
 - Claude agent definitions become plain role briefs. Independent blind review requires an available, authorized subagent or separate reviewer session; the kit does not pretend a self-review is independent.
 - Claude rules and permissions do not auto-load in Codex. Selected guidance goes into `AGENTS.md` (or `explore/AGENTS.md`); tool permissions remain controlled by the host.
-- The build and offline smoke checks establish package structure and helper behavior, not live Figma edits, downloads, publishing, or successful activation in a particular client. Verify skill discovery after installing.
+- Offline tests establish package structure, resource paths, and helper behavior. The opt-in real CLI test also checks installation, enabled state, repeated setup, and cache refresh after an upgrade in an isolated profile (verified with CLI 0.162.1). Live Figma edits, downloads, publishing, and conversational onboarding still need target-environment checks. Verify skill discovery after installing.
+
+Run all checks, including the real CLI test:
+
+```sh
+DESIGN_KIT_TEST_CODEX_CLI=1 python3 -m unittest discover -s scripts -p 'test*codex*.py' -v
+```
 
 OpenAI documentation checked 2026-10-10: [plugin packaging and local marketplaces](https://developers.openai.com/plugins/build/plugins), [skill discovery and invocation](https://learn.chatgpt.com/docs/build-skills), and [Codex MCP configuration](https://developers.openai.com/codex/mcp).

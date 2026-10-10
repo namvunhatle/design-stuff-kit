@@ -91,6 +91,18 @@ class CodexSetupTests(unittest.TestCase):
                 setup.prepare_marketplace()
             self.assertEqual(edited.read_text(), "local customization")
 
+    def test_printed_launch_preserves_custom_codex_profile(self):
+        profile = self.root / "codex cli only"
+        with patch.dict(os.environ, {"CODEX_HOME": str(profile)}), \
+             patch.object(setup.shutil, "which", return_value="codex"), \
+             patch.object(setup.subprocess, "run", return_value=subprocess.CompletedProcess([], 0, '{"marketplaces": []}')), \
+             patch.object(setup, "prepare_marketplace", return_value=self.root), \
+             contextlib.redirect_stdout(io.StringIO()) as output:
+            self.assertEqual(setup.main(["--project", str(self.project), "--no-launch", "--skip-companions", "--skip-figma"]), 0)
+        import shlex
+        command = shlex.split(output.getvalue().split("Next: ", 1)[1])
+        self.assertEqual(command[:3], ["env", "CODEX_HOME=" + str(profile), "codex"])
+
     def test_figma_failure_does_not_print_token(self):
         token = "figd_fake_test_only"
         with patch.object(setup.shutil, "which", return_value="npx"), \

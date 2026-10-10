@@ -7,6 +7,8 @@ description: Set up or resume a product design project with Design Stuff Kit in 
 
 Work in the user's design project, not the installed plugin directory. Read applicable `AGENTS.md`, `SETUP.md`, `design.md`, and equivalent product context before asking for facts already supplied. Identify the product, users, platform, design system, and current stage; ask only for missing facts needed for the chosen task.
 
+When continuing a Claude Code project, read its existing `CLAUDE.md` and relevant `.claude/rules/` as migration context. Reuse the same `SETUP.md`, specs, `Figma_Map.md`, `Session_Log.md`, `Open_Items.md`, and critique history. Preserve confirmed facts and declined choices. Put Codex loading instructions in `AGENTS.md`, linking to shared design context instead of duplicating it. Leave Claude configuration intact; ask only about actual conflicts between project instructions.
+
 ## First run or unfinished setup
 
 If context is missing or the user asks for onboarding, load the bundled `../design-context-setup/SKILL.md` now. It is a credited Codex adaptation of Yummy Labs' actual seven-question interview and seven-phase setup. Do not redirect the designer to install another plugin or replace it with a generic summary. Ask one unanswered interview question, wait for the answer, and continue the workflow in the designer's language.
@@ -25,7 +27,7 @@ After context setup, return here to check kit companions, select working rules, 
 
 Read relevant templates from `${KIT_ROOT}/rules/`. Explain which apply and let the designer choose. Merge selected guidance into `AGENTS.md`, preserving existing sections. For `rules/explore.md`, use `explore/AGENTS.md` and omit Claude path frontmatter. A copied `rules/` folder alone does not activate rules in Codex.
 
-Offer `design.md`, the project-memory templates, and the critique templates only when useful. For project memory, adapt `templates/project-memory/CLAUDE.template.md` into the existing `AGENTS.md`; do not overwrite it or assume `AGENTS.local.md` loads automatically. Derive tokens from the actual design system, never invented values. The render and design-review workflows are skills in this edition.
+Offer `design.md`, the project-memory templates, and the critique templates only when useful. For project memory, merge `templates/project-memory/AGENTS.template.md` into the existing `AGENTS.md`; do not overwrite it or assume `AGENTS.local.md` loads automatically. Derive tokens from the actual design system, never invented values. The render and design-review workflows are skills in this edition.
 
 The `agents/` files are reusable briefs, not installed named agents. Explain independent review availability only when it matters for the chosen workflow. Before Figma writes, pin the target file and scope and follow the relevant restore-point requirements.
 

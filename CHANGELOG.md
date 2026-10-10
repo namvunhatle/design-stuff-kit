@@ -1,5 +1,13 @@
 # Changelog
 
+## Codex 0.2.1-beta
+
+- Replace Claude model-routing and cost rules with Codex role guidance; preserve independent critique and reviewer continuity.
+- Generate `AGENTS.template.md`, correct instruction-file references in critique templates, and exclude Claude-only configuration examples.
+- Continue existing Claude projects from shared setup notes, specs, and critique history without repeating known interview answers.
+- Show the active Codex profile and preserve it in the printed launch command, including custom `CODEX_HOME` locations.
+- Add regression checks for package resource paths and an opt-in real CLI test covering installation, repeat setup, and cache upgrades in a temporary profile.
+
 ## Codex 0.2.0-beta
 
 - Add `start-codex` to install companions and the plugin, offer Figma setup, and open onboarding in the chosen project.

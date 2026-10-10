@@ -4,6 +4,7 @@ import argparse
 import getpass
 import hashlib
 import json
+import os
 import shlex
 import shutil
 import subprocess
@@ -167,6 +168,8 @@ def main(argv=None):
     codex = shutil.which("codex")
     if not codex:
         parser.error("Install Codex CLI and sign in first, then rerun ./start-codex")
+    profile = Path(os.environ.get("CODEX_HOME") or "~/.codex").expanduser().resolve()
+    print(f"Codex profile: {profile}", flush=True)
     try:
         # Fail before downloads/project mutations if this CLI cannot install plugins.
         run([codex, "plugin", "add", "--help"], capture_output=True, text=True)
@@ -187,7 +190,9 @@ def main(argv=None):
         print("\nSetup is ready. Onboarding will resume SETUP.md or begin the context interview.")
         launch = [codex, "-C", str(project), "-c", f'plugins."{SELECTOR}".enabled=true', PROMPT]
         if args.no_launch or not (sys.stdin.isatty() and sys.stdout.isatty()):
-            print("Next: " + shlex.join(launch))
+            # Preserve the selected profile when this command is pasted into
+            # another terminal with different shell initialization.
+            print("Next: " + shlex.join(["env", "CODEX_HOME=" + str(profile), *launch]))
             return 0
         print("Opening Codex onboarding…", flush=True)
         return subprocess.run(launch, cwd=project).returncode
