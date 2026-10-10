@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Install the Yummy Labs skills the design workflow needs into a Claude Code project.
+"""Install the Yummy Labs skills the design workflow needs into a design project.
 
 The kit's own skills, agents, and commands come from the design-stuff-kit plugin, not from here.
 """
@@ -88,10 +88,13 @@ def copy_optional_files(source_dir: Path, target_dir: Path) -> None:
 
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--project", required=True, type=Path, help="Existing Claude Code project directory")
+    parser.add_argument("--project", required=True, type=Path, help="Existing project directory")
+    parser.add_argument("--target", choices=("claude", "codex"), default="claude", help="Skill host (default: claude)")
     parser.add_argument("--upstream-dir", type=Path, help="Folder containing skills extracted from the authors' downloads")
     parser.add_argument("--with-rules", "--with-rules-agents", dest="with_rules", action="store_true", help="Also copy the optional Claude Code rules")
     args = parser.parse_args()
+    if args.target == "codex" and args.with_rules:
+        parser.error("Codex rules must be reviewed and added to AGENTS.md via start-design; omit --with-rules")
 
     project = args.project.expanduser().resolve()
     if not project.is_dir():
@@ -99,7 +102,7 @@ def main() -> None:
     if args.upstream_dir and not args.upstream_dir.expanduser().is_dir():
         parser.error(f"Upstream directory does not exist: {args.upstream_dir}")
 
-    dest = project / ".claude" / "skills"
+    dest = project / (".agents" if args.target == "codex" else ".claude") / "skills"
     dest.mkdir(parents=True, exist_ok=True)
     upstream = find_upstream(args.upstream_dir.expanduser().resolve()) if args.upstream_dir else {}
     missing_reference_files = {}

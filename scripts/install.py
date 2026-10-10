@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Fetch author-hosted Yummy Labs skills, then assemble a Claude Code project."""
+"""Fetch author-hosted Yummy Labs skills into a Claude Code or Codex project."""
 
 import argparse
 import json
@@ -89,14 +89,17 @@ def unpack_archive(archive: Path, target: Path, depth: int = 0) -> None:
 
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--project", required=True, type=Path, help="Existing Claude Code project directory")
+    parser.add_argument("--project", required=True, type=Path, help="Existing project directory")
+    parser.add_argument("--target", choices=("claude", "codex"), default="claude", help="Skill host (default: claude)")
     parser.add_argument("--with-rules", "--with-rules-agents", dest="with_rules", action="store_true", help="Also copy the optional Claude Code rules")
     parser.add_argument("--gdown", default="gdown", help="Path to gdown executable (default: gdown on PATH)")
     parser.add_argument("--venv", type=Path, help="If gdown is missing, install it into this virtual environment")
     args = parser.parse_args()
+    if args.target == "codex" and args.with_rules:
+        parser.error("Codex rules must be reviewed and added to AGENTS.md via start-design; omit --with-rules")
     if not args.project.expanduser().is_dir():
         parser.error(f"Project directory does not exist: {args.project}")
-    skills = args.project.expanduser().resolve() / ".claude" / "skills"
+    skills = args.project.expanduser().resolve() / (".agents" if args.target == "codex" else ".claude") / "skills"
     if all((skills / name / "SKILL.md").is_file() for name in EXTERNAL_BY_NAME):
         print("All five Yummy Labs skills are already in this project. Nothing to download.")
         return
@@ -123,7 +126,7 @@ def main() -> None:
         expected = set(EXTERNAL_BY_NAME)
         if set(found) != expected:
             raise RuntimeError(f"Author packages contain {sorted(found)}; expected {sorted(expected)}. Nothing was installed.")
-        command = [sys.executable, str(ROOT / "scripts" / "assemble.py"), "--project", str(args.project), "--upstream-dir", str(extracted)]
+        command = [sys.executable, str(ROOT / "scripts" / "assemble.py"), "--project", str(args.project), "--target", args.target, "--upstream-dir", str(extracted)]
         if args.with_rules:
             command.append("--with-rules")
         subprocess.run(command, check=True)

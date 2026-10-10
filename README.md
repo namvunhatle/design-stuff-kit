@@ -1,101 +1,120 @@
-# Design Stuff Kit
+# Design Stuff Kit for Codex
 
-A Claude Code plugin for product designers. Describe the task in plain words and Claude follows a tested design workflow: explore options fast, build in Figma from your design system, fix prototype motion, review copy, and ship a shareable prototype.
+Product design workflows for Codex: explore layouts in the browser, build wireframes and production UI in Figma, review rendered screens, refine copy, and ship prototypes.
 
-Claude always asks before editing a Figma file and saves a restore point first.
+This is the **`codex-support` branch**. The [Claude Code edition remains on `main`](https://github.com/namvunhatle/design-stuff-kit/tree/main). This branch builds a separate Codex package from shared workflows and Codex-specific setup instructions.
 
 ## Install
 
-Pick the way that matches where you use Claude Code. Both end with `install-yummy` (adds five Yummy Labs skills, needs Python 3.10+) and `start-design` (see [First time](#first-time)).
+Requires Python 3.10+ and a Codex CLI version with `codex plugin` support.
 
-### Claude Code in a terminal (CLI)
-
-In your project folder, start `claude` and type these one at a time:
-
-```text
-/plugin marketplace add namvunhatle/design-stuff-kit
-/plugin install design-stuff-kit@design-stuff-kit
-/reload-plugins
-/design-stuff-kit:install-yummy
-/design-stuff-kit:start-design
+```sh
+git clone --branch codex-support --single-branch https://github.com/namvunhatle/design-stuff-kit.git design-stuff-kit-codex
+cd design-stuff-kit-codex
+python3 scripts/build_codex.py --marketplace
+codex plugin marketplace add ./dist/codex
+codex plugin add design-stuff-kit@design-stuff-kit-local
 ```
 
-Then turn on auto-update: `/plugin` → **Marketplaces** → `design-stuff-kit` → **Enable auto-update**.
+Open a fresh Codex session in **your design project**, then select `start-design` from the skill picker. In Codex CLI/IDE, you can invoke it with:
 
-### Claude Code in VS Code (extension)
+```text
+$start-design
+```
 
-In the chat panel, `/plugin` only opens the **Manage plugins** dialog and ignores arguments, so install from the dialog:
+It reads existing project context, checks needed skills and connections, helps select working rules, and starts the requested design task. In the desktop interface, use the skill selector available in your client. For desktop setup without the CLI, see [local marketplace setup](docs/CODEX.md#load-locally-in-this-repository).
 
-1. Paste this link into your browser and open it, then pick a scope (**Project** to share with teammates):
+Opening this source repository alone does not install the plugin. The build writes artifacts; the two `codex plugin` commands install them into your Codex profile.
 
-   ```text
-   vscode://anthropic.claude-code/install-plugin?plugin=design-stuff-kit&marketplace=namvunhatle/design-stuff-kit
-   ```
+## How Codex loads the kit
 
-   Or type `/plugins`, add `namvunhatle/design-stuff-kit` in **Marketplaces**, and click **Install** in **Plugins**.
-2. If the dialog says **Restart Claude to apply plugin changes**, restart the session.
-3. In the chat, run `/design-stuff-kit:install-yummy`, then `/design-stuff-kit:start-design`.
-
-The extension shares plugin settings with the CLI. To turn on auto-update, run `claude` once in VS Code's terminal and use the CLI step above.
-
-### Other ways
-
-- **Team project:** run once in a terminal inside the project, then commit `.claude/settings.json`:
-
-  ```sh
-  claude plugin marketplace add namvunhatle/design-stuff-kit --scope project
-  claude plugin install design-stuff-kit@design-stuff-kit --scope project
-  ```
-
-- **One script for everything, including Figma:** clone this repo and run `./start --project /path/to/your-project`. Needs Git and Python 3.10+.
-
-### Needed for some work
-
-| For | You need |
+| Component | Purpose |
 |---|---|
-| Anything in Figma | Figma Desktop and the Figma Console connector ([setup](docs/FIGMA_SETUP.md), ~5 min) |
-| Web exploration and rendering | Node.js 18+ |
-| Real-app references | Mobbin connector, optional ([setup](docs/FIGMA_SETUP.md#5-optional-mobbin)) |
+| Plugin manifest | Identifies the package and its onboarding skill |
+| Marketplace | Tells Codex where to find the local package |
+| `SKILL.md` | Describes when and how to run a workflow; full instructions load when selected |
+| `AGENTS.md` | Holds your project's standing instructions and chosen design rules |
+| MCP connections | Provide actual tools for Figma, Mobbin, Rive, and GitBook |
+
+The generated package includes a portable `plugin.json` and a `.codex-plugin/plugin.json` compatibility manifest. It contains **20 skills**: 18 existing workflows plus `render` and `design-review`, converted from Claude commands. See [the full Codex guide](docs/CODEX.md) for discovery, installation locations, and compatibility details.
 
 ## Use it
 
-### First time
+Describe the task in plain language, or explicitly select a skill:
 
-Run `/design-stuff-kit:start-design`. It:
-
-1. Reads your project. If context is thin, it offers to install Yummy Labs' `design-context-setup` for a short interview.
-2. Suggests a few working rules. You pick which to turn on.
-3. Asks for one task, shows the plan, and does the first step.
-
-### After that
-
-Open Claude Code in your project and say what you need. The right skill loads on its own:
-
-> "Compare three layouts for the saved-items screen. Keep them rough."
+> Compare three layouts for the saved-items screen. Keep them rough.
 >
-> "Review the copy on the onboarding screens in Figma file ABC. Don't edit the file."
+> Review the onboarding copy in this Figma file without editing it.
 
 | You want to… | Skill |
 |---|---|
-| Compare directions, then finalize the pick | `explore-vs-final` |
-| Explore as HTML phone screens, then rebuild in Figma | `web-explore` → `ship-to-figma` |
-| Build wireframes or production UI in Figma | `figma-wireframe-kit`, `figma-design-system-ui` |
-| Move a feature to another Figma file | `figma-clone-port` |
-| Fix Smart Animate motion, or build it in Rive | `figma-prototype-motion`, `rive-motion` |
-| Get a scored critique of rendered screens | `design-critique` |
-| Set a product voice | `voice-tone-builder` |
-| Ship a prototype link, or an Android demo | `prototype-vercel-deploy`, `web-android-port` |
+| Set up or resume a design project | `start-design` |
+| Compare directions before finalizing | `explore-vs-final` |
+| Explore HTML screens, then rebuild in Figma | `web-explore` → `ship-to-figma` |
+| Build wireframes or production UI | `figma-wireframe-kit`, `figma-design-system-ui` |
+| Render screens and inspect visual checks | `render` |
+| Run a scored critique | `design-review`, `design-critique` |
+| Move a feature between Figma files | `figma-clone-port` |
+| Work on Figma or Rive motion | `figma-prototype-motion`, `rive-motion` |
+| Define product voice | `voice-tone-builder` |
+| Ship a prototype or Android demo | `prototype-vercel-deploy`, `web-android-port` |
 
-Run `start-design` again after a kit update. Full tracks: [Workflows](WORKFLOWS.md). Every skill, rule, and agent is listed in the [Reference](docs/REFERENCE.md).
+## Dependencies
 
-## Updating the kit
+| Workflow | Requirements |
+|---|---|
+| Build the plugin | Python 3.10+; no downloads needed |
+| Web exploration | Node.js 18+ |
+| Render checks | Playwright and a supported browser |
+| Figma workflows | Figma Desktop and connected Figma Console tools |
+| Real-app references | Mobbin connection |
+| Rive workflows | Rive desktop app with its MCP server running |
+| Full tracks using Yummy Labs skills | Run `install-yummy` to download the author's companion packages |
 
-With auto-update on, the kit updates when Claude Code starts. Otherwise run `/plugin marketplace update design-stuff-kit`, then `/reload-plugins`.
+Installing the kit does not connect external services. Companion skills install into the design project's `.agents/skills/`; they are separately authored and are not included in this package. See [connections and companions](docs/CODEX.md#connections-and-companions).
 
-Files in your project (`.claude/rules/`, `critique/config.md`, `design.md`, settings) never change on update. Run `/design-stuff-kit:start-design` after an update to see what needs a hand edit.
+## Codex adaptations
 
-Something failed? See [Troubleshooting](docs/TROUBLESHOOTING.md).
+- Setup uses `AGENTS.md` and `.agents/skills/`.
+- Claude commands become Codex skills.
+- Bundled scripts resolve from the installed package rather than Claude environment variables.
+- Agent definitions are reusable role briefs. Independent blind critique requires available, authorized delegation or a separate reviewer session.
+- Selected rules are merged into project instructions; Claude permission settings are not imported.
+
+Figma workflows retain file pinning, restore points, and scope review. This edition has offline package and helper coverage; live Figma work and client activation still need verification in the target environment.
+
+## Build, test, and update
+
+Create a ZIP for distribution after building:
+
+```sh
+python3 scripts/build_codex.py --zip dist/design-stuff-kit-codex.zip
+```
+
+Run the offline regression tests:
+
+```sh
+python3 -m unittest discover -s scripts -p 'test_codex.py' -v
+```
+
+`dist/` is generated and is not committed. Maintain the shared workflows plus `codex/` overrides and rebuild. Identical builds can be repeated; differing existing output and existing ZIPs are never overwritten. For updates, use a fresh output directory and update the marketplace/install as described in [the Codex guide](docs/CODEX.md#build). Refresh the installed plugin and open a fresh session after updates.
+
+## Source layout
+
+```text
+skills/                 Shared workflow sources
+commands/               Claude commands converted to Codex skills
+agents/                 Review and specialist role briefs
+rules/                  Project rule templates
+codex/                  Codex runtime guidance and setup overrides
+scripts/build_codex.py  Codex package and marketplace builder
+scripts/test_codex.py   Offline regression tests
+docs/CODEX.md           Detailed setup and compatibility guide
+dist/                   Generated package, marketplace, and optional ZIP
+```
+
+The legacy `./start` entry point and Claude-specific setup documents belong to the Claude edition. Use the build/install steps above for Codex.
 
 ## License
 
-Original content is [MIT](LICENSE). `content-research-writer` by ComposioHQ keeps its [Apache 2.0](skills/content-research-writer/LICENSE-2.0.txt) license. The Yummy Labs skills are distributed by their author and are not covered here; see [Third-party](THIRD_PARTY.md). Contributions: [CONTRIBUTING.md](CONTRIBUTING.md).
+Original content is [MIT](LICENSE). ComposioHQ's `content-research-writer` is preserved unchanged with its [Apache 2.0 license](skills/content-research-writer/LICENSE-2.0.txt) and notice. Yummy Labs companion skills retain their authorship and distribution terms; see [THIRD_PARTY.md](THIRD_PARTY.md).
