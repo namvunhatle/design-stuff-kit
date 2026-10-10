@@ -2,6 +2,16 @@
 
 What changed in the kit, newest first. Each heading is the plugin `version`; users receive a release when that number changes. The plugin updates skills, agents, and commands on its own. **In your project** lists the hand edits an update needs in files the plugin never touches; `/design-stuff-kit:start-design` checks them for you.
 
+## 0.1.2-beta · 2026-10-10
+
+### web-android-port finds Playwright again
+
+- `capture_web.mjs` now looks for Playwright in the folder you run it from, as `wx-render` does. Since the kit became a plugin, the script runs from Claude Code's plugin cache, outside your project, so it stopped with `ERR_MODULE_NOT_FOUND` even when Playwright was installed in the project.
+
+**In your project**
+
+- Nothing.
+
 ## 0.1.1-beta · 2026-10-09
 
 ### Setup works in the VS Code extension
