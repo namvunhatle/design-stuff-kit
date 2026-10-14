@@ -4,6 +4,26 @@ A Claude Code plugin for product designers. Describe the task in plain words and
 
 Claude always asks before editing a Figma file and saves a restore point first.
 
+## What's new in 0.3
+
+### Motion is checked before you play it (Rive)
+
+A Rive animation now has to pass measured gates and a blind reviewer before Claude shows it to you:
+
+1. **You and Claude agree on a motion spec first:** the main subject of each moment, which objects move as one, and what is background. You approve the key poses as stills before any timing work.
+2. **A script measures the real file.** It reads every keyframe and the state machine from Rive, then checks the gates:
+   - No more than 2 things start moving in the same 100 ms.
+   - Nothing keeps moving after the main subject settles.
+   - At most one overshoot per property.
+   - Every tap answers within 100 ms in every state, including reduced motion.
+   - Reduced motion changes opacity only.
+   - Loops end where they start.
+   - No more than 3 flashes per second.
+3. **A beat sheet per moment** shows when each part starts, peaks, and settles, in milliseconds.
+4. **A separate `motion-critic` agent** reviews the 12-principle checklist from the numbers and from frames of a screen recording. It never sees the builder's reasoning, and it returns three ranked fixes with frame numbers.
+
+Run it with `/design-stuff-kit:motion-review motion/<feature> recording.mov`. Feel is still yours to judge; the checks make sure measurable mistakes never reach you.
+
 ## What's new in 0.2
 
 ### Spacing that follows the grouping
