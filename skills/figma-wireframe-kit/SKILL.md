@@ -1,6 +1,6 @@
 ---
 name: figma-wireframe-kit
-description: Build or revise structural grayscale wireframes in Figma through Figma Console MCP, using the destination file's wireframe kit or simple primitives. Carries the Plugin API build traps, library checks, section-presentation conventions, and the standard build loop. Load before the first figma_execute of a wireframe build. Not for production visual design, prototype motion, or read-only audits.
+description: Build or revise structural grayscale wireframes in Figma through Figma Console MCP, using the destination file's wireframe kit or simple primitives. Carries the Plugin API build traps, library checks, section-presentation conventions, and the standard build loop. Load before the first figma_execute of a wireframe build. Not for production visual design, prototype motion, or read-only audits. Also triggers on Vietnamese requests such as "vẽ wireframe", "dựng khung màn hình xám", "làm wireframe trong Figma".
 metadata:
   author: namvunhatle
   version: 2.1.0

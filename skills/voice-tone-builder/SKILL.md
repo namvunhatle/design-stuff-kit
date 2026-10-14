@@ -1,6 +1,6 @@
 ---
 name: voice-tone-builder
-description: Build or audit a product voice and tone guide across onboarding, success, errors, payments, and destructive actions by applying Yummy Labs' voice and tone framework from their ux-copywriter package. Use for a reusable voice guide or a consistency audit across screens; use ux-copywriter for a single label or message.
+description: Build or audit a product voice and tone guide across onboarding, success, errors, payments, and destructive actions by applying Yummy Labs' voice and tone framework from their ux-copywriter package. Use for a reusable voice guide or a consistency audit across screens; use ux-copywriter for a single label or message. Also triggers on Vietnamese requests such as "xây giọng văn sản phẩm", "bộ voice và tone", "kiểm tra giọng văn có nhất quán".
 metadata:
   author: namvunhatle (routing only)
   framework-author: Yummy Labs

@@ -1,6 +1,6 @@
 ---
 name: ship-to-figma
-description: Take a direction the designer chose in web exploration and rebuild it in Figma with the product's design system, then prove the rebuild with three checks (pixel parity with the approved web reference, a binding audit, and a re-critique that must not regress). Covers phase 2 (lock the reference and approve a token map) and phase 3 (build and verify). Use after web-explore once the designer has picked. Not for motion timelines (code-to-figma-sync) or for exploring options in Figma (explore-vs-final).
+description: Take a direction the designer chose in web exploration and rebuild it in Figma with the product's design system, then prove the rebuild with three checks (pixel parity with the approved web reference, a binding audit, and a re-critique that must not regress). Covers phase 2 (lock the reference and approve a token map) and phase 3 (build and verify). Use after web-explore once the designer has picked. Not for motion timelines (code-to-figma-sync) or for exploring options in Figma (explore-vs-final). Also triggers on Vietnamese requests such as "chốt hướng này, dựng lại trong Figma", "chuyển bản web sang Figma", "đưa thiết kế đã chọn vào Figma".
 metadata:
   author: namvunhatle
   version: 1.0.0

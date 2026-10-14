@@ -1,6 +1,6 @@
 ---
 name: rive-motion
-description: Decide whether an interaction should be a Rive asset, then build it in the Rive desktop editor through Rive MCP (artboards, shapes, layouts, state machines, transitions, view-model data binding). Use for interactive, state-driven motion that ships to developers as a .riv file; not for Figma Smart Animate chains (figma-prototype-motion) or coded web prototypes (interactive-prototype).
+description: Decide whether an interaction should be a Rive asset, then build it in the Rive desktop editor through Rive MCP (artboards, shapes, layouts, state machines, transitions, view-model data binding). Use for interactive, state-driven motion that ships to developers as a .riv file; not for Figma Smart Animate chains (figma-prototype-motion) or coded web prototypes (interactive-prototype). Also triggers on Vietnamese requests such as "làm animation bằng Rive", "dựng state machine Rive", "xuất file .riv cho dev".
 metadata:
   author: namvunhatle
   version: 2.3.0

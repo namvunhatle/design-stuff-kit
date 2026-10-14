@@ -1,6 +1,6 @@
 ---
 name: prototype-vercel-deploy
-description: Deploy a coded prototype (Vite, React, or any static build) to a stable Vercel production URL with a version snapshot, a prebuilt upload from outside Git, retries, and a check that the live URL serves the new bundle. Use when the user asks to deploy, redeploy, publish, or roll back a prototype on Vercel; not for app backends, server functions, or CI pipelines owned by engineering.
+description: Deploy a coded prototype (Vite, React, or any static build) to a stable Vercel production URL with a version snapshot, a prebuilt upload from outside Git, retries, and a check that the live URL serves the new bundle. Use when the user asks to deploy, redeploy, publish, or roll back a prototype on Vercel; not for app backends, server functions, or CI pipelines owned by engineering. Also triggers on Vietnamese requests such as "deploy prototype", "đưa prototype lên Vercel", "xuất link demo", "quay lại bản cũ".
 metadata:
   author: namvunhatle
   version: 1.0.0

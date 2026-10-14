@@ -1,6 +1,6 @@
 ---
 name: web-explore
-description: Explore UI directions, or wireframe a flow in grayscale, as HTML phone screens with a live preview, then render them to PNG and check them automatically before a critic and the designer review them. Use when the designer wants to compare directions or flow structures, or try a screen quickly before committing to Figma, or wants a quick demo on a real phone. Not for building the chosen design for handoff (ship-to-figma) or for a stakeholder motion prototype in React (interactive-prototype).
+description: Explore UI directions, or wireframe a flow in grayscale, as HTML phone screens with a live preview, then render them to PNG and check them automatically before a critic and the designer review them. Use when the designer wants to compare directions or flow structures, or try a screen quickly before committing to Figma, or wants a quick demo on a real phone. Not for building the chosen design for handoff (ship-to-figma) or for a stakeholder motion prototype in React (interactive-prototype). Also triggers on Vietnamese requests such as "thử vài hướng UI", "phác nhanh màn hình bằng HTML", "wireframe nhanh một luồng", "demo trên điện thoại".
 metadata:
   author: namvunhatle
   version: 1.1.0

@@ -1,6 +1,6 @@
 ---
 name: figma-prototype-motion
-description: Build or debug multi-step Smart Animate prototypes in Figma through Figma Console MCP. Use for motion chains, reactions, timing, and handoff; not for static screens or code prototypes.
+description: Build or debug multi-step Smart Animate prototypes in Figma through Figma Console MCP. Use for motion chains, reactions, timing, and handoff; not for static screens or code prototypes. Also triggers on Vietnamese requests such as "làm prototype Smart Animate", "nối chuyển động trong Figma", "chỉnh timing animation trong Figma".
 metadata:
   author: namvunhatle
   version: 1.1.0

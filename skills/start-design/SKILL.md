@@ -1,6 +1,6 @@
 ---
 name: start-design
-description: Onboard a design project after installing Design Stuff Kit, and bring a project's copied rules up to date after a kit update. Use when the designer invokes /design-stuff-kit:start-design to check project context, choose relevant rules, select a design track, and begin a small first task.
+description: Onboard a design project after installing Design Stuff Kit, and bring a project's copied rules up to date after a kit update. Use when the designer invokes /design-stuff-kit:start-design to check project context, choose relevant rules, select a design track, and begin a small first task. Also triggers on Vietnamese requests such as "bắt đầu dự án thiết kế", "thiết lập kit cho dự án", "cập nhật rule sau khi update kit".
 metadata:
   author: namvunhatle
   version: 2.0.0

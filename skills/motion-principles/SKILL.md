@@ -1,6 +1,6 @@
 ---
 name: motion-principles
-description: Apply the 12 classic principles of animation (squash and stretch, anticipation, staging, straight ahead and pose to pose, follow through and overlap, slow in and slow out, arcs, secondary action, timing, exaggeration, solid drawing, appeal) to product UI motion, calibrated for interfaces rather than cartoons. Use when planning, critiquing, or tuning any motion (Figma Smart Animate, Motion or CSS prototypes, Rive), or when a designer says a transition feels stiff, floaty, cheap, or "off" without knowing why. Not a build guide for any tool; the medium skills (figma-prototype-motion, rive-motion, interactive-prototype) do the building.
+description: Apply the 12 classic principles of animation (squash and stretch, anticipation, staging, straight ahead and pose to pose, follow through and overlap, slow in and slow out, arcs, secondary action, timing, exaggeration, solid drawing, appeal) to product UI motion, calibrated for interfaces rather than cartoons. Use when planning, critiquing, or tuning any motion (Figma Smart Animate, Motion or CSS prototypes, Rive), or when a designer says a transition feels stiff, floaty, cheap, or "off" without knowing why. Not a build guide for any tool; the medium skills (figma-prototype-motion, rive-motion, interactive-prototype) do the building. Also triggers on Vietnamese requests such as "chuyển động bị cứng", "lơ lửng", "chậm chạp", "giật", "quê", "rẻ tiền", "thiếu sức sống", "nhìn sai sai".
 metadata:
   author: namvunhatle
   version: 1.0.0
@@ -96,15 +96,17 @@ Each entry gives the original idea, what it means in an interface, and the calib
 
 ## 2. From the designer's word to the principle
 
+Vietnamese words in parentheses are common equivalents; match the designer's meaning, not the exact word.
+
 | The designer says | Check first | Usual fix |
 |---|---|---|
-| Stiff, robotic, mechanical | 6 slow in and slow out, 5 overlap | Ease the ends; offset children a few frames |
-| Floaty, slow, sluggish | 9 timing, 5 follow through | Shorten; stop all motion when the destination settles |
-| Jerky, janky | 6 (velocity wobble), 9 against the beat | Measure velocity per segment; snap accents to the grid |
-| Cheap, tacky, toy-like | 10 exaggeration, 8 secondary action, 1 squash | Remove effects, lower intensity, keep one overshoot |
-| Confusing, "what just happened?" | 3 staging, 7 arcs, 11 solid | One primary motion; keep the spatial model; move as one object |
-| Laggy after a tap | 2 anticipation on a response | Remove the wind-up; respond in under 100 ms |
-| Boring, lifeless | 5 overlap, 8 secondary action, 12 appeal | Add one supporting layer at low intensity |
+| Stiff, robotic, mechanical (cứng, máy móc, đơ) | 6 slow in and slow out, 5 overlap | Ease the ends; offset children a few frames |
+| Floaty, slow, sluggish (lơ lửng, chậm, ì) | 9 timing, 5 follow through | Shorten; stop all motion when the destination settles |
+| Jerky, janky (giật, khựng) | 6 (velocity wobble), 9 against the beat | Measure velocity per segment; snap accents to the grid |
+| Cheap, tacky, toy-like (quê, rẻ tiền, như đồ chơi) | 10 exaggeration, 8 secondary action, 1 squash | Remove effects, lower intensity, keep one overshoot |
+| Confusing, "what just happened?" (rối, không hiểu vừa có gì xảy ra) | 3 staging, 7 arcs, 11 solid | One primary motion; keep the spatial model; move as one object |
+| Laggy after a tap (bấm bị trễ, lag) | 2 anticipation on a response | Remove the wind-up; respond in under 100 ms |
+| Boring, lifeless (nhạt, thiếu sức sống, đứng im) | 5 overlap, 8 secondary action, 12 appeal | Add one supporting layer at low intensity |
 
 ## 3. Review checklist
 

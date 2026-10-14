@@ -1,6 +1,6 @@
 ---
 name: code-to-figma-sync
-description: Bring a Figma file back in line with a coded motion prototype after the code has moved ahead of it. Measures the live build at chosen timestamps, rebuilds frames and Smart Animate keyframes to match, and records a mapping so the two stay comparable. Use when the code prototype is the source of truth and Figma is stale; not for designing motion in Figma first (figma-prototype-motion) or for web-to-Android parity (web-android-port).
+description: Bring a Figma file back in line with a coded motion prototype after the code has moved ahead of it. Measures the live build at chosen timestamps, rebuilds frames and Smart Animate keyframes to match, and records a mapping so the two stay comparable. Use when the code prototype is the source of truth and Figma is stale; not for designing motion in Figma first (figma-prototype-motion) or for web-to-Android parity (web-android-port). Also triggers on Vietnamese requests such as "cập nhật Figma cho khớp code", "Figma bị cũ so với prototype", "đồng bộ Figma theo bản code".
 metadata:
   author: namvunhatle
   version: 1.0.0

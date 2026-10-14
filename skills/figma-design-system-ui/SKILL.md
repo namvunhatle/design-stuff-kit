@@ -1,6 +1,6 @@
 ---
 name: figma-design-system-ui
-description: Build production UI in Figma through Figma Console MCP from the destination file's published design system. Carries the library access checks, publish rules, variable-mode traps, token-binding rules, contrast procedure, numeric alignment checks, and build hygiene. Load before the first figma_execute of an approved visual design. Not for grayscale wireframes, options still being compared, or edits to the shared library itself.
+description: Build production UI in Figma through Figma Console MCP from the destination file's published design system. Carries the library access checks, publish rules, variable-mode traps, token-binding rules, contrast procedure, numeric alignment checks, and build hygiene. Load before the first figma_execute of an approved visual design. Not for grayscale wireframes, options still being compared, or edits to the shared library itself. Also triggers on Vietnamese requests such as "dựng UI thật trong Figma", "lên màn hình bằng design system", "làm bản UI final".
 metadata:
   author: namvunhatle
   version: 2.1.0

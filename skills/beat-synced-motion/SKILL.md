@@ -1,6 +1,6 @@
 ---
 name: beat-synced-motion
-description: Choose and prepare a music track for a short motion piece, then lock every visual accent to the beat grid and measure that the audio and the motion land together. Covers finding the drop, trimming, loudness, tempo change, ducking, and browser audio unlock. Use when a prototype, trailer, or onboarding animation has music; not for scoring a full video or for generating music.
+description: Choose and prepare a music track for a short motion piece, then lock every visual accent to the beat grid and measure that the audio and the motion land together. Covers finding the drop, trimming, loudness, tempo change, ducking, and browser audio unlock. Use when a prototype, trailer, or onboarding animation has music; not for scoring a full video or for generating music. Also triggers on Vietnamese requests such as "ghép nhạc cho animation", "khớp chuyển động theo beat", "chọn nhạc cho motion", "cắt nhạc đoạn drop".
 metadata:
   author: namvunhatle
   version: 1.1.0

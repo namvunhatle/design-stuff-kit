@@ -1,6 +1,6 @@
 ---
 name: install-yummy
-description: Download the five Yummy Labs companion skills (ux-designer, ui-designer, ux-copywriter, interactive-prototype, figma-console-api) from their author's official links into this project's .claude/skills/. Use when the designer installed the kit as a plugin inside Claude Code, when start-design reports these skills missing, or when the designer asks to install the Yummy Labs skills. Not for updating the kit itself.
+description: Download the five Yummy Labs companion skills (ux-designer, ui-designer, ux-copywriter, interactive-prototype, figma-console-api) from their author's official links into this project's .claude/skills/. Use when the designer installed the kit as a plugin inside Claude Code, when start-design reports these skills missing, or when the designer asks to install the Yummy Labs skills. Not for updating the kit itself. Also triggers on Vietnamese requests such as "cài skill Yummy Labs", "thiếu skill ux-designer", "cài bộ skill đi kèm".
 metadata:
   author: namvunhatle
   version: 1.0.0

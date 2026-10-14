@@ -1,6 +1,6 @@
 ---
 name: web-android-port
-description: Port a timeline-driven web motion prototype (GSAP, Motion, CSS, Web Audio) to a native Android demo in Jetpack Compose and/or XML Views, and keep the two in sync afterward, with frame-by-frame screenshot parity checks at chosen timestamps. Use when the user asks to port a coded prototype to Android, build an APK demo for developers, bring an Android fix back to the web, or check that web and Android still match; not for Figma-to-Figma ports (figma-clone-port) or production app architecture.
+description: Port a timeline-driven web motion prototype (GSAP, Motion, CSS, Web Audio) to a native Android demo in Jetpack Compose and/or XML Views, and keep the two in sync afterward, with frame-by-frame screenshot parity checks at chosen timestamps. Use when the user asks to port a coded prototype to Android, build an APK demo for developers, bring an Android fix back to the web, or check that web and Android still match; not for Figma-to-Figma ports (figma-clone-port) or production app architecture. Also triggers on Vietnamese requests such as "port prototype sang Android", "làm bản demo APK", "kiểm tra web và Android có khớp".
 metadata:
   author: namvunhatle
   version: 1.0.0

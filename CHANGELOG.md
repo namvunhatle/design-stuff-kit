@@ -2,6 +2,18 @@
 
 What changed in the kit, newest first. Each heading is the plugin `version`; users receive a release when that number changes. The plugin updates skills, agents, and commands on its own. **In your project** lists the hand edits an update needs in files the plugin never touches; `/design-stuff-kit:start-design` checks them for you.
 
+## 0.2.1-beta · 2026-10-15
+
+### Vietnamese triggers
+
+- Every skill and agent description now lists a few Vietnamese phrases, so a request written in Vietnamese (for example "vẽ wireframe", "chấm điểm thiết kế", "chuyển động bị cứng") loads the right skill. Instructions stay in English. `content-research-writer` is unchanged because it is copied verbatim from upstream, and `theboxexplore` stays manual only.
+- `motion-principles` §2 pairs each feel word with its usual Vietnamese equivalent (cứng, lơ lửng, giật, quê, nhạt…).
+- `writing-style` replies in the language the designer writes in and keeps kit names and design terms in English.
+
+**In your project**
+
+- If you copied `writing-style.md` into `.claude/rules/`, merge its first paragraph. `/design-stuff-kit:start-design` shows the difference.
+
 ## 0.2.0-beta · 2026-10-15
 
 ### 12 principles of animation

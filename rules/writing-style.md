@@ -1,6 +1,6 @@
 # Design writing style
 
-Use the language requested by the designer and keep interface copy in the product's target language. Code, variable names, and node IDs stay as they are.
+Reply in the language the designer writes in (for example Vietnamese), unless they ask for another. Keep kit, skill, and agent names and standard design terms (Smart Animate, auto layout, token, variant) in English. Keep interface copy in the product's target language. Code, variable names, and node IDs stay as they are.
 
 Write less without losing meaning: compress, do not omit. Keep the decision, its reason, warnings, relevant IDs, and what is blocking. Cut introductions, restatements of what was just done, lists of files read, and second explanations of a decision already stated. This applies to Markdown files as much as to chat; a long document nobody reads is worth nothing.
 

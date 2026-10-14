@@ -1,6 +1,6 @@
 ---
 name: design-critique
-description: Run a scored critique loop on rendered screens with one persistent, blind design-critic agent, calibrated to the team's own anchors and rulebook, and turn what it finds into lasting project rules. Covers setup, the brief, rounds, declining asks, the stop rule and official score, cost, CRITIQUE.md, and learning after the job. Use after rendering web explorations (web-explore), after rebuilding a chosen direction in Figma (ship-to-figma), or whenever the designer wants a second opinion on a set of PNGs. Not a substitute for the designer's own review.
+description: Run a scored critique loop on rendered screens with one persistent, blind design-critic agent, calibrated to the team's own anchors and rulebook, and turn what it finds into lasting project rules. Covers setup, the brief, rounds, declining asks, the stop rule and official score, cost, CRITIQUE.md, and learning after the job. Use after rendering web explorations (web-explore), after rebuilding a chosen direction in Figma (ship-to-figma), or whenever the designer wants a second opinion on a set of PNGs. Not a substitute for the designer's own review. Also triggers on Vietnamese requests such as "chấm điểm thiết kế", "review màn hình", "nhận xét design", "cho ý kiến thứ hai", "critique vòng tiếp theo".
 metadata:
   author: namvunhatle
   version: 1.1.0

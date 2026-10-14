@@ -1,6 +1,6 @@
 ---
 name: figma-clone-port
-description: Port an existing Figma feature, section, component set, or demo prototype into another product file through Figma Console MCP while preserving its flow and copy and adapting to the destination's design system. Carries the instance-swap procedure, mode and token mapping, contrast checks, prototype-graph cloning, and real MCP failure modes. Use when the source design is already chosen ("clone to", "port to", "make product B match product A"); not for inventing a new flow or tuning motion alone.
+description: Port an existing Figma feature, section, component set, or demo prototype into another product file through Figma Console MCP while preserving its flow and copy and adapting to the destination's design system. Carries the instance-swap procedure, mode and token mapping, contrast checks, prototype-graph cloning, and real MCP failure modes. Use when the source design is already chosen ("clone to", "port to", "make product B match product A"); not for inventing a new flow or tuning motion alone. Also triggers on Vietnamese requests such as "clone sang file khác", "port tính năng sang sản phẩm khác", "làm giống bên sản phẩm A".
 metadata:
   author: namvunhatle
   version: 2.0.0

@@ -1,6 +1,6 @@
 ---
 name: copy-reviewer
-description: Review a batch of product microcopy against the project's approved voice, feature promises, and screen specs. Return findings in chat only. Do not edit files, Figma, or publishing systems; do not decide the product flow.
+description: Review a batch of product microcopy against the project's approved voice, feature promises, and screen specs. Return findings in chat only. Do not edit files, Figma, or publishing systems; do not decide the product flow. Also triggers on Vietnamese requests such as "review copy", "soát microcopy", "kiểm tra câu chữ trên màn hình".
 tools: Read, Grep, Glob, Skill
 model: sonnet
 effort: medium

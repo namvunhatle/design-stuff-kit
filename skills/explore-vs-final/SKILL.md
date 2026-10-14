@@ -1,6 +1,6 @@
 ---
 name: explore-vs-final
-description: Choose the right construction fidelity for exploratory design options versus a selected design ready for handoff. Use when building or reviewing Figma screens that may still be compared, discarded, or finalized.
+description: Choose the right construction fidelity for exploratory design options versus a selected design ready for handoff. Use when building or reviewing Figma screens that may still be compared, discarded, or finalized. Also triggers on Vietnamese requests such as "bản nháp hay bản final", "dựng kỹ đến mức nào", "đang explore hay đã chốt".
 metadata:
   author: namvunhatle
   version: 1.0.0
