@@ -7,6 +7,8 @@ What changed in the kit, newest first. Each heading is the plugin `version`; use
 ### Optical alignment for UI
 
 - `figma-design-system-ui` §7 adds optical alignment on top of the numeric checks: icons and labels centered on the cap height (with Figma's leading trim), triangles moved toward their point, round shapes larger than square ones, display text pulled to the margin, lighter padding on the icon side of a button, and nested radii. Each correction is measured on the drawn ink (`absoluteRenderBounds`), limited to 2 px at UI sizes, kept out of library instances, and recorded so nobody reverts it. A new script reports icons that sit above or below their label.
+- Spacing rule 5 now carries a worked example: box gaps 12 / 24 under a 32/40 headline measure about 28 / 29 between the letters, so they look equal.
+- The README opens with what's new in 0.2: spacing, measuring the letters, the 12 principles, and Vietnamese requests, with a before/after diagram.
 - `ship-to-figma` treats a recorded optical correction as an accepted difference from the web reference, not a parity failure.
 
 **In your project**

@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 290" width="820" height="290" font-family="Inter, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif">
+  <title>Text-box gap versus the gap between the drawn letters</title>
+  <rect width="820" height="290" fill="#ffffff"/>
+
+  <!-- Before: headline 32/40 (box 0–40, baseline 29); subline 14/20 (box 52–72, cap top 57, baseline 67); card from 96 -->
+  <g transform="translate(0 0)">
+    <text x="210" y="22" text-anchor="middle" font-size="14" font-weight="600" fill="#111">Before · box gaps 12 / 24</text>
+    <g transform="translate(0 46)">
+      <rect x="80" y="0" width="260" height="40" fill="none" stroke="#4C8BF5" stroke-dasharray="4 3"/>
+      <text x="210" y="29" text-anchor="middle" font-size="32" font-weight="600" fill="#111">Unlock it all</text>
+      <rect x="80" y="52" width="260" height="20" fill="none" stroke="#4C8BF5" stroke-dasharray="4 3"/>
+      <text x="210" y="67" text-anchor="middle" font-size="14" fill="#666">Every sound, every theme</text>
+      <rect x="80" y="96" width="260" height="60" rx="12" fill="#F1F1F3"/>
+      <rect x="96" y="114" width="90" height="10" rx="5" fill="#D4D4D8"/>
+      <rect x="96" y="132" width="140" height="8" rx="4" fill="#E4E4E7"/>
+
+      <g stroke="#4C8BF5" fill="none">
+        <path d="M62 40 H70 M66 40 V52 M62 52 H70"/>
+        <path d="M62 72 H70 M66 72 V96 M62 96 H70"/>
+      </g>
+      <text x="56" y="50" text-anchor="end" font-size="11" fill="#4C8BF5">box 12</text>
+      <text x="56" y="88" text-anchor="end" font-size="11" fill="#4C8BF5">box 24</text>
+
+      <g stroke="#E5484D" stroke-dasharray="2 2">
+        <path d="M308 29 H352"/><path d="M308 57 H352"/><path d="M308 67 H352"/>
+      </g>
+      <g stroke="#E5484D" fill="none" stroke-width="1.5">
+        <path d="M348 29 H356 M352 29 V57 M348 57 H356"/>
+        <path d="M348 67 H356 M352 67 V96 M348 96 H356"/>
+      </g>
+      <text x="362" y="47" font-size="11" font-weight="600" fill="#E5484D">eye 28</text>
+      <text x="362" y="85" font-size="11" font-weight="600" fill="#E5484D">eye 29</text>
+    </g>
+    <text x="210" y="232" text-anchor="middle" font-size="12" fill="#E5484D">Both gaps look the same:</text>
+    <text x="210" y="248" text-anchor="middle" font-size="12" fill="#E5484D">the subline floats between two blocks</text>
+  </g>
+
+  <!-- After: subline box 44–64, cap top 49, baseline 59; card from 96 -->
+  <g transform="translate(410 0)">
+    <text x="210" y="22" text-anchor="middle" font-size="14" font-weight="600" fill="#111">After · box gaps 4 / 32</text>
+    <g transform="translate(0 46)">
+      <rect x="80" y="0" width="260" height="40" fill="none" stroke="#4C8BF5" stroke-dasharray="4 3"/>
+      <text x="210" y="29" text-anchor="middle" font-size="32" font-weight="600" fill="#111">Unlock it all</text>
+      <rect x="80" y="44" width="260" height="20" fill="none" stroke="#4C8BF5" stroke-dasharray="4 3"/>
+      <text x="210" y="59" text-anchor="middle" font-size="14" fill="#666">Every sound, every theme</text>
+      <rect x="80" y="96" width="260" height="60" rx="12" fill="#F1F1F3"/>
+      <rect x="96" y="114" width="90" height="10" rx="5" fill="#D4D4D8"/>
+      <rect x="96" y="132" width="140" height="8" rx="4" fill="#E4E4E7"/>
+
+      <g stroke="#4C8BF5" fill="none">
+        <path d="M62 40 H70 M66 40 V44 M62 44 H70"/>
+        <path d="M62 64 H70 M66 64 V96 M62 96 H70"/>
+      </g>
+      <text x="56" y="46" text-anchor="end" font-size="11" fill="#4C8BF5">box 4</text>
+      <text x="56" y="84" text-anchor="end" font-size="11" fill="#4C8BF5">box 32</text>
+
+      <g stroke="#1F9D55" stroke-dasharray="2 2">
+        <path d="M308 29 H352"/><path d="M308 49 H352"/><path d="M308 59 H352"/>
+      </g>
+      <g stroke="#1F9D55" fill="none" stroke-width="1.5">
+        <path d="M348 29 H356 M352 29 V49 M348 49 H356"/>
+        <path d="M348 59 H356 M352 59 V96 M348 96 H356"/>
+      </g>
+      <text x="362" y="43" font-size="11" font-weight="600" fill="#1F9D55">eye 20</text>
+      <text x="362" y="81" font-size="11" font-weight="600" fill="#1F9D55">eye 37</text>
+    </g>
+    <text x="210" y="232" text-anchor="middle" font-size="12" fill="#1F9D55">About 1 : 2 by eye:</text>
+    <text x="210" y="248" text-anchor="middle" font-size="12" fill="#1F9D55">the subline belongs to the headline</text>
+  </g>
+
+  <text x="410" y="278" text-anchor="middle" font-size="11" fill="#71717A">Dashed blue: text box (headline 32/40, subline 14/20). Red and green: gap between the drawn letters, baseline to cap height.</text>
+</svg>

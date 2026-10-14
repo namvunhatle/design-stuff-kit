@@ -4,6 +4,49 @@ A Claude Code plugin for product designers. Describe the task in plain words and
 
 Claude always asks before editing a Figma file and saves a restore point first.
 
+## What's new in 0.2
+
+### Spacing that follows the grouping
+
+`figma-design-system-ui` sets vertical spacing from the structure of the screen, not by feel:
+
+- **One gap size per level:** inside a cluster (L1, about 4–8), between clusters (L2, about 12–16), between sections (L3, about 24–32), and to the screen edge (16 or more), always from the system's tokens.
+- **Each outer level is about 1.5–2× the one inside it.** When two levels come out nearly equal, the groups blur together.
+- **A script lists every visible gap** from top to bottom and labels it, so a broken rhythm shows up as numbers instead of a hunch.
+
+### Measure the letters, not the text box
+
+A text box adds half-leading above and below the letters. A headline with a tall line height therefore looks farther from the next line than its gap value says. The kit now measures spacing and alignment on the **drawn letters**, using Figma's `absoluteRenderBounds`, which returns the outline of the actual glyphs.
+
+From a real project: a paywall headline (32/40) sat over a one-line subline (14/20), with plan cards below. With box gaps of 12 and 24, the two gaps looked the same, and the subline seemed to float between the headline and the plans. Box gaps of 4 and 32 gave about 1 : 2 by eye, and the subline joined the headline.
+
+![Box gaps 12 and 24 measure 28 and 29 between the letters, so they look equal. Box gaps 4 and 32 measure 20 and 37.](docs/images/optical-spacing.svg)
+
+The same rule covers **optical alignment**, for the cases where correct numbers still look wrong:
+
+- Icons and button labels centered on the cap height, not the text box (Figma's leading trim).
+- A play triangle moved toward its point.
+- Round shapes drawn a little larger than square ones.
+- Large headlines pulled out to the margin.
+- Less padding on the icon side of a button.
+- Nested corner radii.
+
+Each correction is limited to 2 px at UI sizes, never made inside a library component, and written down so a developer does not "fix" it back.
+
+### The 12 principles of animation
+
+The new `motion-principles` skill applies Disney's 12 principles to product UI and calibrates them for interfaces, not cartoons. For each principle it gives how far to push it on a calm product, and it ends with a review checklist. When you describe a feeling, it starts from the matching principles before changing any numbers:
+
+| You say | It checks |
+|---|---|
+| "Stiff, robotic" | Slow in and slow out, overlap |
+| "Floaty, slow" | Timing, follow through |
+| "Cheap, tacky" | Exaggeration, secondary action, squash |
+
+### Ask in Vietnamese
+
+Every skill and agent also loads from a request written in Vietnamese ("vẽ wireframe", "chấm điểm thiết kế", "chuyển động bị cứng"), and Claude replies in the language you write in. Details for each release are in the [Changelog](CHANGELOG.md).
+
 ## Install
 
 Pick the way that matches where you use Claude Code. Both end with `install-yummy` (adds five Yummy Labs skills, needs Python 3.10+) and `start-design` (see [First time](#first-time)).

@@ -270,7 +270,7 @@ Screen content      L3  between sections
 
 3. **Each outer level is about 1.5–2× the level inside it,** judged by eye. When two levels are nearly equal, the groups blur into one another.
 4. **One gap size, one meaning, per screen.** If 16 separates clusters, it does not also separate sections.
-5. **Measure the visible gap, not the text box.** A text box adds half-leading above and below the glyphs, and descenders sit inside the box. A title with a large line height needs a smaller box gap to look the same as a gap between two shapes.
+5. **Measure the visible gap, not the text box.** A text box adds half-leading above and below the glyphs, and descenders sit inside the box. A title with a large line height needs a smaller box gap to look the same as a gap between two shapes. Example: a 32/40 headline over a 14/20 subline, with cards below. Box gaps of 12 and 24 measure about 28 and 29 between the letters, so the subline floats between the two blocks; box gaps of 4 and 32 measure about 20 and 37 and group it with the headline. For an exact value, measure the drawn letters with `absoluteRenderBounds` (see Optical alignment below).
 6. **On a fixed-height screen, give the extra height to one region,** usually the illustration or hero. Spreading it across the gaps breaks the ratio between levels.
 7. **Old screens are not a source of values.** Legacy designs that are hardcoded and not bound to the system show what existed, not the standard.
 
