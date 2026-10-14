@@ -89,9 +89,11 @@ Motion is not a third design track. It runs on frames from either track, and it 
 
 ```text
 Figma frames approved
-  → rive-motion §1-2   medium + spec (artboard, states, view model, transitions, listeners, reduced motion)
+  → rive-motion §1-2   medium + spec (artboard, states, view model, transitions, listeners, reduced motion,
+                       motion-spec.json) → key poses approved as stills
   → rive-motion §3     build in order: artboard → layouts → keyframes → view model → state machine → scripts
   → beat-synced-motion (only if it has music; put events on the beat grid before building keyframes)
+  → motion-review      export → lint gates (motion-principles §4) → blind motion-critic on recorded frames
   → designer presses Play in Rive, reports feel
   → rive-motion §4     hand off .riv + spec table; developers wire view-model properties
   → figma-workflow     record the asset and its spec in Figma_Map / Open_Items
@@ -137,4 +139,4 @@ decide → spec .md → build in Figma → record → (publish)
 
 Agents return node IDs and findings; the main session writes them into these files. When a screen is finished and recorded, start a fresh session (`/clear`) rather than carrying a long transcript into the next task; see `session-cost`.
 
-The seven agents are explicitly invoked tools: `copy-reviewer`, `figma-auditor`, `design-critic`, and `scout` only read; `wireframe-builder` and `ui-builder` write only to a new section, and only from a settled brief or an approved plan; `gitbook-porter` prepares a reviewable change request. Give them the exact product and source files because they start without the main conversation's context. Decisions, motion, and anything that needs the designer's eye stay in the main design session. The [`model-selection`](rules/model-selection.md) rule says which role runs on which model.
+The eight agents are explicitly invoked tools: `copy-reviewer`, `figma-auditor`, `design-critic`, `motion-critic`, and `scout` only read; `wireframe-builder` and `ui-builder` write only to a new section, and only from a settled brief or an approved plan; `gitbook-porter` prepares a reviewable change request. Give them the exact product and source files because they start without the main conversation's context. Decisions, motion, and anything that needs the designer's eye stay in the main design session. The [`model-selection`](rules/model-selection.md) rule says which role runs on which model.

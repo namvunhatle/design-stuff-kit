@@ -11,7 +11,7 @@ Assign a model by **role**, not by session. The main session stays on a strong m
 | **Decide**: flow, IA, the three directions, token map, build plan, copy that carries the voice | Main session, with the designer | Strongest available · `medium`, `high` for a big decision | Taste and trade-offs live here, and so does the designer |
 | **Execute**: build an approved plan, fix render FAILs, port by an approved map | Agent (`ui-builder`, `wireframe-builder`) | `sonnet` · `medium` | Known path, many tool calls. A fresh, small context is cheaper than switching a long session's model |
 | **Check what a script can check**: contrast, clipping, targets, identical renders, pixel parity | `wx-render`, `wx-compare` | none | Cheapest and exact. A mechanical miss that recurs becomes a gate (`design-critique` §8) |
-| **Judge what a script cannot**: quality, direction, regression | `design-critic`, blind, one per job | `opus` · `high` | Its value is independence *and* judgement. Do not economise here |
+| **Judge what a script cannot**: quality, direction, regression | `design-critic` (screens) or `motion-critic` (motion), blind, one per job | `opus` · `high` | Its value is independence *and* judgement. Do not economise here |
 | **Review in bulk**: one Figma file, a batch of copy | `figma-auditor`, `copy-reviewer` | `sonnet` · `medium` | Bounded reading against stated rules |
 | **Gather**: node IDs, tokens, components, Mobbin examples, long specs | `scout` | `sonnet` · `low` | Keeps large payloads and screenshots out of the main context. It reports; the main session chooses |
 

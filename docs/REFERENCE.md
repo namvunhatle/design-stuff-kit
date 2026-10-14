@@ -61,6 +61,7 @@ The [agents](../agents/) are Claude Code templates for bounded work:
 |---|---|---|
 | [`copy-reviewer`](../agents/copy-reviewer.md) | Batch microcopy review | No |
 | [`design-critic`](../agents/design-critic.md) | Scores rendered screens round after round | No |
+| [`motion-critic`](../agents/motion-critic.md) | Reviews built motion blind against the 12-principle checklist, round after round | No |
 | [`figma-auditor`](../agents/figma-auditor.md) | One-file Figma audit | No |
 | [`gitbook-porter`](../agents/gitbook-porter.md) | Spec-to-GitBook change request | Mirror file and change request; no merge |
 | [`scout`](../agents/scout.md) | Lookups in Figma, Mobbin examples, long specs; returns a short summary | No |

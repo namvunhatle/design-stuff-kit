@@ -2,6 +2,24 @@
 
 What changed in the kit, newest first. Each heading is the plugin `version`; users receive a release when that number changes. The plugin updates skills, agents, and commands on its own. **In your project** lists the hand edits an update needs in files the plugin never touches; `/design-stuff-kit:start-design` checks them for you.
 
+## 0.3.0-beta · 2026-10-15
+
+### Motion gates and a blind motion critic (Rive)
+
+Motion used to reach the designer after a self-check. Now it has to pass measured gates and an independent reviewer first.
+
+- **`motion-principles` §4, gates G0–G11:** each has a number. At most 2 things start moving in any 100 ms. Nothing moves after the primary settles. One overshoot per property. Every input answers within 100 ms in every state, also in reduced motion. Reduced motion changes only opacity. Loops end where they start. No more than 3 flashes per second. Key poses are approved as stills before timing.
+- **`motion-spec.json`,** written with the designer before building: the primary of each moment, which objects are one motion, what is ambient, and designer waivers with a reason.
+- **`rive-motion` scripts:** `rive_export.py` reads every timeline and state machine from the open Rive file (read-only). `motion_lint.py` checks the gates and writes a beat sheet per moment (each unit's start, peak, and settle in ms).
+- **New agent `motion-critic`:** blind and read-only, it reviews the 12-principle checklist from the lint report and contact sheets of the played motion, with frame evidence and three ranked fixes.
+- **New command `/design-stuff-kit:motion-review`:** runs export → lint → contact sheets from a screen recording → critic, and logs each round in `MOTION_REVIEW.md`.
+- `rive-motion` §2 adds the motion spec and pose approval; §4 is the new gated order.
+
+**In your project**
+
+- If you copied `model-selection.md` into `.claude/rules/`, merge the critic row. `/design-stuff-kit:start-design` shows the difference.
+- Contact sheets need `ffmpeg` (`brew install ffmpeg`).
+
 ## 0.2.2-beta · 2026-10-15
 
 ### Optical alignment for UI

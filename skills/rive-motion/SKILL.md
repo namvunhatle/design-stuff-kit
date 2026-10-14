@@ -3,7 +3,7 @@ name: rive-motion
 description: Decide whether an interaction should be a Rive asset, then build it in the Rive desktop editor through Rive MCP (artboards, shapes, layouts, state machines, transitions, view-model data binding). Use for interactive, state-driven motion that ships to developers as a .riv file; not for Figma Smart Animate chains (figma-prototype-motion) or coded web prototypes (interactive-prototype). Also triggers on Vietnamese requests such as "làm animation bằng Rive", "dựng state machine Rive", "xuất file .riv cho dev".
 metadata:
   author: namvunhatle
-  version: 2.3.0
+  version: 2.4.0
   mcp-server: rive
   docs-checked: 2026-09-30
 ---
@@ -44,6 +44,7 @@ Write a short spec and get a go-ahead before a substantial edit:
 4. **Transitions:** from, to, condition, duration, exit time. One table (`references/state-machines.md`).
 5. **Listeners:** what pointer or property change triggers what.
 6. **Reduced motion:** the static or shortened version, built in, not promised.
+7. **Motion spec:** write `motion/<feature>/motion-spec.json` with the designer (`motion-principles` §4): the primary of each moment, which objects are one motion, what is ambient, and the reduced-motion property. Then show the key poses as stills and record `posesApproved` before tuning timing.
 
 Name which of the 12 animation principles the moment needs, and at what intensity (`${CLAUDE_PLUGIN_ROOT}/skills/motion-principles/SKILL.md`).
 
@@ -59,12 +60,29 @@ Keyframe values for scale and opacity are percentages (`100`, not `1`); animatio
 
 Name every object and view-model property as the developer will reference it. Renaming later breaks their code.
 
-## 4. Verify and hand off
+## 4. Verify, gate, and hand off
 
-- Query the scene back and compare against the spec; do not rely on what you meant to write.
-- Test each transition, including the way back out of every state. A transition path is one-way: the return needs its own path. `simulateStateMachine` covers the logic only; it does not render or simulate the pointer.
-- **Have the designer press Play** (steps in `references/mcp-field-notes.md`) and report or screenshot the result. Tool output alone never proves the animation looks right; a wrong keyframe unit, for example, makes the layout vanish while every query still passes.
-- Hand off the `.riv` with the spec table: artboard name, state machine name, view model name, property names and types. Note the runtime the developers use, because feature support differs by runtime (`references/handoff.md`).
+A build is not shown to the designer until it passes the motion gates (`${CLAUDE_PLUGIN_ROOT}/skills/motion-principles/SKILL.md` §4). Run this order every round; `/design-stuff-kit:motion-review` runs steps 2–5.
+
+1. **Logic.** Query the scene back and compare it with the spec. Test each transition, including the way back out of every state; a transition path is one-way. `simulateStateMachine` checks logic only: it does not render or simulate the pointer.
+2. **Export what is in the file,** not what the build script meant to write:
+   ```sh
+   python3 ${CLAUDE_PLUGIN_ROOT}/skills/rive-motion/scripts/rive_export.py --out motion/<feature>/timeline.json
+   ```
+   It is read-only. It saves every timeline's keys, fps, length, and loop mode, every state machine, and the names and types of the keyed objects.
+3. **Lint against the spec:**
+   ```sh
+   python3 ${CLAUDE_PLUGIN_ROOT}/skills/rive-motion/scripts/motion_lint.py motion/<feature>/timeline.json motion/<feature>/motion-spec.json --out motion/<feature>/lint.md
+   ```
+   Exit code 1 means a gate failed. Fix it in the file, export, and lint again. Do not rewrite the spec to make a fail pass; a fail that stays needs a `waivers` entry with the designer's reason. The report ends with a **beat sheet** per moment (each unit's start, peak, and settle in ms), which is the fastest way to see staging.
+4. **Frames of the played motion.** Tools cannot render a mid-animation frame (`references/mcp-field-notes.md`). Ask the designer to play the state machine and record the stage (macOS: Cmd+Shift+5, record selected portion), then cut a contact sheet for each moment:
+   ```sh
+   ffmpeg -ss <start> -t <length> -i recording.mov -vf "fps=30,scale=360:-1,tile=6x4" motion/<feature>/frames/<moment>.png
+   ```
+   At 30 fps, one 6×4 sheet covers 0.8 s, one frame per 33 ms. Use pose stills (field notes, "Seeing a mid-animation frame") only when no recording is possible.
+5. **Blind critic.** Send the `motion-critic` agent the spec's intent, intensity, and refusals, the lint report with its beat sheets, the frame sheets, and the approved pose stills. Never send your own reasoning or scores. It returns §3 line by line with frame evidence, three fixes, and a verdict.
+6. **The designer plays it** (steps in `references/mcp-field-notes.md`) and judges feel. Report what was measured, what the critic found, and what nobody has seen yet. Tool output alone never proves the animation looks right.
+7. **Hand off** the `.riv` with the spec table: artboard name, state machine name, view model name, property names and types. Note the runtime the developers use, because feature support differs by runtime (`references/handoff.md`).
 
 Motion rules from the kit apply: animate transform, opacity, and filter; respect reduced motion.
 
@@ -81,3 +99,5 @@ Motion rules from the kit apply: animate transform, opacity, and filter; respect
 | `references/examples/rive_keys.py` | Python over the MCP HTTP endpoint: batched keyframe add/delete/change, eases, seamless periodic loops |
 | `references/mcp-field-notes.md` | Observed Rive MCP units and quirks, what the tools can and cannot verify, how the designer plays the state machine |
 | `references/handoff.md` | Runtimes, React hook signatures, MCP capabilities and limits, reduced motion |
+| `scripts/rive_export.py` | Read-only export of timelines, keys, and state machines to `timeline.json` |
+| `scripts/motion_lint.py` | Measures the motion gates (staging, settle, overshoot, response, reduced motion, loops, state machine) and writes beat sheets |

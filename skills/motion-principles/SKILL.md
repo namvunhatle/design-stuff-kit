@@ -3,7 +3,7 @@ name: motion-principles
 description: Apply the 12 classic principles of animation (squash and stretch, anticipation, staging, straight ahead and pose to pose, follow through and overlap, slow in and slow out, arcs, secondary action, timing, exaggeration, solid drawing, appeal) to product UI motion, calibrated for interfaces rather than cartoons. Use when planning, critiquing, or tuning any motion (Figma Smart Animate, Motion or CSS prototypes, Rive), or when a designer says a transition feels stiff, floaty, cheap, or "off" without knowing why. Not a build guide for any tool; the medium skills (figma-prototype-motion, rive-motion, interactive-prototype) do the building. Also triggers on Vietnamese requests such as "chuyển động bị cứng", "lơ lửng", "chậm chạp", "giật", "quê", "rẻ tiền", "thiếu sức sống", "nhìn sai sai".
 metadata:
   author: namvunhatle
-  version: 1.0.0
+  version: 1.1.0
 ---
 
 # The 12 principles of animation, for product UI
@@ -17,6 +17,7 @@ Use them as vocabulary and as a checklist, not as a quota. A calm product needs 
 - **Planning:** before writing the motion spec in `figma-prototype-motion`, `rive-motion` §2, or a coded prototype. Name which principles the moment needs and at what intensity.
 - **Diagnosing:** when the designer reports a feeling ("stiff", "floaty", "jerky", "cheap", "slow"), map it to a principle with the table in §2 before changing numbers.
 - **Reviewing:** run §3 against a played or recorded piece. Tool output never proves feel; the designer's play-through does (`designer-in-the-loop`).
+- **Before showing motion to the designer:** pass the gates in §4. A build with an open fail does not go to the designer.
 
 ## 1. The principles, translated
 
@@ -110,7 +111,7 @@ Vietnamese words in parentheses are common equivalents; match the designer's mea
 
 ## 3. Review checklist
 
-Run it on a played or recorded piece, with the designer, and report each line as pass, fail, or not applicable:
+Run it on a played or recorded piece and report each line as pass, fail, or not applicable, with the frame or value that proves it. The `motion-critic` agent runs it blind after the gates in §4; the designer runs it again by playing the piece:
 
 1. One primary motion per moment; the eye lands where the user acts next (3).
 2. Start and end states were approved as frames before motion was tuned (4).
@@ -122,6 +123,57 @@ Run it on a played or recorded piece, with the designer, and report each line as
 8. Anticipation never delays a response to the user's input (2).
 9. Secondary actions and exaggeration are quieter than the state change and match the product's intensity (8, 10, 12).
 10. Reduced motion: a version without movement exists and keeps the same meaning (cross-fade or instant state change, no lost information). Only transform, opacity, and filter animate.
+
+## 4. Gates before the designer sees motion
+
+The checklist in §3 is judgment. These gates are measurement: each one has a number, and a build that fails one does not reach the designer. They exist because "fast" motion still read as a mess when six things started in the same 100 ms and effects kept trailing after the subject had stopped.
+
+**Order, every round:**
+
+1. **Spec first.** Write `motion-spec.json` with the designer before building (format below). It names the primary of each moment, which objects are one motion (groups), and what is ambient.
+2. **Poses before timing.** Show the start, peak, and end poses of each moment as stills. Record the date in `posesApproved` only when the designer approves them. Timing work before that is wasted.
+3. **Lint.** Export what is really in the file and run the gate script. In Rive: `rive-motion` §4. Fix every fail, or record in the spec why it stays (`waivers`, with the designer's reason).
+4. **Critic.** A separate `motion-critic` agent scores §3 blind, from the lint report, the beat sheets, and frames of the played motion. It never sees the builder's reasoning.
+5. **Designer plays it.** Only feel is left for the designer, and only the designer can approve it.
+
+| Gate | Passes when | Principle |
+|---|---|---|
+| G0 Pose to pose | `posesApproved` has a date | 4 |
+| G1 Staging | No more than 2 units (an object, or a declared group) start moving within any 100 ms window | 3 |
+| G2 Settle | Nothing moves more than 34 ms after the declared primary settles | 9, 5 |
+| G3 Overshoot | Each transform property crosses its rest value at most once, unless declared in `oscillate` | 5, 10 |
+| G4 Response | Every input answers within 100 ms in every state, also in reduced motion; no input waits for exit time | 2 |
+| G5 Timing | A reaction to input settles within its budget (default 1000 ms) | 9 |
+| G6 Arcs | A free movement over 40 px curves (x and y differ in timing or ease), unless declared in `straight` (warning) | 7 |
+| G7 Volume | Squash and stretch keeps area within ±10%; text is never deformed | 1 |
+| G8 Reduced motion | A reduced-motion path exists and only opacity changes on it | — |
+| G9 Loop seam | Every looping property ends on its start value | — |
+| G10 Flashes | No more than 3 flashes per second | — |
+| G11 State machine | No transition without a condition or exit time; sibling states key the same properties; one property, one layer (warnings) | — |
+
+Thresholds are defaults. A project changes them in the spec's `thresholds`, with a reason the designer agreed to, not to make a failing build pass.
+
+**`motion-spec.json`:**
+
+```json
+{
+  "intent": "One sentence: what the motion says.",
+  "intensity": "calm | playful | bold",
+  "posesApproved": "2026-10-15",
+  "reducedMotionProperty": "reducedMotion",
+  "ambient": ["fog", "moon_glow"],
+  "groups": { "phone buzz": ["phone", "ring_glow"], "eyes": ["eye_L", "eye_R"] },
+  "moments": {
+    "ring": { "primary": "GhostReact", "oscillate": ["phone.rotation"], "straight": [], "budgetMs": 1000 }
+  },
+  "thresholds": { "startWindowMs": 100, "maxStartsPerWindow": 2 },
+  "waivers": [{ "gate": "G2", "moment": "ring", "reason": "Designer: notes may trail 60 ms, 2026-10-15" }]
+}
+```
+
+- **Moments** are keyed by animation (timeline) name.
+- **A group** counts as one unit for staging. Use it only for parts that read as one motion, such as a phone and its own glow. A lightning flash and the ghost's lunge are two units, even when they land on the same frame.
+- **Ambient** objects (backdrop loops) are left out of staging and settle checks.
 
 ## Sources
 

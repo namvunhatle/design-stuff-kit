@@ -2,13 +2,14 @@
 
 [Back to README](../README.md)
 
-The kit ships seven agents. An agent is a separate Claude with its own short instructions and a fixed tool list. The main session hands it one bounded job, such as "audit this Figma section" or "score these screens", and gets a report back. They come with the design-stuff-kit plugin and appear as `design-stuff-kit:<name>`. An agent runs only when you or a skill calls it.
+The kit ships eight agents. An agent is a separate Claude with its own short instructions and a fixed tool list. The main session hands it one bounded job, such as "audit this Figma section" or "score these screens", and gets a report back. They come with the design-stuff-kit plugin and appear as `design-stuff-kit:<name>`. An agent runs only when you or a skill calls it.
 
-## The seven agents
+## The eight agents
 
 | Agent | Does | Writes? | Needs | Model |
 |---|---|---|---|---|
 | `design-critic` | Scores rendered screens (PNGs) against the kit's rubric, round after round | No | Nothing extra | opus |
+| `motion-critic` | Reviews a built Rive motion piece blind, from the lint report, beat sheets, and frames of the played motion, round after round | No | Rive MCP for the export; a screen recording for frames | opus |
 | `figma-auditor` | Audits one Figma file: bindings, components, layout, node map | No | Figma Console MCP | sonnet |
 | `copy-reviewer` | Reviews a batch of interface copy against the voice and specs | No | Nothing extra (`ux-copywriter` skill recommended) | sonnet |
 | `wireframe-builder` | Builds a settled wireframe brief in a **new** Figma section | Figma, new section only | Figma Console MCP | sonnet |
@@ -26,13 +27,14 @@ Nothing to do: `./start` installs the plugin, and the agents come with it. To tu
 
 ## Check that they loaded
 
-1. In a terminal inside your project, run `claude plugin details design-stuff-kit`. The `Agents (7)` line lists them. Inside Claude Code you can also ask: "Which `design-stuff-kit:` agents can you call?" (Claude Code no longer has an `/agents` screen.)
+1. In a terminal inside your project, run `claude plugin details design-stuff-kit`. The `Agents (8)` line lists them. Inside Claude Code you can also ask: "Which `design-stuff-kit:` agents can you call?" (Claude Code no longer has an `/agents` screen.)
 2. Run `/mcp` and check that the servers the agents need are connected: `figma-console` for the Figma agents, `gitbook` for `gitbook-porter`.
 3. Give each one a small test:
 
 | Agent | Test prompt |
 |---|---|
 | `design-critic` | "Use design-critic on shots/r1/*.png, phase explore, track ui. Direction: …" |
+| `motion-critic` | "Run /design-stuff-kit:motion-review motion/<feature> recording.mov" |
 | `figma-auditor` | "Use figma-auditor to list unbound fills in section <node ID> of file <file key>." |
 | `copy-reviewer` | "Use copy-reviewer on the button labels in specs/onboarding.md." |
 
