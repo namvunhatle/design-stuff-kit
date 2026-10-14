@@ -2,6 +2,17 @@
 
 What changed in the kit, newest first. Each heading is the plugin `version`; users receive a release when that number changes. The plugin updates skills, agents, and commands on its own. **In your project** lists the hand edits an update needs in files the plugin never touches; `/design-stuff-kit:start-design` checks them for you.
 
+## 0.2.2-beta · 2026-10-15
+
+### Optical alignment for UI
+
+- `figma-design-system-ui` §7 adds optical alignment on top of the numeric checks: icons and labels centered on the cap height (with Figma's leading trim), triangles moved toward their point, round shapes larger than square ones, display text pulled to the margin, lighter padding on the icon side of a button, and nested radii. Each correction is measured on the drawn ink (`absoluteRenderBounds`), limited to 2 px at UI sizes, kept out of library instances, and recorded so nobody reverts it. A new script reports icons that sit above or below their label.
+- `ship-to-figma` treats a recorded optical correction as an accepted difference from the web reference, not a parity failure.
+
+**In your project**
+
+- Nothing.
+
 ## 0.2.1-beta · 2026-10-15
 
 ### Vietnamese triggers

@@ -3,7 +3,7 @@ name: ship-to-figma
 description: Take a direction the designer chose in web exploration and rebuild it in Figma with the product's design system, then prove the rebuild with three checks (pixel parity with the approved web reference, a binding audit, and a re-critique that must not regress). Covers phase 2 (lock the reference and approve a token map) and phase 3 (build and verify). Use after web-explore once the designer has picked. Not for motion timelines (code-to-figma-sync) or for exploring options in Figma (explore-vs-final). Also triggers on Vietnamese requests such as "chốt hướng này, dựng lại trong Figma", "chuyển bản web sang Figma", "đưa thiết kế đã chọn vào Figma".
 metadata:
   author: namvunhatle
-  version: 1.0.0
+  version: 1.0.1
   mcp-server: figma-console
 ---
 
@@ -77,7 +77,7 @@ Also run `copy-reviewer` if the copy changed on the way, or if the product has a
 
 When parity fails, look at `parity/diff/` (differences amplified ×8) before changing anything. A uniform tint across the frame is usually a token row the designer accepted; record it. A shifted edge or a missing element is a build bug; fix it in place.
 
-**Do not flatten improvements.** Some differences are better than the web: a real system component with proper states, a spacing the design system got right where the web guessed. Do not revert those to match the reference. List them as "better than reference" and let the designer decide; once accepted, they stop counting as parity failures and are recorded in `Session_Log.md`.
+**Do not flatten improvements.** Some differences are better than the web: a real system component with proper states, a spacing the design system got right where the web guessed, a recorded optical correction (`figma-design-system-ui` §7) that moves an icon or label by a pixel. Do not revert those to match the reference. List them as "better than reference" and let the designer decide; once accepted, they stop counting as parity failures and are recorded in `Session_Log.md`.
 
 ### 7. Hand over
 

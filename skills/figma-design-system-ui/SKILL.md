@@ -1,9 +1,9 @@
 ---
 name: figma-design-system-ui
-description: Build production UI in Figma through Figma Console MCP from the destination file's published design system. Carries the library access checks, publish rules, variable-mode traps, token-binding rules, contrast procedure, numeric alignment checks, and build hygiene. Load before the first figma_execute of an approved visual design. Not for grayscale wireframes, options still being compared, or edits to the shared library itself. Also triggers on Vietnamese requests such as "dựng UI thật trong Figma", "lên màn hình bằng design system", "làm bản UI final".
+description: Build production UI in Figma through Figma Console MCP from the destination file's published design system. Carries the library access checks, publish rules, variable-mode traps, token-binding rules, contrast procedure, numeric and optical alignment checks, and build hygiene. Load before the first figma_execute of an approved visual design. Not for grayscale wireframes, options still being compared, or edits to the shared library itself. Also triggers on Vietnamese requests such as "dựng UI thật trong Figma", "lên màn hình bằng design system", "làm bản UI final".
 metadata:
   author: namvunhatle
-  version: 2.1.0
+  version: 2.2.0
   mcp-server: figma-console
 ---
 
@@ -335,7 +335,53 @@ const fx = frame.absoluteTransform[0][2];
 return frame.findAllWithCriteria({ types: ['TEXT'] })
   .filter(t => ['Title', 'Name'].includes(t.name))
   .map(t => `${t.characters.slice(0, 16)} x=${Math.round(t.absoluteTransform[0][2] - fx)}`);
-// every row should report the same x; 1 px is still a mismatch
+// every row should report the same x; 1 px is still a mismatch,
+// unless it is a recorded optical correction (below)
+```
+
+### Optical alignment: when the eye overrules the numbers
+
+Geometry is the default: equal numbers, bound to tokens, checked by the scripts above. Some shapes still look wrong when their numbers are right, because the eye judges **ink** (the glyphs and filled shapes it actually sees) and not bounding boxes. Correct the cases below, and only these, after the geometric build is done and measured.
+
+| Case | What the eye sees | Correction |
+|---|---|---|
+| Icon beside a text label | Centered on the text box, the icon sits low: the box reserves half-leading and descender space the label rarely uses | Center the icon on the **cap height** (caps, numerals, title-case labels) or the **x-height** (lowercase-heavy labels). Prefer `leadingTrim = 'CAP_HEIGHT'` on the text, then center; nudge the icon only when trim is not possible. |
+| Label inside a button, pill, badge, or tab | Text looks low in its container, most visibly in all caps or numerals | Same fix: cap-height trim on the label, then center. Check the library component first; if its label already looks low, report it, do not patch the instance. |
+| Triangle in a circle or square (play, next, disclosure) | Looks shifted toward the flat side | Move it toward the point by about **1/12 of the triangle's width** (halfway between the box center and the centroid), about 1–1.5 px on a 16 px glyph. |
+| Circle next to a square of the same size | The circle looks smaller | Round shapes extend past flat ones. On a 24 px icon grid: circle about 20 px, square about 18 px (Material keylines). Use the icon set's keylines; do not resize library icons per instance. |
+| Mixed icons in one row (round, square, tall, wide) | Some look heavier or smaller | Trust the icon set if it follows keylines. If one icon still looks off, tell the designer which one; a per-instance scale is a last resort and stays within ±1 px. |
+| Display text on the screen margin (about 32 pt and up) | The first letter looks indented: its side bearing (built-in space inside the glyph box) grows with size, worst on round or slanted letters (O, C, A, V, T) | Pull the text node left by the gap between its box x and its ink x, usually 1–3 px at 32–48 pt. Body text keeps the margin as is. |
+| Button with a leading icon | Content looks heavy on the icon side | Make the icon-side padding smaller than the text side (for example 16 left, 24 right, as in Material 3). Use the component's own icon variant if it has one. |
+| Rounded corners nested inside each other | Equal radii look pinched at the corners | Inner radius = outer radius − padding (never below 0), from the radius tokens closest to that value. |
+
+**How to apply an optical correction:**
+
+1. **Build geometrically first.** Bind gaps, padding, and sizes to tokens as usual. Optical work happens on the finished layout, never instead of it.
+2. **Measure the ink, not the box.** `absoluteRenderBounds` returns the drawn glyphs or vector fill; `absoluteBoundingBox` and `x`/`y` return the box. Compare ink to ink.
+3. **Prefer a system fix over a nudge:** leading trim, the icon set's keylines, the component's icon variant, an existing radius token. A nudge is the last step.
+4. **Keep nudges small:** at most 2 px at UI sizes (under about 32 pt), at most about 4% of the element at display sizes. Anything larger means the structure is wrong, not the optics.
+5. **Never nudge inside a library instance.** If the component itself looks off, record it as a library issue for the designer.
+6. **Record every correction** so a later check or an engineer does not "fix" it back: put it in the layer name or annotation (`optical: icon −1 y, cap-height center`) and list it in the delivery report. In code it becomes a transform on that element (or CSS `text-box: trim-both cap alphabetic` for the trim), never a changed token.
+7. **Explorations skip this.** Apply optical corrections once a direction is chosen (`explore-vs-final`).
+
+Measure icon-to-label alignment by ink in every horizontal row:
+
+```js
+const frame = await figma.getNodeByIdAsync(FRAME_ID);
+const ink = n => n.absoluteRenderBounds; // drawn glyphs or fill; null when hidden
+const mid = b => b.y + b.height / 2;
+return frame.findAll(n => n.type === 'FRAME' && n.layoutMode === 'HORIZONTAL' && n.visible)
+  .flatMap(row => {
+    const kids = row.children.filter(c => c.visible);
+    const icon = kids.find(c => c.type === 'INSTANCE' && c.width <= 32 && c.height <= 32);
+    const text = kids.find(c => c.type === 'TEXT');
+    if (!icon || !text || !ink(icon) || !ink(text)) return [];
+    const d = mid(ink(icon)) - mid(ink(text));
+    return Math.abs(d) < 0.5 ? [] :
+      [`${row.name}: icon ${d > 0 ? 'below' : 'above'} by ${Math.abs(d).toFixed(1)} px vs "${text.characters.slice(0, 16)}"`];
+  });
+// text ink includes the ascenders and descenders actually typed: "Pay" or "Settings" report a
+// center lower than the cap height. Judge those rows against the cap height, not the number alone.
 ```
 
 When chrome changes (a taller keyboard, a new banner), recompute the visible area and tell the designer how many items still fit. Do not let them discover it.
@@ -369,4 +415,4 @@ Screens pasted in from other files carry references to libraries that may not be
 
 ## 10. Deliver
 
-Report the restore-point name, section and frame IDs, binding coverage (bound, deliberately local, not bindable), token substitutions as `old value → token → visual difference → decision`, contrast results for custom surfaces, screenshots, and what still needs the designer's judgment. If the project keeps a node map and session log, return the IDs and decisions in a form the main session can paste into them.
+Report the restore-point name, section and frame IDs, binding coverage (bound, deliberately local, not bindable), token substitutions as `old value → token → visual difference → decision`, contrast results for custom surfaces, optical corrections with their reason, screenshots, and what still needs the designer's judgment. If the project keeps a node map and session log, return the IDs and decisions in a form the main session can paste into them.
