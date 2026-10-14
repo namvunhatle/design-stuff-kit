@@ -70,7 +70,7 @@ Motion is not a third design track. It runs on frames from either track, and it 
 ```text
 1. Design the frames        wireframe or production UI track (Figma)
 2. Choose the medium        one line: which and why
-3. Plan and get a go-ahead  states, timing on a beat grid, reduced-motion version
+3. Plan and get a go-ahead  states, principles (motion-principles), timing on a beat grid, reduced-motion version
 4. Build                    the branch for the medium (below)
 5. Verify by query          reaction graph, scene query, or measured timing
 6. Designer plays it        the feel is judged by a person, never by tool output

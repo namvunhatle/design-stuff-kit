@@ -2,6 +2,20 @@
 
 What changed in the kit, newest first. Each heading is the plugin `version`; users receive a release when that number changes. The plugin updates skills, agents, and commands on its own. **In your project** lists the hand edits an update needs in files the plugin never touches; `/design-stuff-kit:start-design` checks them for you.
 
+## 0.2.0-beta · 2026-10-15
+
+### 12 principles of animation
+
+- New skill `motion-principles`: the 12 classic principles of animation, translated for product UI motion, with how far to push each one and a review checklist. The motion skills point to it.
+
+### Spacing rule for UI
+
+- `figma-design-system-ui` now builds spacing from the grouping: one gap size per level (inside a cluster, between clusters, between sections, screen edge), each outer level about 1.5–2× the one inside it, measured by the visible gap rather than the text box.
+
+**In your project**
+
+- Nothing.
+
 ## 0.1.2-beta · 2026-10-10
 
 ### web-android-port finds Playwright again

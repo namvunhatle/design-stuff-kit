@@ -3,7 +3,7 @@ name: beat-synced-motion
 description: Choose and prepare a music track for a short motion piece, then lock every visual accent to the beat grid and measure that the audio and the motion land together. Covers finding the drop, trimming, loudness, tempo change, ducking, and browser audio unlock. Use when a prototype, trailer, or onboarding animation has music; not for scoring a full video or for generating music.
 metadata:
   author: namvunhatle
-  version: 1.0.0
+  version: 1.1.0
 ---
 
 # Motion on the beat
@@ -53,7 +53,7 @@ Define `b(n) = T_DROP + n × BEAT` and express every accent in beats, not second
 - Hold the music-led rest frames for whole beats so the loop or ending feels resolved.
 - Keep a table of events in beats and seconds. It becomes the handoff spec and the input to `code-to-figma-sync` and `web-android-port`.
 
-`figma-prototype-motion` and `rive-motion/references/motion-craft.md` have the motion techniques (hit-and-settle, stagger) that sit on top of this grid.
+`figma-prototype-motion` and `rive-motion/references/motion-craft.md` have the motion techniques (hit-and-settle, stagger) that sit on top of this grid. `motion-principles` covers the 12 animation principles and how far to push each one.
 
 ## 4. Mix for meaning
 

@@ -3,7 +3,7 @@ name: figma-design-system-ui
 description: Build production UI in Figma through Figma Console MCP from the destination file's published design system. Carries the library access checks, publish rules, variable-mode traps, token-binding rules, contrast procedure, numeric alignment checks, and build hygiene. Load before the first figma_execute of an approved visual design. Not for grayscale wireframes, options still being compared, or edits to the shared library itself.
 metadata:
   author: namvunhatle
-  version: 2.0.0
+  version: 2.1.0
   mcp-server: figma-console
 ---
 
@@ -249,18 +249,72 @@ Put the contrast numbers in the **first** question to the designer, with the loo
 
 ### Spacing hierarchy: structure first, values second
 
-Visual hierarchy comes from the **difference** between spacing levels, not from every gap being "on token". Use decreasing gaps as you go inward:
+Spacing shows how closely things belong together. Visual hierarchy comes from the **difference** between spacing levels, not from every gap being "on token".
+
+1. **Draw the grouping tree first.** Write which element belongs to which cluster and which cluster belongs to which section. Choose numbers only after that.
+2. **Give each level one size**, taken from the system's gap tokens, never an off-scale number. Typical ranges on a 4 pt scale; the project's own ladder wins:
+
+| Level | Between | Typical |
+|---|---|---|
+| L1 | items inside one cluster (icon → label, title → subtitle) | 4–8 |
+| L2 | clusters inside one section (header → list) | 12–16 |
+| L3 | sections | 24–32 |
+| Edge | content → status bar, navigation bar, screen edge | ≥ 16 |
 
 ```text
-Screen content      larger gap   between clusters
-└─ Group            smaller gap  header → list
-   ├─ Header
-   └─ List          smallest gap between rows
+Screen content      L3  between sections
+└─ Section          L2  between clusters
+   ├─ Header        L1  inside the cluster
+   └─ List          L1  between rows
 ```
+
+3. **Each outer level is about 1.5–2× the level inside it,** judged by eye. When two levels are nearly equal, the groups blur into one another.
+4. **One gap size, one meaning, per screen.** If 16 separates clusters, it does not also separate sections.
+5. **Measure the visible gap, not the text box.** A text box adds half-leading above and below the glyphs, and descenders sit inside the box. A title with a large line height needs a smaller box gap to look the same as a gap between two shapes.
+6. **On a fixed-height screen, give the extra height to one region,** usually the illustration or hero. Spreading it across the gaps breaks the ratio between levels.
+7. **Old screens are not a source of values.** Legacy designs that are hardcoded and not bound to the system show what existed, not the standard.
 
 Use **one left margin** for the whole screen. Several different margins read as a bug, not as hierarchy.
 
 Choose the cluster gap by measurement. Compute the bottom edge of the last important element against the fold (and against any fixed ad or bar) before settling the value. One step on the spacing scale can push the third row of a list below the fold.
+
+**Check the rhythm by numbers.** List the visible vertical gaps from top to bottom and label each one L1, L2, L3, or Edge. The same label with different numbers, or different labels with the same number, marks where the rhythm breaks:
+
+```js
+const frame = await figma.getNodeByIdAsync(FRAME_ID);
+const fy = frame.absoluteTransform[1][2];
+const LEAF = ['TEXT', 'INSTANCE', 'RECTANGLE', 'ELLIPSE', 'VECTOR', 'LINE'];
+const halfLeading = t => {
+  const fs = t.fontSize, lh = t.lineHeight;
+  if (typeof fs !== 'number' || lh === figma.mixed || lh.unit === 'AUTO') return 0;
+  const px = lh.unit === 'PIXELS' ? lh.value : fs * lh.value / 100;
+  return Math.max(0, (px - fs) / 2);
+};
+// skip hidden layers, layers inside instances (an instance is one block),
+// absolute overlays, and full-screen backgrounds, which would merge every row
+const counts = n => {
+  if (!n.visible || n.layoutPositioning === 'ABSOLUTE' || n.height > frame.height * 0.8) return false;
+  for (let p = n.parent; p && p !== frame; p = p.parent)
+    if (!p.visible || p.type === 'INSTANCE') return false;
+  return true;
+};
+const items = frame.findAll(n => LEAF.includes(n.type) && counts(n))
+  .map(n => { const hl = n.type === 'TEXT' ? halfLeading(n) : 0;
+    const top = n.absoluteTransform[1][2] - fy;
+    return { name: n.name, top: top + hl, bottom: top + n.height - hl }; })
+  .sort((a, b) => a.top - b.top);
+// merge items that share a row, then report the gap between consecutive rows
+const rows = [];
+for (const it of items) {
+  const r = rows[rows.length - 1];
+  if (r && it.top < r.bottom) { r.bottom = Math.max(r.bottom, it.bottom); r.names.push(it.name); }
+  else rows.push({ top: it.top, bottom: it.bottom, names: [it.name] });
+}
+return rows.slice(1).map((r, i) =>
+  `${Math.round(r.top - rows[i].bottom)} px  ${rows[i].names[0]} → ${r.names[0]}`);
+```
+
+Explorations may use raw numbers. Once a direction is chosen, bind every gap and padding to its variable (see the binding table above).
 
 ### Alignment: measure, then say it is aligned
 

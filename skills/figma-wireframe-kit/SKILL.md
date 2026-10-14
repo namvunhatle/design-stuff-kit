@@ -3,7 +3,7 @@ name: figma-wireframe-kit
 description: Build or revise structural grayscale wireframes in Figma through Figma Console MCP, using the destination file's wireframe kit or simple primitives. Carries the Plugin API build traps, library checks, section-presentation conventions, and the standard build loop. Load before the first figma_execute of a wireframe build. Not for production visual design, prototype motion, or read-only audits.
 metadata:
   author: namvunhatle
-  version: 2.0.0
+  version: 2.1.0
   mcp-server: figma-console
 ---
 
@@ -167,7 +167,7 @@ const need = c.children.reduce((sum, n) => sum + n.height, 0)
 return { over: Math.round(need - c.height) };
 ```
 
-`over > 0` is overflow; fix it before rendering. `over < 0` is slack; spend it on `itemSpacing` rather than leaving a gap at the bottom.
+`over > 0` is overflow; fix it before rendering. `over < 0` is slack. Give it to one region, usually the illustration or a FILL spacer, rather than spreading it across `itemSpacing` or leaving a gap at the bottom. Spreading it makes the gaps between groups and inside groups drift toward the same size, and the grouping stops reading (`figma-design-system-ui` §7).
 
 ### Check touch targets by code
 

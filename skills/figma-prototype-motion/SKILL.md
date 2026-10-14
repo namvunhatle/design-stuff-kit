@@ -3,7 +3,7 @@ name: figma-prototype-motion
 description: Build or debug multi-step Smart Animate prototypes in Figma through Figma Console MCP. Use for motion chains, reactions, timing, and handoff; not for static screens or code prototypes.
 metadata:
   author: namvunhatle
-  version: 1.0.0
+  version: 1.1.0
   mcp-server: figma-console
 ---
 
@@ -14,6 +14,8 @@ animation feels wrong" report traces to breaking that contract, **not** to
 picking bad numbers. Diagnose structure first; tune durations last.
 
 Before editing, confirm the target Figma file by explicit file key and name. Save a named version-history restore point before the first write. Read the Figma Console MCP Plugin API reference for the API surface used in this task.
+
+When planning new motion or diagnosing a feeling ("stiff", "floaty", "cheap"), use `${CLAUDE_PLUGIN_ROOT}/skills/motion-principles/SKILL.md` to name the principle before changing numbers.
 
 ---
 

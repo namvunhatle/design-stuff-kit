@@ -22,6 +22,7 @@
 - Feel: <three or four words>
 - Type: <families, and what each is for>
 - Density: <airy / balanced / dense, and where it changes>
+- Spacing ladder: <gap token per level: inside a cluster, between clusters, between sections, content to screen edge>
 - Motion: <what moves, why, and the reduced-motion rule>
 
 ## Where the system lives

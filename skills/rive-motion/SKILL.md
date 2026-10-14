@@ -3,7 +3,7 @@ name: rive-motion
 description: Decide whether an interaction should be a Rive asset, then build it in the Rive desktop editor through Rive MCP (artboards, shapes, layouts, state machines, transitions, view-model data binding). Use for interactive, state-driven motion that ships to developers as a .riv file; not for Figma Smart Animate chains (figma-prototype-motion) or coded web prototypes (interactive-prototype).
 metadata:
   author: namvunhatle
-  version: 2.2.0
+  version: 2.3.0
   mcp-server: rive
   docs-checked: 2026-09-30
 ---
@@ -44,6 +44,8 @@ Write a short spec and get a go-ahead before a substantial edit:
 4. **Transitions:** from, to, condition, duration, exit time. One table (`references/state-machines.md`).
 5. **Listeners:** what pointer or property change triggers what.
 6. **Reduced motion:** the static or shortened version, built in, not promised.
+
+Name which of the 12 animation principles the moment needs, and at what intensity (`${CLAUDE_PLUGIN_ROOT}/skills/motion-principles/SKILL.md`).
 
 When the goal is to enhance motion beyond a click-through prototype, read `references/motion-craft.md` before planning: put events on a beat grid, add hit-and-settle and stagger, and use scripts, listeners, or data binding where the motion should react live.
 

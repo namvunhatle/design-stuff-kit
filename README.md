@@ -82,6 +82,7 @@ Open Claude Code in your project and say what you need. The right skill loads on
 | Build wireframes or production UI in Figma | `figma-wireframe-kit`, `figma-design-system-ui` |
 | Move a feature to another Figma file | `figma-clone-port` |
 | Fix Smart Animate motion, or build it in Rive | `figma-prototype-motion`, `rive-motion` |
+| Plan or critique motion with the 12 animation principles | `motion-principles` |
 | Get a scored critique of rendered screens | `design-critique` |
 | Set a product voice | `voice-tone-builder` |
 | Ship a prototype link, or an Android demo | `prototype-vercel-deploy`, `web-android-port` |
