@@ -2,6 +2,12 @@
 
 What changed in the kit, newest first. Each heading is the plugin `version`; users receive a release when that number changes. The plugin updates skills, agents, and commands on its own. **In your project** lists the hand edits an update needs in files the plugin never touches; `/design-stuff-kit:start-design` checks them for you.
 
+## 0.4.0-beta · 2026-10-16
+
+### Paywall design knowledge
+
+- **New skill `paywall-design`:** sell the outcome before the price, multi-page paywalls, two plans on the base screen, trial timelines, "Cancel anytime" and chevron buttons, anchoring, deliberate friction, polish, patterns to avoid (fake urgency, spin-the-wheel), the 2026 App Review risk on free-trial toggles, judging tests on retention and LTV, and a review checklist. Patterns credited to Jonathan Parra.
+
 ## 0.3.0-beta · 2026-10-15
 
 ### Motion gates and a blind motion critic (Rive)

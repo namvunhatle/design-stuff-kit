@@ -4,6 +4,20 @@ A Claude Code plugin for product designers. Describe the task in plain words and
 
 Claude always asks before editing a Figma file and saves a restore point first.
 
+## What's new in 0.4
+
+### Paywall design
+
+A new skill, `paywall-design`, helps you plan and review a subscription paywall and the journey that leads to it. Ask Claude to design or review a paywall, a trial offer, or an upgrade screen, and it loads on its own.
+
+- **The journey comes first.** Show the outcome in the user's terms before the price, and decide where the paywall sits before you design the screen.
+- **Structure that tends to win:** a paywall over 2–4 pages, two plans on the first screen, and the trial shown as a timeline (today, reminder, first charge).
+- **Cheap things to test first:** "Cancel anytime" under the button, a chevron on the button, real reviews, and a price anchor whose arithmetic is correct.
+- **Patterns to avoid or clear first:** fake urgency, spin-the-wheel discounts, and free-trial toggles, which Apple reviews more strictly since early 2026.
+- **Judge a test on retention and lifetime value,** not on the jump in trial starts. A 10-item checklist closes the skill.
+
+The patterns come from Jonathan Parra ([video](https://www.youtube.com/watch?v=9ypqs_2fAl8)); the numbers in the skill are his reported results, not the kit's.
+
 ## What's new in 0.3
 
 ### Motion is checked before you play it (Rive)
@@ -147,6 +161,7 @@ Open Claude Code in your project and say what you need. The right skill loads on
 | Fix Smart Animate motion, or build it in Rive | `figma-prototype-motion`, `rive-motion` |
 | Plan or critique motion with the 12 animation principles | `motion-principles` |
 | Check a Rive animation before you play it: measured gates and a blind critic | `/design-stuff-kit:motion-review` |
+| Plan or review a paywall and the journey before it | `paywall-design` |
 | Get a scored critique of rendered screens | `design-critique` |
 | Set a product voice | `voice-tone-builder` |
 | Ship a prototype link, or an Android demo | `prototype-vercel-deploy`, `web-android-port` |

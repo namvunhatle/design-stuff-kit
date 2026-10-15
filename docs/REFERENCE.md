@@ -28,6 +28,7 @@ An AI assistant can make a polished screen while missing the actual job: moving 
 | [`figma-design-system-ui`](../skills/figma-design-system-ui/SKILL.md) | Production UI using a live, read-only design system | namvunhatle |
 | [`voice-tone-builder`](../skills/voice-tone-builder/SKILL.md) | Entry point that applies Yummy Labs' voice and tone framework from `ux-copywriter` | Routing by namvunhatle; framework by Yummy Labs, not bundled |
 | [`motion-principles`](../skills/motion-principles/SKILL.md) | The 12 principles of animation translated for product UI, a feeling-to-principle table, and a motion review checklist | namvunhatle; principles by Ollie Johnston and Frank Thomas |
+| [`paywall-design`](../skills/paywall-design/SKILL.md) | Paywall journey, structure, trial and pricing patterns, patterns to avoid, App Review risk, what to test, and a review checklist | namvunhatle; patterns from Jonathan Parra ([video](https://www.youtube.com/watch?v=9ypqs_2fAl8)) |
 | [`rive-motion`](../skills/rive-motion/SKILL.md) | Choosing Rive vs Motion/Lottie and building state-machine motion through Rive MCP | namvunhatle |
 | [`prototype-vercel-deploy`](../skills/prototype-vercel-deploy/SKILL.md) | Versioned, verified Vercel deploys of coded prototypes | namvunhatle |
 | [`beat-synced-motion`](../skills/beat-synced-motion/SKILL.md) | Picking a music track, beat-grid timing, mix, and measuring audio-to-motion lock | namvunhatle |
